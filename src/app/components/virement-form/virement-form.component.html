@@ -1,0 +1,60 @@
+<div class="form">
+  <div class="mat-title">Effectuer un virement</div>
+  <p class="mat-body">Formualaire de virement. Verifiez bien les informations avant de valider !</p>
+    <mat-vertical-stepper   linear>
+      <mat-step [stepControl]="firstFormGroup"*ngIf="!formIsValid">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Le compte d'expédition</ng-template>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Le nº du compte d'expédition</mat-label>
+            <input [(ngModel)]="compteExp" matInput placeholder="Ex : 678951948581479" formControlName="firstCtrl" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Suivant</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup"*ngIf="!formIsValid">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>La données de virement</ng-template>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Le nº du compte de destination</mat-label>
+            <input matInput [(ngModel)]="compteDest" formControlName="secondCtrl" placeholder="Ex : 678951948581479"
+                   required>
+          </mat-form-field>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Entrer le montant</mat-label>
+            <input matInput  [(ngModel)]="montant"formControlName="secondCtrl" placeholder="Ex : 120.00" type="number" step="0.01"required>
+          </mat-form-field>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Ajouter des notes</mat-label>
+            <!-- <input matInput formControlName="secondCtrl" placeholder="Ex : 120.00" type="text"> -->
+                  <textarea rows="4" style="resize: none;" formControlName="secondCtrl" type="text" matInput></textarea>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Retour</button>
+            <button mat-button matStepperNext  (click)="formIsValid = true">Suivant</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step *ngIf="formIsValid && !formIsApproved">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Verification</ng-template>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Rentrer le code secret</mat-label>
+            <input matInput formControlName="secondCtrl" placeholder="Votre code secret" type="password"
+                   required>
+          </mat-form-field>
+          <div>
+            <!-- <button mat-button matStepperPrevious>Retour</button> -->
+            <button mat-button  matStepperNext (click)="formIsApproved = true">Valider</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-vertical-stepper>
+    <mat-card-actions class="container pr-5 mb-0" *ngIf="formIsValid && formIsApproved">
+      <button mat-button class="ml-3 mt-3" color="primary"(click)="createVirement()" >Valider le virement</button>
+      <button mat-button class="ml-3 mt-3" color="primary"  (click)="formIsValid = false">Revoir les détails</button>
+    </mat-card-actions>
+  </div>
+  
