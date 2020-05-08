@@ -1,18 +1,13 @@
 // import{uuid}from'../util/uuid';
 
-import {Compte} from './compte';
-import {Agence} from './agence';
+import { Compte } from './compte';
 
-export interface User {
+export interface Agence {
   id?: number;
-  email: string;
-  nom: string;
-  comptes?: Compte[];
-  photo?: string;
-  numeroTelephone?: string;
-  agence: Agence;
-
+  libelleAgence: string;
+  ville: { nom: string };
 }
+
 
 
 // {

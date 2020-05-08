@@ -3,6 +3,6 @@ export interface Virement {
       compteExp: string;
       compteDest: string;
       montant: string,
-      dateOperation: string,
-      statut: string
+      dateOperation: string;
+      statut: string;
     }

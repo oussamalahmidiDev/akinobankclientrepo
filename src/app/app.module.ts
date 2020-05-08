@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule, MatInputModule, MatDialog, MatDialogModule, MatTableModule, MatSnackBarModule, MatStepperModule, MatDialogRef, MAT_DIALOG_DATA, MatOptionModule, MatSelectModule, MatAutocompleteModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule, MatInputModule, MatDialog, MatDialogModule, MatTableModule, MatSnackBarModule, MatStepperModule, MatDialogRef, MAT_DIALOG_DATA, MatOptionModule, MatSelectModule, MatAutocompleteModule, MatSpinner, MatProgressSpinnerModule } from '@angular/material';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { VirementsComponent } from './components/virements/virements.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -58,6 +58,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatOptionModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatProgressSpinnerModule,
 
     FormsModule,
     ReactiveFormsModule

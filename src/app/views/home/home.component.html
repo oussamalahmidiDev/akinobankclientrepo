@@ -1,6 +1,8 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-spinner style="position: absolute; top: 50%; left: 50%; " *ngIf="!isLoaded"></mat-spinner>
+
+<mat-sidenav-container class="sidenav-container" *ngIf="isLoaded">
   <mat-sidenav mode="side" class="sidenav" opened>
-      <div class="top">
+      <div class="top" >
           <div class="avatar" [style.background]="'url(' + currentUser.avatarSrc +')'" *ngIf="currentUser.avatarSrc">
           </div>
           <div class="avatar"  *ngIf="!currentUser.avatarSrc">

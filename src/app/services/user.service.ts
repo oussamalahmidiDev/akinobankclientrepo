@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +12,22 @@ import {map} from 'rxjs/operators';
 export class UserService {
 
   currentUser: User;
-  BASE_URL = 'http://localhost:8080';
+  private BASE_URL = environment.BASE_URL;
+  
   isLoggedIn: BehaviorSubject<boolean>;
 
   constructor(private router: Router, private http: HttpClient) {
     // this.setCurrentUser();
     // this.getCurrentUser();
-    this.currentUser = new User('Lahmidi', 'Oussama', 'https://picsum.photos/300',
-      'O@g.c',
-      '083872891389',
-      '23 Mars 2020',
-      'Marrakech, Maroc',
-      '8'
-    );
+    this.currentUser = null;
   }
 
   // options = new RequestOptions({ withCredentials: true });
 
+  getProfile(): Observable<User> {
+    return this.http.get<User>(`${this.BASE_URL}/api/profile`);
+  }
+  
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.BASE_URL}/api/login`, {username: email, password}, {withCredentials: true})
       .pipe(map(res => res));

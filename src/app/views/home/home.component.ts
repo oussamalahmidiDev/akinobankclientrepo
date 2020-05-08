@@ -9,10 +9,15 @@ import { User } from 'src/app/models/user';
 })
 export class HomeComponent implements OnInit {
 
+  isLoaded = false;
   currentUser: User;
 
   ngOnInit() {
-    this.currentUser = this.userService.currentUser;
+    this.userService.getProfile()
+    .subscribe(data => {
+      this.currentUser = data;
+      this.isLoaded = true;
+    });
   }
 
   logout() : void {
