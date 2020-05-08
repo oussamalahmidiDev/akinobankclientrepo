@@ -12,23 +12,23 @@ export class GuestGuard implements CanActivate {
   constructor (private authService: UserService, private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree | any {
     //   const isLoggedIn = this.authService.isLoggedIn;
     //   if (isLoggedIn) {
     //     this.router.navigate(['home']);
-    //   } 
+    //   }
     // console.log('GUEST canActivate', isLoggedIn);
     // return true;
-    return this.authService.getCurrentUser()
-    .pipe(map(loggedIn => {
-      if (loggedIn == undefined)
-        return true;
-      if (loggedIn) {
-        this.router.navigate(['/home']);
-        return false;
-      }
-      return true;
-    }))
+    // return this.authService.getCurrentUser()
+    // .pipe(map(loggedIn => {
+    //   if (loggedIn == undefined)
+    //     return true;
+    //   if (loggedIn) {
+    //     this.router.navigate(['/home']);
+    //     return false;
+    //   }
+    //   return true;
+    // }))
   }
-  
+
 }

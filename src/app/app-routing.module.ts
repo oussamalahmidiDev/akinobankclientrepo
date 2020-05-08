@@ -1,33 +1,51 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { VirementsComponent } from './components/virements/virements.component';
-import { SettingsComponent } from './components/settings/settings.component';
-import { RechargesComponent } from './components/recharges/recharges.component';
-import { AuthenticatedGuard } from './guards/authenticated.guard';
-import { WelcomePageComponent } from './views/welcome-page/welcome-page.component';
-import { HomeComponent } from './views/home/home.component';
-
-import{AUTH_PROVIDERS}from'./services/user.service';
-import { GuestGuard } from './guards/guest.guard';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+// import {RouterOutlet, Routes} from '@angular/router';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {VirementsComponent} from './components/virements/virements.component';
+import {SettingsComponent} from './components/settings/settings.component';
+import {RechargesComponent} from './components/recharges/recharges.component';
+import {AuthenticatedGuard} from './guards/authenticated.guard';
+import {WelcomePageComponent} from './views/welcome-page/welcome-page.component';
+import {HomeComponent} from './views/home/home.component';
 
 const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthenticatedGuard],
+    // canActivate: [AuthenticatedGuard],
     children: [
-      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthenticatedGuard] },
-      { path: 'virements', component: VirementsComponent, canActivate: [AuthenticatedGuard] },
-      { path: 'settings', component: SettingsComponent, canActivate: [AuthenticatedGuard] },
-      { path: 'recharges', component: RechargesComponent, canActivate: [AuthenticatedGuard] },
-      { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        // canActivate: [AuthenticatedGuard]
+      },
+      {
+        path: 'virements',
+        component: VirementsComponent,
+        // canActivate: [AuthenticatedGuard]
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        // canActivate: [AuthenticatedGuard]
+      },
+      {
+        path: 'recharges',
+        component: RechargesComponent,
+        // canActivate: [AuthenticatedGuard]
+      },
+      {path: '**', redirectTo: 'dashboard', pathMatch: 'full'},
     ]
   },
 
   // { path: 'home', component: HomeComponent,  },
   // { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '', component: WelcomePageComponent, canActivate: [ GuestGuard ] },
+  {
+    path: '',
+    component: WelcomePageComponent,
+    // canActivate: [GuestGuard]
+  },
 ];
 // const routes: Routes = [
 //   {
@@ -51,4 +69,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

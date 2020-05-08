@@ -1,22 +1,24 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { UserService } from "../../services/user.service";
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {UserService} from '../../services/user.service';
 
 @Component({
-  selector: "app-welcome-page",
-  templateUrl: "./welcome-page.component.html",
-  styleUrls: ["./welcome-page.component.css"]
+  selector: 'app-welcome-page',
+  templateUrl: './welcome-page.component.html',
+  styleUrls: ['./welcome-page.component.css']
 })
 export class WelcomePageComponent implements OnInit {
-  constructor(private router: Router, private authService: UserService) {}
-
-  ngOnInit() {}
-
   error: string = null;
 
+  constructor(private router: Router, private authService: UserService) {
+  }
+
+  ngOnInit() {
+  }
+
   authenticate(): void {
-    localStorage.setItem("loggedin", "1");
-    this.router.navigateByUrl("/dashboard");
+    localStorage.setItem('loggedin', '1');
+    this.router.navigateByUrl('/dashboard');
   }
 
   login(email: string, password: string) {
