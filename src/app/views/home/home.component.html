@@ -3,9 +3,9 @@
 <mat-sidenav-container class="sidenav-container" *ngIf="isLoaded">
   <mat-sidenav mode="side" class="sidenav" opened>
       <div class="top" >
-          <div class="avatar" [style.background]="'url(' + currentUser.avatarSrc +')'" *ngIf="currentUser.avatarSrc">
+          <div class="avatar" [ngStyle] = "{'background-image': 'url(' + currentUser.photo + ')'}"  *ngIf="currentUser.photo">
           </div>
-          <div class="avatar"  *ngIf="!currentUser.avatarSrc">
+          <div class="avatar"  *ngIf="!currentUser.photo">
              <!-- <mat-icon>account_circle</mat-icon> -->
           </div>
           <div class="account">

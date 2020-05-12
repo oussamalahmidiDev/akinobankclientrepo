@@ -21,6 +21,7 @@ import { HomeComponent } from './views/home/home.component';
 
 import { VirementFormComponent } from './components/virement-form/virement-form.component';
 import { HttpClientModule } from '@angular/common/http';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -34,35 +35,36 @@ import { HttpClientModule } from '@angular/common/http';
     WelcomePageComponent,
     HomeComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatSliderModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatTableModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatGridListModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDialogModule,
-    MatCardModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    MatStepperModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatProgressSpinnerModule,
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatSliderModule,
+        LayoutModule,
+        MatToolbarModule,
+        MatTableModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        MatGridListModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDialogModule,
+        MatCardModule,
+        MatMenuModule,
+        MatSnackBarModule,
+        MatStepperModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatProgressSpinnerModule,
 
-    FormsModule,
-    ReactiveFormsModule
-  ],
+        FormsModule,
+        ReactiveFormsModule,
+        MatExpansionModule
+    ],
   providers: [{
     provide: MatDialogRef,
     useValue: {}

@@ -4,7 +4,8 @@ import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import {environment} from 'src/environments/environment';
+import {Demande} from "../models/demande";
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,8 @@ import { environment } from 'src/environments/environment';
 export class UserService {
 
   currentUser: User;
-  private BASE_URL = environment.BASE_URL;
-  
   isLoggedIn: BehaviorSubject<boolean>;
+  private BASE_URL = environment.BASE_URL;
 
   constructor(private router: Router, private http: HttpClient) {
     // this.setCurrentUser();
@@ -27,7 +27,23 @@ export class UserService {
   getProfile(): Observable<User> {
     return this.http.get<User>(`${this.BASE_URL}/api/profile`);
   }
-  
+
+  sendDemande(demande: Demande): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/api/profile/changer`, demande)
+      .pipe(map(res => res));
+  }
+
+  uploadImage(image: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('image', image);
+    return this.http.post(`${this.BASE_URL}/api/avatar/upload`, formData, {
+      responseType: 'json',
+      reportProgress: true,
+      observe: 'events'
+    });
+    
+  }
+
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.BASE_URL}/api/login`, {username: email, password}, {withCredentials: true})
       .pipe(map(res => res));

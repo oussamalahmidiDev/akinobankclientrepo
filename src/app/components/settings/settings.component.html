@@ -5,6 +5,36 @@
     <mat-spinner *ngIf="!isLoaded"></mat-spinner>
   </div>
   <div class="container-fluid"  *ngIf="isLoaded">
+    <div class="row" *ngIf="demande.id">
+      <mat-accordion class="w-100 mt-4">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Vous avez envoyé une demande de modification
+            </mat-panel-title>
+            <mat-panel-description>
+              En attente d'approbation
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="detail-item" *ngIf="demande.nom">
+            <div class="detail-name">Nom</div>
+            <div class="detail-content">{{ demande.nom }}</div>
+          </div>
+          <div class="detail-item"  *ngIf="demande.prenom">
+            <div class="detail-name">Prenom</div>
+            <div class="detail-content">{{ demande.prenom }}</div>
+          </div>
+          <div class="detail-item"  *ngIf="demande.email">
+            <div class="detail-name">Adresse éléctronique</div>
+            <div class="detail-content">{{ demande.email }}</div>
+          </div>
+          <mat-action-row>
+            <button mat-button color="warn" (click)="deleteDemande()">Supprimer</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+    </div>
     <div class="row">
       <mat-card class="dashboard-card col-sm mr-5 mt-4">
         <mat-card-header>
@@ -12,10 +42,33 @@
         </mat-card-header>
         <mat-card-content class="container">
           <div class="line-header">
-            <div class="mat-body-2">Nom complet</div>
-            <!-- <button mat-icon-button  class="ml-auto"><mat-icon>create</mat-icon></button> -->
+            <div class="mat-body-2">Nom</div>
+            <button mat-icon-button class="ml-auto" *ngIf="!nomFormisVisible" (click)="nomFormisVisible = true">
+              <mat-icon>create</mat-icon>
+            </button>
           </div>
-          <div class="mat-body">{{ currentUser.nom }} {{ currentUser.prenom }}</div>
+          <div class="mat-body" *ngIf="!nomFormisVisible">{{ currentUser.nom }}</div>
+          <form *ngIf="nomFormisVisible">
+            <mat-form-field [style.width.px]=250>
+              <input matInput autofocus name="email" [(ngModel)]="demande.nom" required>
+            </mat-form-field>
+            <button mat-raised-button class="ml-2" (click)="nomFormisVisible = false"
+                    color="primary" (click)="sendDemande()">Enregistrer</button>
+          </form>
+          <div class="line-header">
+            <div class="mat-body-2">Prenom</div>
+            <button mat-icon-button class="ml-auto" *ngIf="!prenomFormisVisible" (click)="prenomFormisVisible = true">
+              <mat-icon>create</mat-icon>
+            </button>
+          </div>
+          <div class="mat-body" *ngIf="!prenomFormisVisible">{{ currentUser.prenom }}</div>
+          <form *ngIf="prenomFormisVisible">
+            <mat-form-field [style.width.px]=250>
+              <input matInput autofocus name="email" [(ngModel)]="demande.prenom" required>
+            </mat-form-field>
+            <button mat-raised-button class="ml-2" (click)="prenomFormisVisible = false"
+                    color="primary" (click)="sendDemande()">Enregistrer</button>
+          </form>
           <div class="line-header">
             <div class="mat-body-2">Adresse électronique</div>
             <button mat-icon-button class="ml-auto" *ngIf="!emailFormisVisible" (click)="emailFormisVisible = true">
@@ -25,10 +78,10 @@
           <div class="mat-body" *ngIf="!emailFormisVisible">{{ currentUser.email }}</div>
           <form *ngIf="emailFormisVisible">
             <mat-form-field [style.width.px]=250>
-              <input matInput autofocus name="email" [(ngModel)]="currentUser.email" required>
+              <input matInput autofocus name="email" [(ngModel)]="demande.email" required>
             </mat-form-field>
             <button mat-raised-button class="ml-2" (click)="emailFormisVisible = false"
-              color="primary">Enregistrer</button>
+              color="primary" (click)="sendDemande()">Enregistrer</button>
           </form>
           <div class="line-header">
             <div class="mat-body-2">Télephone</div>
@@ -39,7 +92,7 @@
           <div class="mat-body" *ngIf="!numberFormisVisible">{{ currentUser.numeroTelephone }}</div>
           <form *ngIf="numberFormisVisible">
             <mat-form-field [style.width.px]=250>
-              <input matInput autofocus name="tel" [(ngModel)]="currentUser.tel" required>
+              <input matInput autofocus name="tel" [(ngModel)]="currentUser.numeroTelephone" required>
             </mat-form-field>
             <button mat-raised-button class="ml-2" (click)="numberFormisVisible = false"
               color="primary">Enregistrer</button>
@@ -66,21 +119,27 @@
           <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
         </mat-card-header>
         <mat-card-content class="photo-settings">
-          <button class="avatar-container" *ngIf="!currentUser.avatarSrc">
+          <button class="avatar-container" *ngIf="!currentUser.photo">
             <mat-icon>add</mat-icon>
           </button>
-          <div class="avatar-container" [style.background]="'url(' + currentUser.photo +')'"
-            *ngIf="currentUser.avatarSrc"></div>
+          <div class="avatar-container" [ngStyle] = "{'background-image': 'url(' + currentUser.photo + ')'}" 
+            *ngIf="currentUser.photo"></div>
           <div class="buttons-row">
-            <div class="upload-btn-wrapper">
+            <mat-progress-spinner
+                *ngIf = "uploading"
+                mode="determinate"
+                strokeWidth="3" [diameter]="25"
+                [value]="uploadProgress">
+            </mat-progress-spinner>
+            <div class="upload-btn-wrapper" *ngIf="!uploading">
               <button class="mr-2" mat-stroked-button>
                 <mat-icon class="mr-2">backup</mat-icon>
                 Charger une photo
               </button>
               <input type="file" (change)="handlePhotoUpload($event)" name="avatar" id="">
             </div>
-            <div class="upload-btn-wrapper">
-              <button mat-stroked-button color="warn" *ngIf="currentUser.avatarSrc"
+            <div class="upload-btn-wrapper" *ngIf="!uploading">
+              <button mat-stroked-button color="warn" *ngIf="currentUser.photo"
                 (click)="currentUser.avatarSrc = null">
                 <mat-icon>delete</mat-icon>
                 Supprimer

@@ -12,6 +12,9 @@
       background: #eee;
       margin-bottom: 25px;
       font-size: 32pt;
+      background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
   }
   mat-card-content.photo-settings.mat-card-content {
       display: flex;
@@ -22,6 +25,11 @@
 
   .accounts {
       width: 100%;
+}
+
+.buttons-row {
+  display: flex;
+  align-items: center;
 }
 
 .upload-btn-wrapper input[name=avatar] {
@@ -36,3 +44,28 @@
     overflow: hidden;
     display: inline-block;
   }
+
+.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
+  width: 0px;
+}
+
+.detail-item {
+  display: flex;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+
+.detail-name {
+  /*flex-grow: 1.2;*/
+  width: 496px;
+  font-weight: bold;
+}
+.detail-content {
+  flex-grow: 2;
+}
+
+.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
+  display: flex;
+  flex-grow: 2;
+  margin-right: 16px;
+}

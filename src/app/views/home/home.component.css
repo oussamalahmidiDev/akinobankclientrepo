@@ -34,12 +34,16 @@
 .avatar {
   /* background-image: url("https://picsum.photos/300"); */
   background-color: #eee;
-  background-size: contain;
+  background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
   height: 150px;
   width: 150px;
   border-radius: 90px;
   margin: 15px 0 20px 0;
 }
+
+
 
 a.mat-list-item.active {
   background: #9fcdff61;
