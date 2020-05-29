@@ -1,8 +1,11 @@
+import {Compte} from "./compte";
+
+
 export interface Virement {
-      id: string;
-      compteExp: string;
-      compteDest: string;
-      montant: string,
-      dateOperation: string;
+      id ?: number;
+      compte: Compte;
+      destCompte: Compte;
+      montant: string;
+      dateDeVirement: Date;
       statut: string;
     }

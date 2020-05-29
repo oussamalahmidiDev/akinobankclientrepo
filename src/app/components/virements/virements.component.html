@@ -21,13 +21,13 @@
             <!-- Name Column -->
             <ng-container matColumnDef="comptexp">
                 <th mat-header-cell *matHeaderCellDef> Compte d'expédition </th>
-                <td mat-cell *matCellDef="let element"> {{element.compteExp}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.compte.numeroCompte}} </td>
             </ng-container>
 
             <!-- Weight Column -->
             <ng-container matColumnDef="comptedest">
                 <th mat-header-cell *matHeaderCellDef> Compte de destination </th>
-                <td mat-cell *matCellDef="let element"> {{element.compteDest}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.destCompte.numeroCompte}} </td>
             </ng-container>
 
             <!-- Symbol Column -->
@@ -37,7 +37,7 @@
             </ng-container>
             <ng-container matColumnDef="dateOper">
                 <th mat-header-cell *matHeaderCellDef> Date de l'operation </th>
-                <td mat-cell *matCellDef="let element"> {{element.dateOperation}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.dateDeVirement | date : 'dd/MM/yyyy'}} </td>
             </ng-container>
             <ng-container matColumnDef="statut">
                 <th mat-header-cell *matHeaderCellDef> Statut </th>

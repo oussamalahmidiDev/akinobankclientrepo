@@ -23,12 +23,10 @@ export class RechargeFormComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<VirementFormComponent>, @Inject(MAT_DIALOG_DATA) public data: Virement[]) {}
 
   createRecharge() {
-    const newVirement: Virement = {
-      id: "1", compteExp: this.compteExp, compteDest: this.compteDest, montant: this.montant, dateOperation: new Date().toString().substr(0,15), statut: "PENDING"
-    };
+   // const newVirement: Virement;
     this.formIsValid = true;
     // console.log
-    this.dialogRef.close(newVirement);
+    this.dialogRef.close();
   }
 
   ngOnInit() {

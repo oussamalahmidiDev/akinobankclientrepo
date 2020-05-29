@@ -2,6 +2,7 @@ import { Component, OnInit, Injectable } from '@angular/core';
 import { MatSnackBar, MatDialog, MatTableDataSource } from '@angular/material';
 import { VirementFormComponent } from '../virement-form/virement-form.component';
 import { Virement } from 'src/app/models/virement';
+import {VirementsService} from '../../services/virements.service';
 
 export interface PeriodicElement {
   name: string;
@@ -18,45 +19,47 @@ export interface PeriodicElement {
   styleUrls: ['./virements.component.css']
 })
 export class VirementsComponent implements OnInit {
-
-  mesVirements: Virement[];
-  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog) {
+  // tslint:disable-next-line:variable-name
+  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog, private virementsService: VirementsService) {
     this.virementsDS = new MatTableDataSource<Virement>();
-
    }
+
+
+
+  virements: Virement[];
+
+  virementColumns: string[] = ['id', 'comptexp', 'comptedest', 'montant', 'dateOper', 'statut'];
+  virementsDS: MatTableDataSource<Virement>;
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    this.mesVirements = [
-      { id: "42137235090", compteExp: '67139051493590', compteDest: "791045132", montant: "100", dateOperation: "12 Mars 2020", statut: "VALID" },
-      { id: "42137235090", compteExp: '67139051493590', compteDest: "791045132", montant: "100", dateOperation: "12 Mars 2020", statut: "VALID" },
-      { id: "42137235090", compteExp: '67139051493590', compteDest: "791045132", montant: "100", dateOperation: "12 Mars 2020", statut: "VALID" },
-    ]
-    this.virementsDS.data = this.mesVirements;
+    this.getVirements(); // == observable //
+   // this.virementsDS.data = this.virements;
   }
+  getVirements() {
+    this.virementsService.getAllVirements().subscribe( virements => {
+      this.virementsDS.data = this.virements = virements;
 
+    });
+  }
   openSnackBar() {
-    this._snackBar.open("Virements ajouté", "OK", {
+    this._snackBar.open('Virements ajouté', 'OK', {
       duration: 2000,
     });
   }
-  
-  virementColumns: string[] = ['id', 'comptexp', 'comptedest', 'montant', 'dateOper', 'statut'];
-  virementsDS: MatTableDataSource<Virement>;
   openVirementForm(): void {
     const dialogRef = this.dialog.open(VirementFormComponent, {
       width: '500px',
-      data: this.mesVirements
+      data: this.virements
       // virement: this.newVirement
-    })
+    });
     dialogRef.afterClosed().subscribe(data => {
-      console.log("Subtask Dialog output:", data);
-      this.mesVirements.push(data);
-      console.log(this.mesVirements);
-      this.virementsDS.data = this.mesVirements;
+      console.log('Subtask Dialog output:', data);
+      this.virements.push(data);
+      console.log(this.virements);
+      this.virementsDS.data = this.virements;
       this.openSnackBar();
-    })
-  };
+    });
+  }
 
-  
 
 }

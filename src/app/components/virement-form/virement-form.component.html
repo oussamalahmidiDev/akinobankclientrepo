@@ -7,7 +7,12 @@
           <ng-template matStepLabel>Le compte d'expédition</ng-template>
           <mat-form-field [style.width.px]=327>
             <mat-label>Le nº du compte d'expédition</mat-label>
-            <input [(ngModel)]="compteExp" matInput placeholder="Ex : 678951948581479" formControlName="firstCtrl" required>
+            <input matInput placeholder="Ex : 678951948581479" formControlName="numeroCompte" required>
+          </mat-form-field>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Rentrer le code secret</mat-label>
+            <input matInput formControlName="codeSecret" placeholder="Votre code secret" type="password"
+                   required>
           </mat-form-field>
           <div>
             <button mat-button matStepperNext>Suivant</button>
@@ -19,21 +24,21 @@
           <ng-template matStepLabel>La données de virement</ng-template>
           <mat-form-field [style.width.px]=327>
             <mat-label>Le nº du compte de destination</mat-label>
-            <input matInput [(ngModel)]="compteDest" formControlName="secondCtrl" placeholder="Ex : 678951948581479"
+            <input matInput  formControlName="numeroCompteDest" placeholder="Ex : 678951948581479"
                    required>
           </mat-form-field>
           <mat-form-field [style.width.px]=327>
             <mat-label>Entrer le montant</mat-label>
-            <input matInput  [(ngModel)]="montant"formControlName="secondCtrl" placeholder="Ex : 120.00" type="number" step="0.01"required>
+            <input matInput formControlName="montant" placeholder="Ex : 120.00" type="number" step="0.01"required>
           </mat-form-field>
           <mat-form-field [style.width.px]=327>
             <mat-label>Ajouter des notes</mat-label>
             <!-- <input matInput formControlName="secondCtrl" placeholder="Ex : 120.00" type="text"> -->
-                  <textarea rows="4" style="resize: none;" formControlName="secondCtrl" type="text" matInput></textarea>
+                  <textarea rows="4" style="resize: none;" formControlName="notes" type="text" matInput ></textarea>
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Retour</button>
-            <button mat-button matStepperNext  (click)="formIsValid = true">Suivant</button>
+            <button mat-button matStepperNext [disabled]="firstFormGroup.invalid || secondFormGroup.invalid" (click)="createVirement()" >Suivant</button>
           </div>
         </form>
       </mat-step>
@@ -53,8 +58,7 @@
       </mat-step>
     </mat-vertical-stepper>
     <mat-card-actions class="container pr-5 mb-0" *ngIf="formIsValid && formIsApproved">
-      <button mat-button class="ml-3 mt-3" color="primary"(click)="createVirement()" >Valider le virement</button>
+      <button mat-button class="ml-3 mt-3" color="primary" >Valider le virement</button>
       <button mat-button class="ml-3 mt-3" color="primary"  (click)="formIsValid = false">Revoir les détails</button>
     </mat-card-actions>
   </div>
-  

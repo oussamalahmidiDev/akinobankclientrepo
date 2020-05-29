@@ -27,10 +27,7 @@ export class DashboardComponent implements OnInit {
 
   virementColumns: string[] = ['id', 'comptexp', 'comptedest', 'montant', 'dateOper', 'statut'];
   mesVirements: Virement[] = [
-    { id: "42137235090", compteExp: '67139051493590', compteDest: "791045132", montant: "100", dateOperation: "12 Mars 2020", statut: "VALID" },
-    { id: "42137235090", compteExp: '67139051493590', compteDest: "791045132", montant: "100", dateOperation: "12 Mars 2020", statut: "VALID" },
-    { id: "42137235090", compteExp: '67139051493590', compteDest: "791045132", montant: "100", dateOperation: "12 Mars 2020", statut: "VALID" },
-  ]
+  ];
   ngOnInit() {
     this.service.getProfile()
     .subscribe(data => {
