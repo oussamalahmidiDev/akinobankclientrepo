@@ -1,17 +1,16 @@
-import {Injectable} from '@angular/core';
-import {User} from '../models/user';
-import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {environment} from 'src/environments/environment';
-import {Demande} from "../models/demande";
+import { Injectable } from "@angular/core";
+import { User } from "../models/user";
+import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject, Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { Demande } from "../models/demande";
+import { environment } from "../../environments/environment";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UserService {
-
   currentUser: User;
   isLoggedIn: BehaviorSubject<boolean>;
   private BASE_URL = environment.BASE_URL;
@@ -29,29 +28,34 @@ export class UserService {
   }
 
   sendDemande(demande: Demande): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/api/profile/changer`, demande)
-      .pipe(map(res => res));
+    return this.http
+      .post(`${this.BASE_URL}/api/profile/changer`, demande)
+      .pipe(map((res) => res));
   }
 
   uploadImage(image: File): Observable<any> {
     const formData: FormData = new FormData();
-    formData.append('image', image);
+    formData.append("image", image);
     return this.http.post(`${this.BASE_URL}/api/avatar/upload`, formData, {
-      responseType: 'json',
+      responseType: "json",
       reportProgress: true,
-      observe: 'events'
+      observe: "events",
     });
-    
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/api/login`, {username: email, password}, {withCredentials: true})
-      .pipe(map(res => res));
+    return this.http
+      .post(
+        `${this.BASE_URL}/api/login`,
+        { username: email, password },
+        { withCredentials: true }
+      )
+      .pipe(map((res) => res));
   }
 
   logout(): any {
-    localStorage.removeItem('userid');
-    this.router.navigate(['']);
+    localStorage.removeItem("userid");
+    this.router.navigate([""]);
   }
 
   getCurrentUser(): User {
@@ -96,5 +100,5 @@ export class UserService {
 }
 
 export const AUTH_PROVIDERS: Array<any> = [
-  {provide: UserService, useClass: UserService}
+  { provide: UserService, useClass: UserService },
 ];

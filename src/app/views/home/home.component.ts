@@ -1,32 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/models/user';
-import { environment } from 'src/environments/environment';
+import { Component, OnInit } from "@angular/core";
+import { User } from "../../models/user";
+import { environment } from "../../../environments/environment";
+import { UserService } from "../../services/user.service";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ["./home.component.css"]
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-
   isLoaded = false;
   currentUser: User;
 
   ngOnInit() {
-    this.userService.getProfile()
-    .subscribe(data => {
+    this.userService.getProfile().subscribe((data) => {
       this.currentUser = data;
       this.isLoaded = true;
-      this.currentUser.photo = environment.BASE_URL + "/api/avatar/" + data.photo;
-
+      this.currentUser.photo =
+        environment.BASE_URL + "/api/avatar/" + data.photo;
     });
   }
 
-  logout() : void {
+  logout(): void {
     this.userService.logout();
   }
 
   constructor(private userService: UserService) {}
-
 }
