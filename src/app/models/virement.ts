@@ -1,4 +1,4 @@
-import {Compte} from "./compte";
+import {Compte} from './compte';
 
 
 export interface Virement {

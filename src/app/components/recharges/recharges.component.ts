@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatDialog, MatTableDataSource } from '@angular/material';
 import { RechargeFormComponent } from '../recharge-form/recharge-form.component';
 import { Recharge } from 'src/app/models/recharge';
+import {RechargesService} from '../../services/Recharges.service';
+
 
 
 @Component({
@@ -11,41 +13,44 @@ import { Recharge } from 'src/app/models/recharge';
 })
 export class RechargesComponent implements OnInit {
 
-  mesRecharges: Recharge[];
-  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog) {
+
+
+  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog, private rechargesService: RechargesService) {
     this.rechargesDS = new MatTableDataSource<Recharge>();
    }
+
+  recharges: Recharge[];
+  rechargesColumns: string[] = ['comptexp', 'numTel', 'montant', 'operateur', 'dateOper', ];
+  rechargesDS: MatTableDataSource<Recharge>;
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    this.mesRecharges = [
-      { numTel: "06542148", compteExp: '67139051493590', montant: "100", dateOperation: "12 Mars 2020", operateur:"Orange" },
-      { numTel: "06542148", compteExp: '67139051493590', montant: "100", dateOperation: "12 Mars 2020", operateur:"Orange" },
-      { numTel: "06542148", compteExp: '67139051493590', montant: "100", dateOperation: "12 Mars 2020", operateur:"Orange" },
-      
-    ]
-    this.rechargesDS.data = this.mesRecharges;
+    this.getVirements();
+  }
+
+  getVirements() {
+    this.rechargesService.getAllRecharges().subscribe( recharges => {
+      this.rechargesDS.data = this.recharges = recharges;
+
+    });
   }
 
   openSnackBar() {
-    this._snackBar.open("Virements ajouté", "OK", {
+    this._snackBar.open('Recharge ajoutée', 'OK', {
       duration: 2000,
     });
   }
-  
-  rechargesColumns: string[] = ['comptexp', 'numTel', 'montant', 'operateur','dateOper', ];
-  rechargesDS: MatTableDataSource<Recharge>;
-  openVirementForm(): void {
+  openRechargeForm(): void {
     const dialogRef = this.dialog.open(RechargeFormComponent, {
       width: '500px',
-      data: this.mesRecharges
+      data: this.recharges
       // virement: this.newVirement
-    })
+    });
     dialogRef.afterClosed().subscribe(data => {
-      console.log("Subtask Dialog output:", data);
-      this.mesRecharges.push(data);
-      console.log(this.mesRecharges);
-      this.rechargesDS.data = this.mesRecharges;
+      console.log('Subtask Dialog output:', data);
+      this.recharges.push(data);
+      console.log(this.recharges);
+      this.rechargesDS.data = this.recharges;
       this.openSnackBar();
-    })
-  };
+    });
+  }
 }

@@ -1,39 +1,44 @@
 <div class="form">
   <div class="mat-title">Effectuer une recharge</div>
   <p class="mat-body">Formualaire de recharge. Verifiez bien les informations avant de valider !</p>
-    <mat-vertical-stepper   linear>
-      <mat-step [stepControl]="firstFormGroup"*ngIf="!formIsValid">
-        <form [formGroup]="firstFormGroup">
-          <ng-template matStepLabel>Le compte d'expédition</ng-template>
-          <mat-form-field [style.width.px]=327>
-            <mat-label>Le nº du compte d'expédition</mat-label>
-            <input [(ngModel)]="compteExp" matInput placeholder="Ex : 678951948581479" formControlName="firstCtrl" required>
-          </mat-form-field>
-          <div>
-            <button mat-button matStepperNext>Suivant</button>
-          </div>
-        </form>
-      </mat-step>
+      <mat-vertical-stepper   linear>
+        <mat-step [stepControl]="firstFormGroup"*ngIf="!formIsValid">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Le compte d'expédition</ng-template>
+            <mat-form-field [style.width.px]=327>
+              <mat-label>Le nº du compte d'expédition</mat-label>
+              <input matInput placeholder="Ex : 678951948581479" formControlName="numeroCompte" required>
+            </mat-form-field>
+            <mat-form-field [style.width.px]=327>
+              <mat-label>Rentrer le code secret</mat-label>
+              <input matInput formControlName="codeSecret" placeholder="Votre code secret" type="password"
+                     required>
+            </mat-form-field>
+            <div>
+              <button mat-button matStepperNext>Suivant</button>
+            </div>
+          </form>
+        </mat-step>
       <mat-step [stepControl]="secondFormGroup"*ngIf="!formIsValid">
         <form [formGroup]="secondFormGroup">
           <ng-template matStepLabel>La données de recharge</ng-template>
           <mat-form-field [style.width.px]=327>
             <mat-label>L'operateur</mat-label>
-            <mat-select>
+            <mat-select formControlName="operateur">
               <mat-option  value="Maroc Telecom">Maroc Telecom</mat-option>
               <mat-option value="Orange">Orange</mat-option>
               <mat-option value="Inwi">Inwi</mat-option>
             </mat-select>
           </mat-form-field>
-        
+
           <mat-form-field [style.width.px]=327>
             <mat-label>Le nº de téléphone</mat-label>
-            <input matInput [(ngModel)]="compteDest" formControlName="secondCtrl" placeholder="Ex : 0645671784"
+            <input matInput  formControlName="numeroTelephone" placeholder="Ex : 0645671784"
                    required>
           </mat-form-field>
           <mat-form-field [style.width.px]=327>
             <mat-label>Entrer le montant</mat-label>
-            <input matInput [matAutocomplete]="montantAutocomplete" [(ngModel)]="montant"formControlName="secondCtrl" placeholder="Ex : 120.00" type="number" step="5"required>
+            <input matInput [matAutocomplete]="montantAutocomplete" formControlName="montant" placeholder="Ex : 120.00" type="number" step="5"required>
             <mat-autocomplete #montantAutocomplete="matAutocomplete">
               <mat-option value="10">10</mat-option>
               <mat-option value="20">20</mat-option>
@@ -45,28 +50,28 @@
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Retour</button>
-            <button mat-button matStepperNext  (click)="formIsValid = true">Suivant</button>
+            <button mat-button matStepperNext [disabled]="firstFormGroup.invalid || secondFormGroup.invalid" (click)="createRecharge()" >Suivant</button>
           </div>
         </form>
       </mat-step>
-      <mat-step *ngIf="formIsValid && !formIsApproved">
-        <form [formGroup]="secondFormGroup">
-          <ng-template matStepLabel>Verification</ng-template>
-          <mat-form-field [style.width.px]=327>
-            <mat-label>Rentrer le code secret</mat-label>
-            <input matInput formControlName="secondCtrl" placeholder="Votre code secret" type="password"
-                   required>
-          </mat-form-field>
-          <div>
-            <button mat-button (click)="formIsValid = false" matStepperPrevious>Retour</button>
-            <button mat-button  matStepperNext (click)="formIsApproved = true">Valider</button>
-          </div>
-        </form>
-      </mat-step>
-    </mat-vertical-stepper>
-    <mat-card-actions class="container pr-5 mb-0" *ngIf="formIsValid && formIsApproved">
-      <button mat-button class="ml-3 mt-3" color="primary"(click)="createRecharge()" >Valider l'opération</button>
-      <button mat-button class="ml-3 mt-3" color="primary"  (click)="formIsValid = false">Revoir les détails</button>
-    </mat-card-actions>
-  </div>
-  
+        <mat-step *ngIf="formIsValid && !formIsApproved">
+          <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Verification</ng-template>
+            <mat-form-field [style.width.px]=327>
+              <mat-label>Rentrer le code secret</mat-label>
+              <input matInput formControlName="secondCtrl" placeholder="Votre code secret" type="password"
+                     required>
+            </mat-form-field>
+            <div>
+              <!-- <button mat-button matStepperPrevious>Retour</button> -->
+              <button mat-button  matStepperNext (click)="formIsApproved = true">Valider</button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-vertical-stepper>
+  <mat-card-actions class="container pr-5 mb-0" *ngIf="formIsValid && formIsApproved">
+    <button mat-button class="ml-3 mt-3" color="primary" >Valider la Recharge</button>
+    <button mat-button class="ml-3 mt-3" color="primary"  (click)="formIsValid = false">Revoir les détails</button>
+  </mat-card-actions>
+</div>
+

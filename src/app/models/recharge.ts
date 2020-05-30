@@ -1,8 +1,12 @@
+import {Compte} from './compte';
 
 export interface Recharge {
-      compteExp: string;
+      id ?: number;
+      compte: Compte;
       operateur: string;
-      montant: string,
-      dateOperation: string,
-      numTel: string
+      montant: string;
+      dateDeRecharge: Date;
+      numeroTelephone: string;
     }
+
+

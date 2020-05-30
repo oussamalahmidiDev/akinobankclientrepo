@@ -17,14 +17,7 @@ export class VirementFormComponent implements OnInit {
   secondFormGroup: FormGroup;
   formIsValid = false;
   formIsApproved = false;
-  myVirement: Virement = {
-    id: 0,
-    compteExp: '',
-    compteDest: '',
-    montant: '',
-    dateOperation: new Date(),
-    statut: ''
-  };
+
 
 
   // tslint:disable-next-line:max-line-length variable-name

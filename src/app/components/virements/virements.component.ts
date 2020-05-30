@@ -42,7 +42,7 @@ export class VirementsComponent implements OnInit {
     });
   }
   openSnackBar() {
-    this._snackBar.open('Virements ajouté', 'OK', {
+    this._snackBar.open('Virement ajouté', 'OK', {
       duration: 2000,
     });
   }
