@@ -8,6 +8,9 @@ import { User } from "../../models/user";
 import { UserService } from "../../services/user.service";
 import { Compte } from "../../models/compte";
 import { environment } from "../../../environments/environment";
+import { Select } from "@ngxs/store";
+import { ProfileState } from "../../states/profile.state";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-settings",
@@ -19,7 +22,7 @@ export class SettingsComponent implements OnInit {
 
   // @ViewChild("avatar") avatar: ElementRef;
 
-  isLoaded = false;
+  isLoaded = true;
 
   uploadProgress = 0;
   uploading = false;
@@ -35,7 +38,8 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  currentUser: User;
+  @Select(ProfileState.selectProfile)
+  currentUser: Observable<User>;
 
   demande: Demande;
 
@@ -44,7 +48,7 @@ export class SettingsComponent implements OnInit {
   nomFormisVisible = false;
   prenomFormisVisible = false;
   ngOnInit() {
-    this.userService.getProfile().subscribe((data) => {
+    /*   this.userService.getProfile().subscribe((data) => {
       this.currentUser = data;
       this.currentUser.photo =
         environment.BASE_URL + "/api/avatar/" + data.photo;
@@ -52,7 +56,7 @@ export class SettingsComponent implements OnInit {
       this.dataSource.data = data.comptes;
       this.isLoaded = true;
     });
-    //  this.currentUser = this.userService.currentUser;
+   this.currentUser = this.userService.currentUser; */
   }
 
   sendDemande() {
@@ -76,7 +80,7 @@ export class SettingsComponent implements OnInit {
           this.uploadProgress = Math.round((100 * data.loaded) / data.total);
         } else if (data.type === HttpEventType.Response) {
           this.openSnackBar("Photo de profil a été chargée avec succès !");
-          this.currentUser.photo = data.body.link;
+          //   this.currentUser.photo = data.body.link;
           this.uploading = false;
         }
       },

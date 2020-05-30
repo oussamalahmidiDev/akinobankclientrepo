@@ -39,6 +39,11 @@ import { VirementsComponent } from "./components/virements/virements.component";
 import { HomeComponent } from "./views/home/home.component";
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 
+import { NgxsModule } from "@ngxs/store";
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
+import { ProfileState } from "./states/profile.state";
+import { VirementsState } from "./states/virements.state";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,6 +85,11 @@ import { WelcomePageComponent } from "./views/welcome-page/welcome-page.componen
     FormsModule,
     ReactiveFormsModule,
     MatExpansionModule,
+
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsModule.forRoot([ProfileState, VirementsState], {
+      developmentMode: true,
+    }),
   ],
   providers: [
     {

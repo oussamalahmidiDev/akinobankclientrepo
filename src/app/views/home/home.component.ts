@@ -2,6 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { User } from "../../models/user";
 import { environment } from "../../../environments/environment";
 import { UserService } from "../../services/user.service";
+import { ActivatedRoute } from "@angular/router";
+import { Select } from "@ngxs/store";
+import { Observable } from "rxjs";
+import { MainStore } from "../../store";
+import { ProfileState } from "../../states/profile.state";
 
 @Component({
   selector: "app-home",
@@ -9,21 +14,18 @@ import { UserService } from "../../services/user.service";
   styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-  isLoaded = false;
-  currentUser: User;
+  isLoaded = true;
+
+  @Select(ProfileState.selectProfile)
+  currentUser: Observable<User>;
 
   ngOnInit() {
-    this.userService.getProfile().subscribe((data) => {
-      this.currentUser = data;
-      this.isLoaded = true;
-      this.currentUser.photo =
-        environment.BASE_URL + "/api/avatar/" + data.photo;
-    });
+    // this.currentUser = this.activatedRoute.snapshot.data.profile;
   }
 
   logout(): void {
-    this.userService.logout();
+    // this.userService.logout();
   }
 
-  constructor(private userService: UserService) {}
+  constructor(private activatedRoute: ActivatedRoute) {}
 }

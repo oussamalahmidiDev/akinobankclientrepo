@@ -5,6 +5,10 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { Virement } from "../../models/virement";
+import { Select, Store } from "@ngxs/store";
+import { VirementsState } from "../../states/virements.state";
+import { Observable } from "rxjs";
+import { GetVirements } from "../../actions/virements.action";
 
 export interface PeriodicElement {
   name: string;
@@ -24,12 +28,14 @@ export class VirementsComponent implements OnInit {
   constructor(
     private _snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private virementsService: VirementsService
+    private virementsService: VirementsService,
+    private store: Store
   ) {
-    this.virementsDS = new MatTableDataSource<Virement>();
+    //this.virementsDS = new MatTableDataSource<Virement>();
   }
 
-  virements: Virement[];
+  @Select(VirementsState.selectVirements)
+  virements: Observable<Virement[]>;
 
   virementColumns: string[] = [
     "id",
@@ -46,9 +52,13 @@ export class VirementsComponent implements OnInit {
     // this.virementsDS.data = this.virements;
   }
   getVirements() {
-    this.virementsService.getAllVirements().subscribe((virements) => {
-      this.virementsDS.data = this.virements = virements;
-    });
+    this.virements.subscribe(
+      (data) => (this.virementsDS = new MatTableDataSource<Virement>(data))
+    );
+    this.store.dispatch(new GetVirements());
+    // this.virementsService.getAllVirements().subscribe((virements) => {
+    //   this.virementsDS.data = this.virements = virements;
+    // });
   }
   openSnackBar() {
     this._snackBar.open("Virement ajouté", "OK", {
@@ -63,9 +73,9 @@ export class VirementsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data) => {
       console.log("Subtask Dialog output:", data);
-      this.virements.push(data);
+      // this.virements.push(data);
       console.log(this.virements);
-      this.virementsDS.data = this.virements;
+      // this.virementsDS.data = this.virements;
       this.openSnackBar();
     });
   }

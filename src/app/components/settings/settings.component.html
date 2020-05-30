@@ -54,7 +54,7 @@
             </button>
           </div>
           <div class="mat-body" *ngIf="!nomFormisVisible">
-            {{ currentUser.nom }}
+            {{ (currentUser | async).nom }}
           </div>
           <form *ngIf="nomFormisVisible">
             <mat-form-field [style.width.px]="250">
@@ -88,7 +88,7 @@
             </button>
           </div>
           <div class="mat-body" *ngIf="!prenomFormisVisible">
-            {{ currentUser.prenom }}
+            {{ (currentUser | async).prenom }}
           </div>
           <form *ngIf="prenomFormisVisible">
             <mat-form-field [style.width.px]="250">
@@ -122,7 +122,7 @@
             </button>
           </div>
           <div class="mat-body" *ngIf="!emailFormisVisible">
-            {{ currentUser.email }}
+            {{ (currentUser | async).email }}
           </div>
           <form *ngIf="emailFormisVisible">
             <mat-form-field [style.width.px]="250">
@@ -156,17 +156,11 @@
             </button>
           </div>
           <div class="mat-body" *ngIf="!numberFormisVisible">
-            {{ currentUser.numeroTelephone }}
+            {{ (currentUser | async).numeroTelephone }}
           </div>
           <form *ngIf="numberFormisVisible">
             <mat-form-field [style.width.px]="250">
-              <input
-                matInput
-                autofocus
-                name="tel"
-                [(ngModel)]="currentUser.numeroTelephone"
-                required
-              />
+              <input matInput autofocus name="tel" required />
             </mat-form-field>
             <button
               mat-raised-button
@@ -200,13 +194,15 @@
           <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
         </mat-card-header>
         <mat-card-content class="photo-settings">
-          <button class="avatar-container" *ngIf="!currentUser.photo">
+          <button class="avatar-container" *ngIf="!(currentUser | async).photo">
             <mat-icon>add</mat-icon>
           </button>
           <div
             class="avatar-container"
-            [ngStyle]="{ 'background-image': 'url(' + currentUser.photo + ')' }"
-            *ngIf="currentUser.photo"
+            [ngStyle]="{
+              'background-image': 'url(' + (currentUser | async).photo + ')'
+            }"
+            *ngIf="(currentUser | async).photo"
           ></div>
           <div class="buttons-row">
             <mat-progress-spinner
@@ -233,8 +229,7 @@
               <button
                 mat-stroked-button
                 color="warn"
-                *ngIf="currentUser.photo"
-                (click)="currentUser.avatarSrc = null"
+                *ngIf="(currentUser | async).photo"
               >
                 <mat-icon>delete</mat-icon>
                 Supprimer

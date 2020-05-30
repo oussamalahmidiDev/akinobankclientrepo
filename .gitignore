@@ -43,3 +43,7 @@ testem.log
 .DS_Store
 Thumbs.db
 src/environments/environment.ts
+src/app/components/.DS_Store
+src/app/.DS_Store
+src/.DS_Store
+.DS_Store
