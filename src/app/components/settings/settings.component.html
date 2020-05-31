@@ -200,7 +200,7 @@
           <div
             class="avatar-container"
             [ngStyle]="{
-              'background-image': 'url(' + (currentUser | async).photo + ')'
+              'background-image': (currentUser | async).photo | avatar | async
             }"
             *ngIf="(currentUser | async).photo"
           ></div>
@@ -230,6 +230,7 @@
                 mat-stroked-button
                 color="warn"
                 *ngIf="(currentUser | async).photo"
+                (click)="handlePhotoDelete()"
               >
                 <mat-icon>delete</mat-icon>
                 Supprimer

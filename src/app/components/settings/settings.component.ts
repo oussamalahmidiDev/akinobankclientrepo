@@ -8,9 +8,10 @@ import { User } from "../../models/user";
 import { UserService } from "../../services/user.service";
 import { Compte } from "../../models/compte";
 import { environment } from "../../../environments/environment";
-import { Select } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 import { ProfileState } from "../../states/profile.state";
 import { Observable } from "rxjs";
+import { UpdatePhoto, UnsetPhoto } from "../../actions/profile.actions";
 
 @Component({
   selector: "app-settings",
@@ -27,7 +28,11 @@ export class SettingsComponent implements OnInit {
   uploadProgress = 0;
   uploading = false;
 
-  constructor(private userService: UserService, private snackBar: MatSnackBar) {
+  constructor(
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private store: Store
+  ) {
     this.dataSource = new MatTableDataSource<Compte>();
     this.demande = { nom: null, prenom: null, email: null };
   }
@@ -79,8 +84,8 @@ export class SettingsComponent implements OnInit {
           this.uploading = true;
           this.uploadProgress = Math.round((100 * data.loaded) / data.total);
         } else if (data.type === HttpEventType.Response) {
+          this.store.dispatch(new UpdatePhoto(data.body.link));
           this.openSnackBar("Photo de profil a été chargée avec succès !");
-          //   this.currentUser.photo = data.body.link;
           this.uploading = false;
         }
       },
@@ -88,6 +93,10 @@ export class SettingsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  handlePhotoDelete() {
+    this.store.dispatch(new UnsetPhoto());
   }
   displayedColumns: string[] = [
     "numeroCompte",

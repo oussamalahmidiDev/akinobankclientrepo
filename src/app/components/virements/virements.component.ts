@@ -60,8 +60,8 @@ export class VirementsComponent implements OnInit {
     //   this.virementsDS.data = this.virements = virements;
     // });
   }
-  openSnackBar() {
-    this._snackBar.open("Virement ajouté", "OK", {
+  openSnackBar(message: string) {
+    this._snackBar.open(message, "OK", {
       duration: 2000,
     });
   }
@@ -72,11 +72,7 @@ export class VirementsComponent implements OnInit {
       // virement: this.newVirement
     });
     dialogRef.afterClosed().subscribe((data) => {
-      console.log("Subtask Dialog output:", data);
-      // this.virements.push(data);
-      console.log(this.virements);
-      // this.virementsDS.data = this.virements;
-      this.openSnackBar();
+      if (data) this.openSnackBar("Le virement a été ajouté avec succés !");
     });
   }
 }

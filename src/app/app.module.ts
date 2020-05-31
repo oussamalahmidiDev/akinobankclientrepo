@@ -43,6 +43,7 @@ import { NgxsModule } from "@ngxs/store";
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { ProfileState } from "./states/profile.state";
 import { VirementsState } from "./states/virements.state";
+import { AvatarPipe } from './pipes/avatar.pipe';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { VirementsState } from "./states/virements.state";
     RechargeFormComponent,
     WelcomePageComponent,
     HomeComponent,
+    AvatarPipe,
   ],
   imports: [
     BrowserModule,

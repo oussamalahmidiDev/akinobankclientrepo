@@ -9,7 +9,7 @@
       <div
         class="avatar"
         [ngStyle]="{
-          'background-image': 'url(' + (currentUser | async).photo + ')'
+          'background-image': (currentUser | async).photo | avatar | async
         }"
         *ngIf="(currentUser | async).photo"
       ></div>

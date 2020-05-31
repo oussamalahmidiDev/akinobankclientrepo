@@ -43,6 +43,10 @@ export class UserService {
     });
   }
 
+  deletePhoto(): Observable<any> {
+    return this.http.delete(`${this.BASE_URL}/api/avatar/delete`);
+  }
+
   login(email: string, password: string): Observable<any> {
     return this.http
       .post(
