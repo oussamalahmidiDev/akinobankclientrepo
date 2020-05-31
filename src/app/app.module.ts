@@ -28,6 +28,8 @@ import { MatTableModule } from "@angular/material/table";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
+import { NgxsModule } from "@ngxs/store";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
@@ -36,14 +38,11 @@ import { RechargesComponent } from "./components/recharges/recharges.component";
 import { SettingsComponent } from "./components/settings/settings.component";
 import { VirementFormComponent } from "./components/virement-form/virement-form.component";
 import { VirementsComponent } from "./components/virements/virements.component";
-import { HomeComponent } from "./views/home/home.component";
-import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
-
-import { NgxsModule } from "@ngxs/store";
-import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
+import { AvatarPipe } from "./pipes/avatar.pipe";
 import { ProfileState } from "./states/profile.state";
 import { VirementsState } from "./states/virements.state";
-import { AvatarPipe } from './pipes/avatar.pipe';
+import { HomeComponent } from "./views/home/home.component";
+import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 
 @NgModule({
   declarations: [

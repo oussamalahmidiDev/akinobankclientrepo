@@ -1,11 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { User } from "../../models/user";
-import { environment } from "../../../environments/environment";
-import { UserService } from "../../services/user.service";
-import { ActivatedRoute } from "@angular/router";
 import { Select } from "@ngxs/store";
 import { Observable } from "rxjs";
-import { MainStore } from "../../store";
+import { User } from "../../models/user";
 import { ProfileState } from "../../states/profile.state";
 
 @Component({
@@ -27,5 +23,5 @@ export class HomeComponent implements OnInit {
     // this.userService.logout();
   }
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor() {}
 }
