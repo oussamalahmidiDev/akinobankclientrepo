@@ -18,7 +18,7 @@ export class TokenService {
 
   getUser() {
     this.decodeToken();
-    return this.decodedToken.user;
+    return this.decodedToken;
   }
 
   setToken() {

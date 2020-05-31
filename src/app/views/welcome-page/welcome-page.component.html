@@ -1893,25 +1893,25 @@
           <mat-card-subtitle>Veuillez entrer vos données</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <form class="sign-form"> 
+          <form class="sign-form" [formGroup]="loginFormGroup">
             <mat-form-field [style.width.px]=354>
               <mat-label>Votre email / Nº de compte</mat-label>
-              <input autofocus matInput  required #email>
+              <input autofocus matInput formControlName="email" required>
             </mat-form-field>
             <mat-form-field [style.width.px]=354>
               <mat-label>Mot de passe</mat-label>
-              <input type="password"  matInput required #pass> 
+              <input type="password"  formControlName="password"  matInput required>
             </mat-form-field>
             <mat-error *ngIf="error">
                 {{ error }}
             </mat-error>
           </form>
-          
+
         </mat-card-content>
 
-        
+
         <mat-card-actions>
-          <button mat-raised-button color="primary" (click)="login(email.value, pass.value)">Entrer</button>
+          <button mat-raised-button color="primary" (click)="login()">Entrer</button>
         </mat-card-actions>
       </mat-card>
     </div>

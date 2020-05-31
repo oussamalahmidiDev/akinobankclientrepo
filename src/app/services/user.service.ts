@@ -47,12 +47,11 @@ export class UserService {
     return this.http.delete(`${this.BASE_URL}/api/avatar/delete`);
   }
 
-  login(email: string, password: string): Observable<any> {
+  login(request: { email: string, password: string }): Observable<any> {
     return this.http
       .post(
-        `${this.BASE_URL}/api/login`,
-        { username: email, password },
-        { withCredentials: true }
+        `${this.BASE_URL.substr(0, 21)}/api/auth`,
+        request,
       )
       .pipe(map((res) => res));
   }
