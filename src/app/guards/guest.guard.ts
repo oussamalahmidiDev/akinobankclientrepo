@@ -1,34 +1,33 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { UserService } from '../services/user.service';
-import { map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  UrlTree,
+  Router,
+} from "@angular/router";
+import { Observable } from "rxjs";
+import { UserService } from "../services/user.service";
+import { map } from "rxjs/operators";
+import { TokenService } from "../services/token.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class GuestGuard implements CanActivate {
-
-  constructor (private authService: UserService, private router: Router) {}
+  constructor(private tokenService: TokenService, private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree | any {
-    //   const isLoggedIn = this.authService.isLoggedIn;
-    //   if (isLoggedIn) {
-    //     this.router.navigate(['home']);
-    //   }
-    // console.log('GUEST canActivate', isLoggedIn);
-    // return true;
-    // return this.authService.getCurrentUser()
-    // .pipe(map(loggedIn => {
-    //   if (loggedIn == undefined)
-    //     return true;
-    //   if (loggedIn) {
-    //     this.router.navigate(['/home']);
-    //     return false;
-    //   }
-    //   return true;
-    // }))
+    state: RouterStateSnapshot
+  ): Observable<any> | Promise<any> | boolean {
+    if (this.tokenService.getUser()) {
+      if (this.tokenService.isTokenExpired()) {
+        return true;
+      }
+      this.router.navigateByUrl("/home/dashboard");
+      return false;
+    } else {
+      return true;
+    }
   }
-
 }

@@ -16,6 +16,11 @@ export class TokenService {
     return this.token;
   }
 
+  getUser() {
+    this.decodeToken();
+    return this.decodedToken.user;
+  }
+
   setToken() {
     const token = localStorage.getItem("token");
     if (token) {
@@ -27,6 +32,11 @@ export class TokenService {
     localStorage.removeItem("token");
     localStorage.setItem("token", token);
     this.token = token;
+  }
+
+  unsetToken() {
+    localStorage.removeItem("token");
+    this.token = this.decodedToken = null;
   }
 
   isTokenExpired(): boolean {

@@ -9,33 +9,34 @@ import { AuthenticatedGuard } from "./guards/authenticated.guard";
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 import { HomeComponent } from "./views/home/home.component";
 import { ProfileServiceResolver } from "./resolvers/profile.resolver";
+import { GuestGuard } from "./guards/guest.guard";
 
 const routes: Routes = [
   {
     path: "home",
     component: HomeComponent,
     resolve: { profile: ProfileServiceResolver },
-    // canActivate: [AuthenticatedGuard],
+    canActivate: [AuthenticatedGuard],
     children: [
       {
         path: "dashboard",
         component: DashboardComponent,
-        // canActivate: [AuthenticatedGuard]
+        canActivate: [AuthenticatedGuard],
       },
       {
         path: "virements",
         component: VirementsComponent,
-        // canActivate: [AuthenticatedGuard]
+        canActivate: [AuthenticatedGuard],
       },
       {
         path: "settings",
         component: SettingsComponent,
-        // canActivate: [AuthenticatedGuard]
+        canActivate: [AuthenticatedGuard],
       },
       {
         path: "recharges",
         component: RechargesComponent,
-        // canActivate: [AuthenticatedGuard]
+        canActivate: [AuthenticatedGuard],
       },
       { path: "**", redirectTo: "dashboard", pathMatch: "full" },
     ],
@@ -46,7 +47,7 @@ const routes: Routes = [
   {
     path: "",
     component: WelcomePageComponent,
-    // canActivate: [GuestGuard]
+    canActivate: [GuestGuard],
   },
 ];
 // const routes: Routes = [
