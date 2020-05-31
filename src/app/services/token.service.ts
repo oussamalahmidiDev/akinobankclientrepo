@@ -23,7 +23,7 @@ export class TokenService {
 
   setToken() {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (token != undefined) {
       this.token = token;
     }
   }
