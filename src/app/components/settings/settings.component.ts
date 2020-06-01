@@ -22,6 +22,8 @@ import {
   FormGroup,
   AbstractControl,
 } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { TwoFactorQRComponent } from "../../forms/two-factor-qr/two-factor-qr.component";
 
 @Component({
   selector: "app-settings",
@@ -48,7 +50,8 @@ export class SettingsComponent implements OnInit {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private store: Store,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog
   ) {
     this.demande = { nom: null, prenom: null, email: null };
   }
@@ -102,6 +105,18 @@ export class SettingsComponent implements OnInit {
       this.isLoaded = true;
     });
    this.currentUser = this.userService.currentUser; */
+  }
+
+  openQRCodeModal() {
+    const dialogRef = this.dialog.open(TwoFactorQRComponent, {
+      width: "500px",
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data)
+        this.openSnackBar(
+          "L'authentification à 2 facteurs a été activée pour votre compte !"
+        );
+    });
   }
 
   onSubmitProfileForm() {

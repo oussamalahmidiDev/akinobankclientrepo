@@ -46,6 +46,9 @@ import { WelcomePageComponent } from "./views/welcome-page/welcome-page.componen
 import { RequestsInterceptor } from "./requests.interceptor";
 import { RechargesState } from "./states/recharges.state";
 
+import { TwoFactorQRComponent } from "./forms/two-factor-qr/two-factor-qr.component";
+import { SafePipe } from './pipes/safe.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +61,8 @@ import { RechargesState } from "./states/recharges.state";
     WelcomePageComponent,
     HomeComponent,
     AvatarPipe,
+    TwoFactorQRComponent,
+    SafePipe,
   ],
   imports: [
     BrowserModule,

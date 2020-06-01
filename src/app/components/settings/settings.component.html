@@ -181,24 +181,19 @@
                   </button>
                 </div>
               </form>
+              <div class="banner" *ngIf="!(currentUser | async)._2FaEnabled">
+                L'authentification à deux facteurs est desactivée.
+                <div
+                  class="text-primary"
+                  (click)="openQRCodeModal()"
+                  style="cursor: pointer;"
+                >
+                  Cliquer ici pour activer
+                </div>
+              </div>
             </mat-step>
           </mat-vertical-stepper>
         </mat-card-content>
-        <mat-card-actions class="container pr-5">
-          <button
-            mat-button
-            class="ml-3 mt-3"
-            *ngIf="profileForm.dirty"
-            [disabled]="profileForm.invalid"
-            color="primary"
-            (click)="onSubmitProfileForm()"
-          >
-            Enregistrer
-          </button>
-          <button mat-button class="ml-3 mt-3" color="primary">
-            Changer le code secret
-          </button>
-        </mat-card-actions>
       </mat-card>
       <div class="col-sm mt-4">
         <mat-card-header>

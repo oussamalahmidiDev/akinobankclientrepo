@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { User } from "../models/user";
 import { Router } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Demande } from "../models/demande";
@@ -49,6 +49,27 @@ export class UserService {
       reportProgress: true,
       observe: "events",
     });
+  }
+
+  getQRCode() {
+    return this.http
+      .get(`${this.BASE_URL}/api/code/generate`, {
+        observe: "response",
+        responseType: "blob" as "json",
+      })
+      .pipe(
+        map((res: HttpResponse<Blob>) => {
+          console.log(res);
+          return {
+            qr: URL.createObjectURL(res.body),
+            secretKey: res.headers.get("X-QR-CODE"),
+          };
+        })
+      );
+  }
+
+  validateCode(request: { code: number }): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/api/code/validate`, request);
   }
 
   verifyAuthCode(request: { email: string; code: number }): Observable<any> {

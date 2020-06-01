@@ -7,6 +7,7 @@ import {
   UpdatePhoto,
   UnsetPhoto,
   UpdateProfile,
+  Set2FAOn,
 } from "../actions/profile.actions";
 import { Injectable } from "@angular/core";
 
@@ -50,6 +51,13 @@ export class ProfileState {
     // return ctx.patchState({
     //   profile: { ...ctx.getState().profile, photo: null },
     // });
+  }
+
+  @Action(Set2FAOn)
+  set2FAOn(ctx: StateContext<MainStore>) {
+    ctx.patchState({
+      profile: { ...ctx.getState().profile, _2FaEnabled: true },
+    });
   }
 
   @Action(UpdateProfile)

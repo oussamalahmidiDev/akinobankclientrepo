@@ -10,6 +10,10 @@ export class UpdatePhoto {
   constructor(public url: string) {}
 }
 
+export class Set2FAOn {
+  static readonly type = "[Profile] SET 2FA ON";
+}
+
 export class UpdateProfile {
   static readonly type = "[Profile] UPDATE";
 

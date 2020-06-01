@@ -14,4 +14,6 @@ export interface User {
   numeroTelephone?: string;
   agence: Agence;
   demande: Demande;
+
+  _2FaEnabled: boolean;
 }
