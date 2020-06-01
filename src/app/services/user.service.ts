@@ -33,6 +33,14 @@ export class UserService {
       .pipe(map((res) => res));
   }
 
+  changePassword(request: {
+    oldPassword: string;
+    newPassword: string;
+    confPassword: string;
+  }): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/api/change_password`, request);
+  }
+
   uploadImage(image: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append("image", image);

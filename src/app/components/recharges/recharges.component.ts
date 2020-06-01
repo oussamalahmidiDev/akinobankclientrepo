@@ -6,6 +6,10 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { Recharge } from "../../models/recharge";
+import { Store, Select } from "@ngxs/store";
+import { Observable } from "rxjs";
+import { RechargesState } from "../../states/recharges.state";
+import { GetRecharges } from "../../actions/recharges.action";
 
 @Component({
   selector: "app-recharges",
@@ -16,12 +20,12 @@ export class RechargesComponent implements OnInit {
   constructor(
     private _snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private rechargesService: RechargesService
-  ) {
-    this.rechargesDS = new MatTableDataSource<Recharge>();
-  }
+    private rechargesService: RechargesService,
+    private store: Store
+  ) {}
 
-  recharges: Recharge[];
+  @Select(RechargesState.selectRecharges)
+  recharges: Observable<Recharge[]>;
   rechargesColumns: string[] = [
     "comptexp",
     "numTel",
@@ -36,13 +40,14 @@ export class RechargesComponent implements OnInit {
   }
 
   getVirements() {
-    this.rechargesService.getAllRecharges().subscribe((recharges) => {
-      this.rechargesDS.data = this.recharges = recharges;
+    this.recharges.subscribe((data) => {
+      this.rechargesDS = new MatTableDataSource<Recharge>(data);
     });
+    this.store.dispatch(new GetRecharges());
   }
 
-  openSnackBar() {
-    this._snackBar.open("Recharge ajoutée", "OK", {
+  openSnackBar(message: string) {
+    this._snackBar.open(message, "OK", {
       duration: 2000,
     });
   }
@@ -53,11 +58,7 @@ export class RechargesComponent implements OnInit {
       // virement: this.newVirement
     });
     dialogRef.afterClosed().subscribe((data) => {
-      console.log("Subtask Dialog output:", data);
-      this.recharges.push(data);
-      console.log(this.recharges);
-      this.rechargesDS.data = this.recharges;
-      this.openSnackBar();
+      if (data) this.openSnackBar("Recharge effectuée avec succés !");
     });
   }
 }

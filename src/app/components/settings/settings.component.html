@@ -42,33 +42,147 @@
           <mat-card-title>Mes infos personnelles</mat-card-title>
         </mat-card-header>
         <mat-card-content class="container">
-          <form class="sign-form" [formGroup]="profileForm">
-            <mat-form-field [style.width.px]="354">
-              <mat-label>Nom</mat-label>
-              <input autofocus matInput formControlName="nom" required />
-            </mat-form-field>
-            <mat-form-field [style.width.px]="354">
-              <mat-label>Prenom</mat-label>
-              <input autofocus matInput formControlName="prenom" required />
-            </mat-form-field>
-            <mat-form-field [style.width.px]="354">
-              <mat-label>Email</mat-label>
-              <input autofocus matInput formControlName="email" required />
-            </mat-form-field>
-            <mat-form-field [style.width.px]="354">
-              <mat-label>Numéro de télephone</mat-label>
-              <input
-                autofocus
-                matInput
-                formControlName="numeroTelephone"
-                required
-              />
-            </mat-form-field>
-            <mat-form-field [style.width.px]="354">
-              <mat-label>Adresse</mat-label>
-              <input autofocus matInput formControlName="adresse" required />
-            </mat-form-field>
-          </form>
+          <mat-vertical-stepper linear #stepper>
+            <mat-step>
+              <form [style.fontSize.px]="14" [formGroup]="profileForm">
+                <ng-template matStepLabel
+                  >Vos informations personnelles</ng-template
+                >
+                <mat-form-field appearance="outline" [style.width.px]="327">
+                  <mat-label>Nom</mat-label>
+                  <input
+                    matInput
+                    placeholder="Votre nom"
+                    formControlName="nom"
+                    required
+                  />
+                </mat-form-field>
+                <mat-form-field appearance="outline" [style.width.px]="327">
+                  <mat-label>Prenom</mat-label>
+                  <input
+                    matInput
+                    placeholder="Votre prénom"
+                    formControlName="prenom"
+                    required
+                  />
+                </mat-form-field>
+                <mat-form-field appearance="outline" [style.width.px]="327">
+                  <mat-label>Adresse électronique</mat-label>
+                  <input
+                    matInput
+                    placeholder="Email"
+                    formControlName="email"
+                    required
+                  />
+                </mat-form-field>
+                <mat-form-field appearance="outline" [style.width.px]="327">
+                  <mat-label>Numero de téléphone</mat-label>
+                  <input
+                    matInput
+                    placeholder="06 12 34 56 78"
+                    formControlName="numeroTelephone"
+                  />
+                </mat-form-field>
+                <div>
+                  <button
+                    mat-button
+                    mat-flat-button
+                    [disabled]="this.profileForm.invalid"
+                    *ngIf="this.profileForm.dirty"
+                    color="primary"
+                    (click)="onSubmitProfileForm()"
+                  >
+                    Enregistrer
+                  </button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step>
+              <form [style.fontSize.px]="14" [formGroup]="compteForm">
+                <ng-template matStepLabel>Paramètres du compte</ng-template>
+                <mat-form-field appearance="outline" [style.width.px]="327">
+                  <mat-label>Ancien mot de passe</mat-label>
+                  <input
+                    matInput
+                    formControlName="oldPassword"
+                    [type]="hide ? 'password' : 'text'"
+                    required
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
+                  >
+                    <mat-icon>{{
+                      hide ? "visibility_off" : "visibility"
+                    }}</mat-icon>
+                  </button>
+                </mat-form-field>
+                <div formGroupName="passwords">
+                  <mat-form-field appearance="outline" [style.width.px]="327">
+                    <mat-label>Nouveau mot de passe</mat-label>
+                    <input
+                      matInput
+                      formControlName="newPassword"
+                      [type]="hide ? 'password' : 'text'"
+                      required
+                    />
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide"
+                    >
+                      <mat-icon>{{
+                        hide ? "visibility_off" : "visibility"
+                      }}</mat-icon>
+                    </button>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" [style.width.px]="327">
+                    <mat-label>Confirmation de mot de passe</mat-label>
+                    <input
+                      matInput
+                      formControlName="newPasswordConf"
+                      [type]="hide ? 'password' : 'text'"
+                      required
+                    />
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide"
+                    >
+                      <mat-icon>{{
+                        hide ? "visibility_off" : "visibility"
+                      }}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="compteForm.get('passwords').invalid">
+                      Les mots de passes ne sont pas identiques
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <mat-error class="mb-2" *ngFor="let error of compteFormErrors">
+                  {{ error }}
+                </mat-error>
+                <div>
+                  <button
+                    mat-button
+                    mat-flat-button
+                    color="accent"
+                    [disabled]="this.compteForm.invalid"
+                    *ngIf="this.compteForm.dirty"
+                    (click)="onSubmitCompteForm()"
+                  >
+                    Enregistrer
+                  </button>
+                </div>
+              </form>
+            </mat-step>
+          </mat-vertical-stepper>
         </mat-card-content>
         <mat-card-actions class="container pr-5">
           <button

@@ -44,6 +44,7 @@ import { VirementsState } from "./states/virements.state";
 import { HomeComponent } from "./views/home/home.component";
 import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
 import { RequestsInterceptor } from "./requests.interceptor";
+import { RechargesState } from "./states/recharges.state";
 
 @NgModule({
   declarations: [
@@ -89,7 +90,7 @@ import { RequestsInterceptor } from "./requests.interceptor";
     MatExpansionModule,
 
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsModule.forRoot([ProfileState, VirementsState], {
+    NgxsModule.forRoot([ProfileState, VirementsState, RechargesState], {
       developmentMode: true,
     }),
   ],

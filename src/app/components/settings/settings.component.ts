@@ -16,7 +16,12 @@ import {
   UnsetPhoto,
   UpdateProfile,
 } from "../../actions/profile.actions";
-import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import {
+  FormBuilder,
+  Validators,
+  FormGroup,
+  AbstractControl,
+} from "@angular/forms";
 
 @Component({
   selector: "app-settings",
@@ -30,7 +35,11 @@ export class SettingsComponent implements OnInit {
 
   isLoaded = true;
 
+  hide = true;
+
   profileForm: FormGroup;
+  compteForm: FormGroup;
+  compteFormErrors: string[];
 
   uploadProgress = 0;
   uploading = false;
@@ -69,6 +78,17 @@ export class SettingsComponent implements OnInit {
       email: ["", Validators.required],
     });
 
+    this.compteForm = this.formBuilder.group({
+      oldPassword: ["", Validators.required],
+      passwords: this.formBuilder.group(
+        {
+          newPassword: ["", [Validators.required, Validators.minLength(6)]],
+          newPasswordConf: ["", [Validators.required, Validators.minLength(6)]],
+        },
+        { validators: this.passwordMatching }
+      ),
+    });
+
     this.currentUser.subscribe((user) => this.profileForm.patchValue(user));
 
     /*   this.userService.getProfile().subscribe((data) => {
@@ -94,6 +114,12 @@ export class SettingsComponent implements OnInit {
     //   .subscribe((data: Demande) => (this.demande = data));
   }
 
+  passwordMatching(c: AbstractControl): { invalid: boolean } {
+    if (c.get("newPassword").value !== c.get("newPasswordConf").value) {
+      return { invalid: true };
+    }
+  }
+
   deleteDemande() {
     this.demande = { nom: null, prenom: null, email: null, id: null };
   }
@@ -116,6 +142,27 @@ export class SettingsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  onSubmitCompteForm() {
+    this.compteFormErrors = [];
+    console.log(this.compteForm);
+    console.log(this.compteForm.get("passwords"));
+    this.userService
+      .changePassword({
+        oldPassword: this.compteForm.value.oldPassword,
+        newPassword: this.compteForm.get("passwords").value.newPassword,
+        confPassword: this.compteForm.get("passwords").value.newPasswordConf,
+      })
+      .subscribe(
+        (data) => {
+          this.openSnackBar("Le mot de passe a été changé avec succès !");
+        },
+        (error) => {
+          console.log(error.error);
+          this.compteFormErrors.push(error.error.message);
+        }
+      );
   }
 
   handlePhotoDelete() {
