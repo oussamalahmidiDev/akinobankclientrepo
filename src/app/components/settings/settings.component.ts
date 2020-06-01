@@ -11,7 +11,12 @@ import { environment } from "../../../environments/environment";
 import { Select, Store } from "@ngxs/store";
 import { ProfileState } from "../../states/profile.state";
 import { Observable } from "rxjs";
-import { UpdatePhoto, UnsetPhoto } from "../../actions/profile.actions";
+import {
+  UpdatePhoto,
+  UnsetPhoto,
+  UpdateProfile,
+} from "../../actions/profile.actions";
+import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-settings",
@@ -25,13 +30,16 @@ export class SettingsComponent implements OnInit {
 
   isLoaded = true;
 
+  profileForm: FormGroup;
+
   uploadProgress = 0;
   uploading = false;
 
   constructor(
     private userService: UserService,
     private snackBar: MatSnackBar,
-    private store: Store
+    private store: Store,
+    private formBuilder: FormBuilder
   ) {
     this.dataSource = new MatTableDataSource<Compte>();
     this.demande = { nom: null, prenom: null, email: null };
@@ -53,6 +61,16 @@ export class SettingsComponent implements OnInit {
   nomFormisVisible = false;
   prenomFormisVisible = false;
   ngOnInit() {
+    this.profileForm = this.formBuilder.group({
+      nom: ["", Validators.required],
+      prenom: ["", Validators.required],
+      adresse: ["", Validators.required],
+      numeroTelephone: ["", Validators.required],
+      email: ["", Validators.required],
+    });
+
+    this.currentUser.subscribe((user) => this.profileForm.patchValue(user));
+
     /*   this.userService.getProfile().subscribe((data) => {
       this.currentUser = data;
       this.currentUser.photo =
@@ -64,11 +82,16 @@ export class SettingsComponent implements OnInit {
    this.currentUser = this.userService.currentUser; */
   }
 
+  onSubmitProfileForm() {
+    console.log(this.profileForm.value);
+    this.store.dispatch(new UpdateProfile(this.profileForm.value));
+  }
+
   sendDemande() {
     console.log(this.demande);
-    this.userService
-      .sendDemande(this.demande)
-      .subscribe((data: Demande) => (this.demande = data));
+    // this.userService
+    //   .sendDemande(this.demande)
+    //   .subscribe((data: Demande) => (this.demande = data));
   }
 
   deleteDemande() {

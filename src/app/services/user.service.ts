@@ -27,9 +27,9 @@ export class UserService {
     return this.http.get<User>(`${this.BASE_URL}/api/profile`);
   }
 
-  sendDemande(demande: Demande): Observable<any> {
+  updateProfile(request: User): Observable<any> {
     return this.http
-      .post(`${this.BASE_URL}/api/profile/changer`, demande)
+      .post(`${this.BASE_URL}/api/profile/changer`, request)
       .pipe(map((res) => res));
   }
 
@@ -47,12 +47,9 @@ export class UserService {
     return this.http.delete(`${this.BASE_URL}/api/avatar/delete`);
   }
 
-  login(request: { email: string, password: string }): Observable<any> {
+  login(request: { email: string; password: string }): Observable<any> {
     return this.http
-      .post(
-        `${this.BASE_URL.substr(0, 21)}/api/auth`,
-        request,
-      )
+      .post(`${this.BASE_URL.substr(0, 21)}/api/auth`, request)
       .pipe(map((res) => res));
   }
 

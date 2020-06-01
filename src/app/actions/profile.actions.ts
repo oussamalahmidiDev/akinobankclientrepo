@@ -10,6 +10,12 @@ export class UpdatePhoto {
   constructor(public url: string) {}
 }
 
+export class UpdateProfile {
+  static readonly type = "[Profile] UPDATE";
+
+  constructor(public payload: User) {}
+}
+
 export class UnsetPhoto {
   static readonly type = "[Profile] UNSET PHOTO";
 }

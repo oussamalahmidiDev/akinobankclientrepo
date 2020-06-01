@@ -42,147 +42,45 @@
           <mat-card-title>Mes infos personnelles</mat-card-title>
         </mat-card-header>
         <mat-card-content class="container">
-          <div class="line-header">
-            <div class="mat-body-2">Nom</div>
-            <button
-              mat-icon-button
-              class="ml-auto"
-              *ngIf="!nomFormisVisible"
-              (click)="nomFormisVisible = true"
-            >
-              <mat-icon>create</mat-icon>
-            </button>
-          </div>
-          <div class="mat-body" *ngIf="!nomFormisVisible">
-            {{ (currentUser | async).nom }}
-          </div>
-          <form *ngIf="nomFormisVisible">
-            <mat-form-field [style.width.px]="250">
+          <form class="sign-form" [formGroup]="profileForm">
+            <mat-form-field [style.width.px]="354">
+              <mat-label>Nom</mat-label>
+              <input autofocus matInput formControlName="nom" required />
+            </mat-form-field>
+            <mat-form-field [style.width.px]="354">
+              <mat-label>Prenom</mat-label>
+              <input autofocus matInput formControlName="prenom" required />
+            </mat-form-field>
+            <mat-form-field [style.width.px]="354">
+              <mat-label>Email</mat-label>
+              <input autofocus matInput formControlName="email" required />
+            </mat-form-field>
+            <mat-form-field [style.width.px]="354">
+              <mat-label>Numéro de télephone</mat-label>
               <input
-                matInput
                 autofocus
-                name="email"
-                [(ngModel)]="demande.nom"
+                matInput
+                formControlName="numeroTelephone"
                 required
               />
             </mat-form-field>
-            <button
-              mat-raised-button
-              class="ml-2"
-              (click)="nomFormisVisible = false"
-              color="primary"
-              (click)="sendDemande()"
-            >
-              Enregistrer
-            </button>
-          </form>
-          <div class="line-header">
-            <div class="mat-body-2">Prenom</div>
-            <button
-              mat-icon-button
-              class="ml-auto"
-              *ngIf="!prenomFormisVisible"
-              (click)="prenomFormisVisible = true"
-            >
-              <mat-icon>create</mat-icon>
-            </button>
-          </div>
-          <div class="mat-body" *ngIf="!prenomFormisVisible">
-            {{ (currentUser | async).prenom }}
-          </div>
-          <form *ngIf="prenomFormisVisible">
-            <mat-form-field [style.width.px]="250">
-              <input
-                matInput
-                autofocus
-                name="email"
-                [(ngModel)]="demande.prenom"
-                required
-              />
+            <mat-form-field [style.width.px]="354">
+              <mat-label>Adresse</mat-label>
+              <input autofocus matInput formControlName="adresse" required />
             </mat-form-field>
-            <button
-              mat-raised-button
-              class="ml-2"
-              (click)="prenomFormisVisible = false"
-              color="primary"
-              (click)="sendDemande()"
-            >
-              Enregistrer
-            </button>
           </form>
-          <div class="line-header">
-            <div class="mat-body-2">Adresse électronique</div>
-            <button
-              mat-icon-button
-              class="ml-auto"
-              *ngIf="!emailFormisVisible"
-              (click)="emailFormisVisible = true"
-            >
-              <mat-icon>create</mat-icon>
-            </button>
-          </div>
-          <div class="mat-body" *ngIf="!emailFormisVisible">
-            {{ (currentUser | async).email }}
-          </div>
-          <form *ngIf="emailFormisVisible">
-            <mat-form-field [style.width.px]="250">
-              <input
-                matInput
-                autofocus
-                name="email"
-                [(ngModel)]="demande.email"
-                required
-              />
-            </mat-form-field>
-            <button
-              mat-raised-button
-              class="ml-2"
-              (click)="emailFormisVisible = false"
-              color="primary"
-              (click)="sendDemande()"
-            >
-              Enregistrer
-            </button>
-          </form>
-          <div class="line-header">
-            <div class="mat-body-2">Télephone</div>
-            <button
-              mat-icon-button
-              class="ml-auto"
-              *ngIf="!numberFormisVisible"
-              (click)="numberFormisVisible = true"
-            >
-              <mat-icon>create</mat-icon>
-            </button>
-          </div>
-          <div class="mat-body" *ngIf="!numberFormisVisible">
-            {{ (currentUser | async).numeroTelephone }}
-          </div>
-          <form *ngIf="numberFormisVisible">
-            <mat-form-field [style.width.px]="250">
-              <input matInput autofocus name="tel" required />
-            </mat-form-field>
-            <button
-              mat-raised-button
-              class="ml-2"
-              (click)="numberFormisVisible = false"
-              color="primary"
-            >
-              Enregistrer
-            </button>
-          </form>
-          <div class="line-header">
-            <div class="mat-body-2">Adresse</div>
-            <!-- <button mat-icon-button class="ml-auto"><mat-icon>create</mat-icon></button> -->
-          </div>
-          <div class="mat-body">Test</div>
-          <div class="line-header">
-            <div class="mat-body-2">Date de naissance</div>
-            <!-- <button mat-icon-button class="ml-auto"><mat-icon>create</mat-icon></button> -->
-          </div>
-          <div class="mat-body">Date nass</div>
         </mat-card-content>
         <mat-card-actions class="container pr-5">
+          <button
+            mat-button
+            class="ml-3 mt-3"
+            *ngIf="profileForm.dirty"
+            [disabled]="profileForm.invalid"
+            color="primary"
+            (click)="onSubmitProfileForm()"
+          >
+            Enregistrer
+          </button>
           <button mat-button class="ml-3 mt-3" color="primary">
             Changer le code secret
           </button>

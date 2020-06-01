@@ -6,6 +6,7 @@ import {
   GetProfile,
   UpdatePhoto,
   UnsetPhoto,
+  UpdateProfile,
 } from "../actions/profile.actions";
 import { Injectable } from "@angular/core";
 
@@ -49,5 +50,12 @@ export class ProfileState {
     // return ctx.patchState({
     //   profile: { ...ctx.getState().profile, photo: null },
     // });
+  }
+
+  @Action(UpdateProfile)
+  updateProfile(ctx: StateContext<MainStore>, { payload }: UpdateProfile) {
+    return this.service
+      .updateProfile(payload)
+      .pipe(tap((res) => ctx.patchState({ profile: res })));
   }
 }
