@@ -2,7 +2,13 @@
   style="position: absolute; top: 50%; left: 50%;"
   *ngIf="!isLoaded"
 ></mat-spinner>
-
+<div
+  class="banner"
+  *ngIf="(this.timer | async) >= 0 && this.timer !== undefined"
+>
+  Votre session va être fermée automatiquement dans
+  {{ this.MAX_TIME - (this.timer | async) }} secondes.
+</div>
 <mat-sidenav-container class="sidenav-container" *ngIf="isLoaded">
   <mat-sidenav mode="side" class="sidenav" opened>
     <div class="top">
