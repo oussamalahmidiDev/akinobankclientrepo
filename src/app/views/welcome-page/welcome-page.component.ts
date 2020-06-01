@@ -1,48 +1,83 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {UserService} from '../../services/user.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TokenService} from "../../services/token.service";
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { UserService } from "../../services/user.service";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { TokenService } from "../../services/token.service";
 
 @Component({
-  selector: 'app-welcome-page',
-  templateUrl: './welcome-page.component.html',
-  styleUrls: ['./welcome-page.component.css']
+  selector: "app-welcome-page",
+  templateUrl: "./welcome-page.component.html",
+  styleUrls: ["./welcome-page.component.css"],
 })
 export class WelcomePageComponent implements OnInit {
   error: string = null;
 
-  loginFormGroup: FormGroup;
+  _2faForm = false;
 
-  constructor(private router: Router, private authService: UserService, private tokenService: TokenService) {
-  }
+  loginFormGroup: FormGroup;
+  _2faFormGroup: FormGroup;
+
+  constructor(
+    private router: Router,
+    private authService: UserService,
+    private tokenService: TokenService
+  ) {}
 
   ngOnInit() {
     this.loginFormGroup = new FormGroup({
-      email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
+      email: new FormControl("", Validators.required),
+      password: new FormControl("", Validators.required),
+    });
+    this._2faFormGroup = new FormGroup({
+      code: new FormControl("", [
+        Validators.required,
+        Validators.pattern(/[0-9]{6,6}/),
+      ]),
     });
   }
 
-  authenticate(): void {
-    localStorage.setItem('loggedin', '1');
-    this.router.navigateByUrl('/dashboard');
+  switchForms() {
+    this.error = null;
+    this._2faForm = false;
+    // this.forgotPasswordForm.patchValue({
+    //   email: this.loginForm.value.email,
+    // });
+  }
+
+  sendVerifyCodeRequest() {
+    this.error = null;
+    this.authService
+      .verifyAuthCode({
+        ...this.loginFormGroup.value,
+        ...this._2faFormGroup.value,
+      })
+      .subscribe(
+        (data) => this.authenticate(data.token),
+        (err) => (this.error = err.error.message)
+      );
+  }
+
+  authenticate(token: string): void {
+    this.tokenService.setNewToken(token);
+    this.router.navigate(["home"]);
   }
 
   login() {
+    this.error = null;
     this.authService.login(this.loginFormGroup.value).subscribe(
-      data => {
+      (data) => {
         console.log(data);
-        this.tokenService.setNewToken(data.token);
-        this.router.navigate(['home']);
+        if (data["2fa_enabled"]) {
+          this._2faForm = true;
+        } else this.authenticate(data.token);
+
         // this.authService.currentUser.name = data['user']['nom'] + ' ' + data['user']['prenom']
         // localStorage.setItem('loggedin', "1");
       },
-      err => {
+      (err) => {
         this.error = err.error.message;
       }
     );
-
 
     // const login = await this.authService.login(email, password);
     // await console.log("LOGIN",login);

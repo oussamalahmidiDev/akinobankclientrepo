@@ -51,6 +51,13 @@ export class UserService {
     });
   }
 
+  verifyAuthCode(request: { email: string; code: number }): Observable<any> {
+    return this.http.post(
+      `${this.BASE_URL.substr(0, 21)}/api/auth/code`,
+      request
+    );
+  }
+
   deletePhoto(): Observable<any> {
     return this.http.delete(`${this.BASE_URL}/api/avatar/delete`);
   }
