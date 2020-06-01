@@ -50,7 +50,6 @@ export class SettingsComponent implements OnInit {
     private store: Store,
     private formBuilder: FormBuilder
   ) {
-    this.dataSource = new MatTableDataSource<Compte>();
     this.demande = { nom: null, prenom: null, email: null };
   }
 
@@ -89,7 +88,10 @@ export class SettingsComponent implements OnInit {
       ),
     });
 
-    this.currentUser.subscribe((user) => this.profileForm.patchValue(user));
+    this.currentUser.subscribe((user) => {
+      this.profileForm.patchValue(user);
+      this.dataSource = new MatTableDataSource<Compte>(user.comptes);
+    });
 
     /*   this.userService.getProfile().subscribe((data) => {
       this.currentUser = data;
