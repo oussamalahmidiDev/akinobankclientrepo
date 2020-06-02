@@ -36,7 +36,20 @@ export class CompteSuspendFormComponent implements OnInit {
     console.log(this.firstFormGroup.value);
   }
 
-  checkCredentials() {}
+  checkCredentials() {
+    this.comptesService
+      .checkCompteCredentials({ ...this.firstFormGroup.value })
+      .subscribe(
+        () => {
+          this.credentialsVerified = true;
+          // stepper.next();
+        },
+        (error) => alert(error.error.message)
+      );
+  }
 
-  onSubmit() {}
+  onSubmit() {
+    this.comptesService.compteSuspend({ ...this.firstFormGroup.value, ...this.secondFormGroup.value })
+      .subscribe((data) => this.dialogRef.close(data), (error) => alert(error.error.message));
+  }
 }

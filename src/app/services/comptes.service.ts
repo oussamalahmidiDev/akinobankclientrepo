@@ -21,4 +21,8 @@ export class ComptesService {
   fetchComptes(): Observable<Compte[]> {
     return this.http.get<Compte[]>(`${this.BASE_URL}/api/comptes`);
   }
+  compteSuspend(compte: Compte): Observable<any> {
+    return this.http
+      .put(`${this.BASE_URL}/api/comptes/suspend`, compte);
+  }
 }
