@@ -1,0 +1,68 @@
+<div class="form">
+  <div class="mat-title">
+    Operation de suspension de compte <br />nº {{ data.numeroCompte }}
+  </div>
+  <p class="mat-body">
+    Formualaire de suspension du compte. Verifiez bien les informations avant de
+    valider !
+  </p>
+  <mat-vertical-stepper linear>
+    <mat-step
+      [stepControl]="firstFormGroup"
+      editable="false"
+      *ngIf="!credentialsVerified"
+    >
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Verification du code</ng-template>
+        <mat-form-field [style.width.px]="327">
+          <mat-label>Rentrer le code secret</mat-label>
+          <input
+            matInput
+            formControlName="codeSecret"
+            placeholder="Votre code secret"
+            type="password"
+            required
+          />
+        </mat-form-field>
+        <div>
+          <button
+            mat-button
+            matStepperNext
+            [disabled]="firstFormGroup.invalid"
+            (click)="checkCredentials()"
+          >
+            Suivant
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" *ngIf="credentialsVerified">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel
+          >Informations suplémentaires sur l'operation</ng-template
+        >
+        <mat-form-field appearance="outline" [style.width.px]="327">
+          <mat-label>Veuillez détailler la raison de suspension</mat-label>
+          <textarea
+            rows="4"
+            style="resize: none;"
+            formControlName="raison"
+            type="text"
+            matInput
+          ></textarea>
+        </mat-form-field>
+
+        <div>
+          <button
+            mat-button
+            matStepperNext
+            [disabled]="firstFormGroup.invalid || secondFormGroup.invalid"
+            (click)="onSubmit()"
+          >
+            Valider
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>

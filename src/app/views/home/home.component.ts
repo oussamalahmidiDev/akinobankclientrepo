@@ -6,6 +6,7 @@ import { ProfileState } from "../../states/profile.state";
 import { Router } from "@angular/router";
 import { TokenService } from "../../services/token.service";
 import { map } from "rxjs/operators";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-home",
@@ -26,6 +27,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     window.onblur = (e) => {
+      // I disabled session auto logout in dev mode.
+      if (!environment.production) return;
       console.log("Tab/window changed", e);
       this.timer = timer(0, 1000);
       this.subscription = new Subscription();

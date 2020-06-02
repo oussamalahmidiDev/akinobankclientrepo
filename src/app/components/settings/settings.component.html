@@ -99,7 +99,7 @@
             </mat-step>
             <mat-step>
               <form [style.fontSize.px]="14" [formGroup]="compteForm">
-                <ng-template matStepLabel>Paramètres du compte</ng-template>
+                <ng-template matStepLabel>Paramètres de sécurité</ng-template>
                 <mat-form-field appearance="outline" [style.width.px]="327">
                   <mat-label>Ancien mot de passe</mat-label>
                   <input
@@ -189,6 +189,16 @@
                   style="cursor: pointer;"
                 >
                   Cliquer ici pour activer
+                </div>
+              </div>
+              <div class="banner" *ngIf="(currentUser | async)._2FaEnabled">
+                L'authentification à deux facteurs est activée.
+                <div
+                  class="text-primary"
+                  (click)="openQRCodeModal()"
+                  style="cursor: pointer;"
+                >
+                  Modifier l'appareil
                 </div>
               </div>
             </mat-step>
@@ -290,12 +300,27 @@
             Actions
           </th>
           <td mat-cell *matCellDef="let element">
-            <button class="mr-2 ml-auto" mat-stroked-button>
-              Suspendre ce compte
+            <button [matMenuTriggerFor]="menu" mat-icon-button>
+              <mat-icon>more_horiz</mat-icon>
             </button>
-            <button mat-stroked-button color="warn">
-              Bloquer ce compte
-            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Changer le code</span>
+              </button>
+              <button (click)="openCompteSuspendForm(element)" mat-menu-item>
+                <mat-icon>warning</mat-icon>
+                <span>Suspendre le compte</span>
+              </button>
+              <button
+                (click)="openCompteBlockForm(element)"
+                class="text-danger"
+                mat-menu-item
+              >
+                <mat-icon color="warn">block</mat-icon>
+                <span>Bloquer le compte</span>
+              </button>
+            </mat-menu>
           </td>
         </ng-container>
 

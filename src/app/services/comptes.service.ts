@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
+import { Compte } from "../models/compte";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -14,5 +16,9 @@ export class ComptesService {
     codeSecret: string;
   }) {
     return this.http.post(`${this.BASE_URL}/api/verify_number`, payload);
+  }
+
+  fetchComptes(): Observable<Compte[]> {
+    return this.http.get<Compte[]>(`${this.BASE_URL}/api/comptes`);
   }
 }

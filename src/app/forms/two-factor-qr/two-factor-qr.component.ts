@@ -5,6 +5,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { Store } from "@ngxs/store";
 import { Set2FAOn } from "../../actions/profile.actions";
 import { MatDialogRef } from "@angular/material/dialog";
+import { Observable, interval } from "rxjs";
 
 @Component({
   selector: "app-two-factor-qr",
@@ -25,13 +26,17 @@ export class TwoFactorQRComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getQRCode();
+    this.verificationCodeFormGroup = this.formBuilder.group({
+      code: ["", Validators.required],
+    });
+  }
+
+  getQRCode(): void {
     this.service.getQRCode().subscribe((data) => {
       console.log(data);
       this.qrCode = data.qr;
       this.secretCode = data.secretKey;
-    });
-    this.verificationCodeFormGroup = this.formBuilder.group({
-      code: ["", Validators.required],
     });
   }
 

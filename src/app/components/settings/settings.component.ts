@@ -24,6 +24,10 @@ import {
 } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { TwoFactorQRComponent } from "../../forms/two-factor-qr/two-factor-qr.component";
+import { CompteBlockFormComponent } from "../../forms/compte-block-form/compte-block-form.component";
+import { FetchComptes } from "../../actions/comptes.actions";
+import { ComptesState } from "../../states/comptes.state";
+import { CompteSuspendFormComponent } from "../../forms/compte-suspend-form/compte-suspend-form.component";
 
 @Component({
   selector: "app-settings",
@@ -65,6 +69,9 @@ export class SettingsComponent implements OnInit {
   @Select(ProfileState.selectProfile)
   currentUser: Observable<User>;
 
+  @Select(ComptesState.selectComptes)
+  comptes: Observable<Compte[]>;
+
   demande: Demande;
 
   numberFormisVisible = false;
@@ -91,23 +98,26 @@ export class SettingsComponent implements OnInit {
       ),
     });
 
+    this.store.dispatch(new FetchComptes());
+
+    this.comptes.subscribe(
+      (data) => (this.dataSource = new MatTableDataSource<Compte>(data))
+    );
+
     this.currentUser.subscribe((user) => {
       this.profileForm.patchValue(user);
       this.dataSource = new MatTableDataSource<Compte>(user.comptes);
     });
-
-    /*   this.userService.getProfile().subscribe((data) => {
-      this.currentUser = data;
-      this.currentUser.photo =
-        environment.BASE_URL + "/api/avatar/" + data.photo;
-      if (data.demande) this.demande = data.demande;
-      this.dataSource.data = data.comptes;
-      this.isLoaded = true;
-    });
-   this.currentUser = this.userService.currentUser; */
   }
 
   openQRCodeModal() {
+    if (
+      !confirm(
+        "Si vous avez déjà activé l'authentification à deux facteurs sur un autre appareil, les codes ne seront plus valides. Voulez-vous continuez ?"
+      )
+    )
+      return;
+
     const dialogRef = this.dialog.open(TwoFactorQRComponent, {
       width: "500px",
     });
@@ -115,6 +125,32 @@ export class SettingsComponent implements OnInit {
       if (data)
         this.openSnackBar(
           "L'authentification à 2 facteurs a été activée pour votre compte !"
+        );
+    });
+  }
+
+  openCompteBlockForm(selectedCompte: Compte) {
+    const dialogRef = this.dialog.open(CompteBlockFormComponent, {
+      width: "500px",
+      data: selectedCompte,
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data)
+        this.openSnackBar(
+          "Votre demande de bloquage a été envoyée aux agent de votre banque."
+        );
+    });
+  }
+
+  openCompteSuspendForm(selectedCompte: Compte) {
+    const dialogRef = this.dialog.open(CompteSuspendFormComponent, {
+      width: "500px",
+      data: selectedCompte,
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data)
+        this.openSnackBar(
+          "Votre demande de suspension a été envoyée aux agent de votre banque."
         );
     });
   }

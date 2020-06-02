@@ -47,7 +47,10 @@ import { RequestsInterceptor } from "./requests.interceptor";
 import { RechargesState } from "./states/recharges.state";
 
 import { TwoFactorQRComponent } from "./forms/two-factor-qr/two-factor-qr.component";
-import { SafePipe } from './pipes/safe.pipe';
+import { SafePipe } from "./pipes/safe.pipe";
+import { CompteBlockFormComponent } from "./forms/compte-block-form/compte-block-form.component";
+import { ComptesState } from "./states/comptes.state";
+import { CompteSuspendFormComponent } from './forms/compte-suspend-form/compte-suspend-form.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,8 @@ import { SafePipe } from './pipes/safe.pipe';
     AvatarPipe,
     TwoFactorQRComponent,
     SafePipe,
+    CompteBlockFormComponent,
+    CompteSuspendFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,9 +100,12 @@ import { SafePipe } from './pipes/safe.pipe';
     MatExpansionModule,
 
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsModule.forRoot([ProfileState, VirementsState, RechargesState], {
-      developmentMode: true,
-    }),
+    NgxsModule.forRoot(
+      [ProfileState, VirementsState, RechargesState, ComptesState],
+      {
+        developmentMode: true,
+      }
+    ),
   ],
   providers: [
     {
