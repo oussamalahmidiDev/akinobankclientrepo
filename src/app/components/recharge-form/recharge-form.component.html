@@ -11,7 +11,7 @@
     >
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Le compte d'expédition</ng-template>
-        <mat-form-field [style.width.px]="327">
+        <mat-form-field appearance="outline" [style.width.px]="327">
           <mat-label>Le nº du compte d'expédition</mat-label>
           <mat-select
             formControlName="numeroCompte"
@@ -26,7 +26,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field [style.width.px]="327">
+        <mat-form-field appearance="outline" [style.width.px]="327">
           <mat-label>Rentrer le code secret</mat-label>
           <input
             matInput
@@ -51,7 +51,7 @@
     <mat-step [stepControl]="secondFormGroup" *ngIf="credentialsVerified">
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>La données de recharge</ng-template>
-        <mat-form-field [style.width.px]="327">
+        <mat-form-field appearance="outline" [style.width.px]="327">
           <mat-label>L'operateur</mat-label>
           <mat-select formControlName="operateur">
             <mat-option value="Maroc Telecom">Maroc Telecom</mat-option>
@@ -60,7 +60,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field [style.width.px]="327">
+        <mat-form-field appearance="outline" [style.width.px]="327">
           <mat-label>Le nº de téléphone</mat-label>
           <input
             matInput

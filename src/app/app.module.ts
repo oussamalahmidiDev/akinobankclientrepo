@@ -50,7 +50,7 @@ import { TwoFactorQRComponent } from "./forms/two-factor-qr/two-factor-qr.compon
 import { SafePipe } from "./pipes/safe.pipe";
 import { CompteBlockFormComponent } from "./forms/compte-block-form/compte-block-form.component";
 import { ComptesState } from "./states/comptes.state";
-import { CompteSuspendFormComponent } from './forms/compte-suspend-form/compte-suspend-form.component';
+import { CompteSuspendFormComponent } from "./forms/compte-suspend-form/compte-suspend-form.component";
 
 @NgModule({
   declarations: [
@@ -123,6 +123,5 @@ import { CompteSuspendFormComponent } from './forms/compte-suspend-form/compte-s
     },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [VirementFormComponent, RechargeFormComponent],
 })
 export class AppModule {}

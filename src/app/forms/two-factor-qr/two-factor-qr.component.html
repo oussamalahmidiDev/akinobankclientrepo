@@ -36,7 +36,7 @@
     <mat-step [stepControl]="verificationCodeFormGroup" *ngIf="qrCode">
       <form [formGroup]="verificationCodeFormGroup">
         <ng-template matStepLabel>Validation du code</ng-template>
-        <mat-form-field [style.width.px]="327">
+        <mat-form-field appearance="outline" [style.width.px]="327">
           <mat-label>Entrer le code de six chiffre</mat-label>
           <input
             matInput
@@ -53,7 +53,7 @@
             [disabled]="verificationCodeFormGroup.invalid"
             (click)="validateCode()"
           >
-            Suivant
+            Valider
           </button>
         </div>
       </form>
