@@ -39,9 +39,6 @@ export class WelcomePageComponent implements OnInit {
   switchForms() {
     this.error = null;
     this._2faForm = false;
-    // this.forgotPasswordForm.patchValue({
-    //   email: this.loginForm.value.email,
-    // });
   }
 
   sendVerifyCodeRequest() {
@@ -58,7 +55,7 @@ export class WelcomePageComponent implements OnInit {
   }
 
   authenticate(token: string): void {
-    this.tokenService.setNewToken(token);
+    this.tokenService.setToken(token);
     this.router.navigate(["home"]);
   }
 
@@ -70,21 +67,10 @@ export class WelcomePageComponent implements OnInit {
         if (data["2fa_enabled"]) {
           this._2faForm = true;
         } else this.authenticate(data.token);
-
-        // this.authService.currentUser.name = data['user']['nom'] + ' ' + data['user']['prenom']
-        // localStorage.setItem('loggedin', "1");
       },
       (err) => {
         this.error = err.error.message;
       }
     );
-
-    // const login = await this.authService.login(email, password);
-    // await console.log("LOGIN",login);
-    // if (!login.success) {
-    //   this.error = login.message;
-    //   console.log(email, password);
-    // }
-    // return false;
   }
 }

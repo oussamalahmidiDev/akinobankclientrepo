@@ -3,28 +3,69 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
+  HttpErrorResponse,
 } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, Injector } from "@angular/core";
 import { TokenService } from "./services/token.service";
 import { Store } from "@ngxs/store";
 import { Router } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, BehaviorSubject, throwError } from "rxjs";
+import { switchMap, filter, take, catchError } from "rxjs/operators";
 
 @Injectable()
 export class RequestsInterceptor implements HttpInterceptor {
-  constructor(private tokenService: TokenService) {}
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
+
+  constructor(private tokenService: TokenService, private injector: Injector) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token = this.tokenService.getToken();
-    if (token)
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-          //   ContentType : 'application/json; charset=utf-8',
-        },
-      });
-    return next.handle(req);
+    if (token) req = this.addToken(req, token);
+
+    return next.handle(req).pipe(
+      catchError((error) => {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
+          return this.handle401Error(req, next);
+        } else {
+          return throwError(error);
+        }
+      })
+    );
+  }
+
+  private addToken(request: HttpRequest<any>, token: string) {
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+
+      return this.tokenService.refreshToken().pipe(
+        switchMap((response: any) => {
+          this.isRefreshing = false;
+          this.refreshTokenSubject.next(response.token);
+          return next.handle(this.addToken(request, response.token));
+        })
+      );
+    } else {
+      return this.refreshTokenSubject.pipe(
+        filter((token) => token != null),
+        take(1),
+        switchMap((jwt) => {
+          return next.handle(this.addToken(request, jwt));
+        })
+      );
+    }
   }
 }

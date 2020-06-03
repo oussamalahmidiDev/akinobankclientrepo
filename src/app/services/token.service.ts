@@ -1,5 +1,9 @@
 import { Injectable } from "@angular/core";
 import * as jwt_decode from "jwt-decode";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { map, tap } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -8,8 +12,26 @@ export class TokenService {
   token: string;
   decodedToken: any;
 
-  constructor() {
-    this.setToken();
+  constructor(private http: HttpClient) {}
+
+  refreshToken() {
+    console.log("TokenService.refreshToken");
+    return this.http
+      .post(
+        `${environment.BASE_URL.substr(0, 21)}/api/auth/refresh`,
+        {},
+        { withCredentials: true }
+      )
+      .pipe(
+        tap((response: any) => {
+          this.setToken(response.token);
+        })
+      );
+  }
+
+  isAuthenticated(): boolean {
+    const lastConnected = localStorage.getItem("last_connected");
+    return lastConnected != undefined && true;
   }
 
   getToken() {
@@ -21,21 +43,13 @@ export class TokenService {
     return this.decodedToken;
   }
 
-  setToken() {
-    const token = localStorage.getItem("token");
-    if (token != undefined) {
-      this.token = token;
-    }
-  }
-
-  setNewToken(token) {
-    localStorage.removeItem("token");
-    localStorage.setItem("token", token);
+  setToken(token) {
+    localStorage.setItem("last_connected", Date.now().toString());
     this.token = token;
   }
 
   unsetToken() {
-    localStorage.removeItem("token");
+    localStorage.removeItem("last_connected");
     this.token = this.decodedToken = null;
   }
 

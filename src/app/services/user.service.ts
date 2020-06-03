@@ -27,6 +27,10 @@ export class UserService {
     return this.http.get<User>(`${this.BASE_URL}/api/profile`);
   }
 
+  logout() {
+    return this.http.post(`${this.BASE_URL.substr(0, 21)}/api/auth/logout`, {});
+  }
+
   updateProfile(request: User): Observable<any> {
     return this.http
       .post(`${this.BASE_URL}/api/profile/changer`, request)
@@ -72,10 +76,15 @@ export class UserService {
     return this.http.post(`${this.BASE_URL}/api/code/validate`, request);
   }
 
-  verifyAuthCode(request: { email: string; code: number }): Observable<any> {
+  verifyAuthCode(request: {
+    email: string;
+    password: string;
+    code: number;
+  }): Observable<any> {
     return this.http.post(
       `${this.BASE_URL.substr(0, 21)}/api/auth/code`,
-      request
+      request,
+      { withCredentials: true }
     );
   }
 
@@ -88,51 +97,6 @@ export class UserService {
       .post(`${this.BASE_URL.substr(0, 21)}/api/auth`, request)
       .pipe(map((res) => res));
   }
-
-  logout(): any {
-    localStorage.removeItem("userid");
-    this.router.navigate([""]);
-  }
-
-  getCurrentUser(): User {
-    return this.currentUser;
-    // return this.http
-    //   .get<User>(`${this.BASE_URL}/api/me`, {withCredentials: true})
-    //   .pipe(
-    //     map(
-    //       res => {
-    //         // this.isLoggedIn = new BehaviorSubject<boolean>(undefined);
-    //         // // if(!this.isLoggedIn)
-    //         // //   return;
-    //         // this.isLoggedIn.next(true);
-    //         this.currentUser = res;
-    //         console.log(res);
-    //         return res;
-    //       }
-    //     )
-    //   );
-  }
-
-  // setCurrentUser(): void {
-  //   this.getCurrentUser().subscribe(
-  //     data => {
-  //       console.log('SETTING CRRENT USR', data);
-  //       this.currentUser = data;
-  //       // this.isLoggedIn = true;
-  //     }
-  //   )
-  // }
-
-  // authStatus() {
-
-  // }
-
-  // async isLoggedIn(): boolean {
-  //   await this.setCurrentUser();
-  //   if (this.currentUser !== undefined)
-  //     console.log("YOUR LOGGED IN");
-  //   return this.currentUser !== undefined;
-  // }
 }
 
 export const AUTH_PROVIDERS: Array<any> = [

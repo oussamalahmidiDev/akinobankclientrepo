@@ -20,10 +20,7 @@ export class GuestGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> | Promise<any> | boolean {
-    if (this.tokenService.getUser()) {
-      if (this.tokenService.isTokenExpired()) {
-        return true;
-      }
+    if (this.tokenService.isAuthenticated()) {
       this.router.navigateByUrl("/home/dashboard");
       return false;
     } else {

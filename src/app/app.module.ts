@@ -1,6 +1,5 @@
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
@@ -51,6 +50,7 @@ import { SafePipe } from "./pipes/safe.pipe";
 import { CompteBlockFormComponent } from "./forms/compte-block-form/compte-block-form.component";
 import { ComptesState } from "./states/comptes.state";
 import { CompteSuspendFormComponent } from "./forms/compte-suspend-form/compte-suspend-form.component";
+import { NgModule } from "@angular/core";
 
 @NgModule({
   declarations: [

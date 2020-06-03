@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Select } from "@ngxs/store";
-import { Observable, timer, of, Subscription } from "rxjs";
+import { Observable, timer, of, Subscription, interval } from "rxjs";
 import { User } from "../../models/user";
 import { ProfileState } from "../../states/profile.state";
 import { Router } from "@angular/router";
 import { TokenService } from "../../services/token.service";
-import { map } from "rxjs/operators";
+import { map, startWith, switchMap, flatMap, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
+import { UserService } from "../../services/user.service";
 
 @Component({
   selector: "app-home",
@@ -51,8 +52,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.tokenService.unsetToken();
-    this.router.navigate(["/"]);
+    this.userService.logout().subscribe(() => {
+      this.tokenService.unsetToken();
+      this.router.navigate(["/"]);
+    });
     // this.userService.logout();
   }
 
@@ -63,5 +66,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     window.onblur = window.onfocus = undefined;
   }
 
-  constructor(private router: Router, private tokenService: TokenService) {}
+  constructor(
+    private router: Router,
+    private tokenService: TokenService,
+    private userService: UserService
+  ) {}
 }
