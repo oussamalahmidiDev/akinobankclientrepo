@@ -72,8 +72,10 @@ export class UserService {
       );
   }
 
-  validateCode(request: { code: number }): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/api/code/validate`, request);
+  validateCode(request: { code: number }, secretKey: string): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/api/code/validate`, request, {
+      headers: { "X-QR-CODE": secretKey },
+    });
   }
 
   verifyAuthCode(request: {

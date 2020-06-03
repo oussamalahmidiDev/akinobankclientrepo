@@ -41,12 +41,14 @@ export class TwoFactorQRComponent implements OnInit {
   }
 
   validateCode() {
-    this.service.validateCode(this.verificationCodeFormGroup.value).subscribe(
-      () => {
-        this.store.dispatch(new Set2FAOn());
-        this.dialogRef.close(true);
-      },
-      (err) => alert(err.error.message)
-    );
+    this.service
+      .validateCode(this.verificationCodeFormGroup.value, this.secretCode)
+      .subscribe(
+        () => {
+          this.store.dispatch(new Set2FAOn());
+          this.dialogRef.close(true);
+        },
+        (err) => alert(err.error.message)
+      );
   }
 }
