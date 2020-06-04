@@ -6,6 +6,7 @@
     "start": "ng serve",
     "lite": "ng serve --source-map=false --aot --live-reload=false",
     "build": "ng build",
+    "prod": "ng build --configuration heroku",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
