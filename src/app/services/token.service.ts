@@ -18,7 +18,10 @@ export class TokenService {
     console.log("TokenService.refreshToken");
     return this.http
       .post(
-        `${environment.BASE_URL.substr(0, 21)}/api/auth/refresh`,
+        `${environment.BASE_URL.substr(
+          0,
+          environment.BASE_URL.length - 7
+        )}/api/auth/refresh`,
         {},
         { withCredentials: true }
       )
