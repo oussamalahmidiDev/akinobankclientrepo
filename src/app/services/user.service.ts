@@ -28,7 +28,10 @@ export class UserService {
   }
 
   logout() {
-    return this.http.post(`${this.BASE_URL.substr(0, 21)}/api/auth/logout`, {});
+    return this.http.post(
+      `${this.BASE_URL.substr(0, this.BASE_URL.length - 7)}/api/auth/logout`,
+      {}
+    );
   }
 
   updateProfile(request: User): Observable<any> {
@@ -84,7 +87,7 @@ export class UserService {
     code: number;
   }): Observable<any> {
     return this.http.post(
-      `${this.BASE_URL.substr(0, 21)}/api/auth/code`,
+      `${this.BASE_URL.substr(0, this.BASE_URL.length - 7)}/api/auth/code`,
       request,
       { withCredentials: true }
     );
