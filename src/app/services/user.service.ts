@@ -99,7 +99,10 @@ export class UserService {
 
   login(request: { email: string; password: string }): Observable<any> {
     return this.http
-      .post(`${this.BASE_URL.substr(0, 21)}/api/auth`, request)
+      .post(
+        `${this.BASE_URL.substr(0, this.BASE_URL.length - 7)}/api/auth`,
+        request
+      )
       .pipe(map((res) => res));
   }
 }
