@@ -51,6 +51,7 @@ import { CompteBlockFormComponent } from "./forms/compte-block-form/compte-block
 import { ComptesState } from "./states/comptes.state";
 import { CompteSuspendFormComponent } from "./forms/compte-suspend-form/compte-suspend-form.component";
 import { NgModule } from "@angular/core";
+import { SessionsState } from "./states/sessions.state";
 
 @NgModule({
   declarations: [
@@ -101,7 +102,13 @@ import { NgModule } from "@angular/core";
 
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsModule.forRoot(
-      [ProfileState, VirementsState, RechargesState, ComptesState],
+      [
+        ProfileState,
+        VirementsState,
+        RechargesState,
+        ComptesState,
+        SessionsState,
+      ],
       {
         developmentMode: true,
       }
