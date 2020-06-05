@@ -36,9 +36,13 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post(`${this.BASE_URL}/api/auth/logout`, {
-      withCredentials: true,
-    });
+    return this.http.post(
+      `${this.BASE_URL}/api/auth/logout`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
   }
 
   getSessions(): Observable<Session[]> {
