@@ -11,6 +11,15 @@ import { User } from "../../models/user";
 import { ProfileState } from "../../states/profile.state";
 import { ComptesState } from "../../states/comptes.state";
 import { FetchComptes } from "../../actions/comptes.actions";
+import { Session } from "../../models/session";
+import { SessionsState } from "../../states/sessions.state";
+import {
+  GetSessions,
+  AuthorizeSession,
+  BlockSession,
+  DeleteSession,
+} from "../../actions/sessions.actions";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-dashboard",
@@ -19,12 +28,13 @@ import { FetchComptes } from "../../actions/comptes.actions";
 })
 export class DashboardComponent implements OnInit {
   isLoaded = true;
-  constructor(private store: Store) {}
+  constructor(private store: Store, public authService: AuthService) {}
   displayedColumns: string[] = ["position", "name", "weight", "symbol"];
   // dataSource = ELEMENT_DATA;
 
   comptesDS: MatTableDataSource<Compte>;
   virementsDs: MatTableDataSource<Virement>;
+  sessionsDs: MatTableDataSource<Session>;
 
   compteColumns: string[] = [
     "numeroCompte",
@@ -43,6 +53,17 @@ export class DashboardComponent implements OnInit {
     "statut",
   ];
 
+  sessionColumns: string[] = [
+    // "id",
+    "browser",
+    "os",
+    "ip",
+    "timestamp",
+    "location",
+    "state",
+    "actions",
+  ];
+
   @Select(VirementsState.selectVirements)
   mesVirements: Observable<Virement[]>;
 
@@ -52,17 +73,31 @@ export class DashboardComponent implements OnInit {
   @Select(ComptesState.selectComptes)
   comptes: Observable<Compte[]>;
 
+  @Select(SessionsState.selectAllSessions)
+  sessions: Observable<Session[]>;
+
   ngOnInit() {
     this.mesVirements.subscribe(
       (data) => (this.virementsDs = new MatTableDataSource<Virement>(data))
     );
-    // this.currentUser.subscribe(
-    //   (data) => (this.comptesDS = new MatTableDataSource<Compte>(data.comptes))
-    // );
     this.comptes.subscribe(
       (data) => (this.comptesDS = new MatTableDataSource<Compte>(data))
     );
+    this.sessions.subscribe(
+      (data) => (this.sessionsDs = new MatTableDataSource<Session>(data))
+    );
+    this.store.dispatch(new GetSessions());
     this.store.dispatch(new FetchComptes());
     this.store.dispatch(new GetVirements());
+  }
+
+  authorize(session: Session) {
+    if (confirm("Verifiez bien que cette session est éligible"))
+      this.store.dispatch(new AuthorizeSession(session.id));
+  }
+
+  block(session: Session) {
+    if (confirm("Voulez-vous continuez ?"))
+      this.store.dispatch(new DeleteSession(session.id));
   }
 }

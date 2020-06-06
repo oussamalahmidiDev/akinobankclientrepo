@@ -18,7 +18,7 @@ export class RequestsInterceptor implements HttpInterceptor {
     null
   );
 
-  constructor(private tokenService: TokenService, private injector: Injector) {}
+  constructor(private tokenService: TokenService, private router: Router) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -55,6 +55,14 @@ export class RequestsInterceptor implements HttpInterceptor {
           this.isRefreshing = false;
           this.refreshTokenSubject.next(response.token);
           return next.handle(this.addToken(request, response.token));
+        }),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse && error.status === 403) {
+            this.tokenService.unsetToken();
+            console.log("Logging out...");
+            this.router.navigate(["/"]);
+          }
+          return throwError(error);
         })
       );
     } else {

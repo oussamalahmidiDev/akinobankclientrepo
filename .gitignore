@@ -47,3 +47,4 @@ src/app/components/.DS_Store
 src/app/.DS_Store
 src/.DS_Store
 .DS_Store
+server/node_modules
