@@ -82,8 +82,8 @@ export class SettingsComponent implements OnInit {
     this.profileForm = this.formBuilder.group({
       nom: ["", Validators.required],
       prenom: ["", Validators.required],
-      adresse: ["", Validators.required],
-      numeroTelephone: ["", Validators.required],
+      adresse: [""],
+      numeroTelephone: [""],
       email: ["", Validators.required],
     });
 
