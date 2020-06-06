@@ -27,13 +27,6 @@ export class UserService {
     return this.http.get<User>(`${this.BASE_URL}/api/profile`);
   }
 
-  logout() {
-    return this.http.post(
-      `${this.BASE_URL.substr(0, this.BASE_URL.length - 7)}/api/auth/logout`,
-      {}
-    );
-  }
-
   updateProfile(request: User): Observable<any> {
     return this.http
       .post(`${this.BASE_URL}/api/profile/changer`, request)
@@ -80,29 +73,8 @@ export class UserService {
     });
   }
 
-  verifyAuthCode(request: {
-    email: string;
-    password: string;
-    code: number;
-  }): Observable<any> {
-    return this.http.post(
-      `${this.BASE_URL.substr(0, this.BASE_URL.length - 7)}/api/auth/code`,
-      request,
-      { withCredentials: true }
-    );
-  }
-
   deletePhoto(): Observable<any> {
     return this.http.delete(`${this.BASE_URL}/api/avatar/delete`);
-  }
-
-  login(request: { email: string; password: string }): Observable<any> {
-    return this.http
-      .post(
-        `${this.BASE_URL.substr(0, this.BASE_URL.length - 7)}/api/auth`,
-        request
-      )
-      .pipe(map((res) => res));
   }
 }
 

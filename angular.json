@@ -97,6 +97,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ebank:build:production"
+            },
+            "heroku": {
+              "browserTarget": "ebank:build:heroku"
             }
           }
         },

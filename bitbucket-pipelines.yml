@@ -1,10 +1,10 @@
 image: node:10
 
 pipelines:
-  branches:
-    master:
+  custom:
+    heroku:
       - step:
-          name: 'Build akinobank'
+          name: "Build akinobank"
           caches:
             - node
           script:
@@ -13,13 +13,13 @@ pipelines:
           artifacts:
             - dist/**
       - step:
-          name: 'Create zip'
+          name: "Create zip"
           script:
             - tar czfv application.tgz dist -C server .
           artifacts:
             - application.tgz
       - step:
-          name: 'Deploy to Heroku in production'
+          name: "Deploy to Heroku in production"
           deployment: production
           script:
             - pipe: atlassian/heroku-deploy:0.1.1

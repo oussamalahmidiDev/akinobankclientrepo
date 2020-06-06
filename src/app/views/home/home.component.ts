@@ -8,6 +8,7 @@ import { TokenService } from "../../services/token.service";
 import { map, startWith, switchMap, flatMap, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { UserService } from "../../services/user.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-home",
@@ -52,7 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.userService.logout().subscribe(() => {
+    this.authService.logout().subscribe(() => {
       this.tokenService.unsetToken();
       this.router.navigate(["/"]);
     });
@@ -69,6 +70,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private tokenService: TokenService,
-    private userService: UserService
+    private authService: AuthService
   ) {}
 }

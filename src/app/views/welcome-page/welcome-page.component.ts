@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { UserService } from "../../services/user.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { TokenService } from "../../services/token.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-welcome-page",
@@ -19,7 +20,7 @@ export class WelcomePageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: UserService,
+    private authService: AuthService,
     private tokenService: TokenService
   ) {}
 
