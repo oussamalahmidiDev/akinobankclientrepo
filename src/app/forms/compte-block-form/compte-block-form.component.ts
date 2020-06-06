@@ -49,5 +49,8 @@ export class CompteBlockFormComponent implements OnInit {
       );
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.comptesService.compteBlock({ ...this.firstFormGroup.value, ...this.secondFormGroup.value })
+      .subscribe((data) => this.dialogRef.close(data), (error) => alert(error.error.message));
+  }
 }

@@ -25,4 +25,8 @@ export class ComptesService {
     return this.http
       .put(`${this.BASE_URL}/api/comptes/suspend`, compte);
   }
+  compteBlock(compte: Compte): Observable<any> {
+    return this.http
+      .put(`${this.BASE_URL}/api/comptes/block`, compte);
+  }
 }

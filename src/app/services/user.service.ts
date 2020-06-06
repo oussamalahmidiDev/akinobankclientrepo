@@ -69,8 +69,7 @@ export class UserService {
           console.log(res);
           return {
             qr: URL.createObjectURL(res.body),
-            secretKey: res.headers.get("X-QR-CODE"),
-          };
+            secretKey: res.headero
         })
       );
   }
