@@ -4,13 +4,12 @@ import {
   HttpHandler,
   HttpEvent,
   HttpErrorResponse,
-} from "@angular/common/http";
-import { Injectable, Injector } from "@angular/core";
-import { TokenService } from "./services/token.service";
-import { Store } from "@ngxs/store";
-import { Router } from "@angular/router";
-import { Observable, BehaviorSubject, throwError } from "rxjs";
-import { switchMap, filter, take, catchError } from "rxjs/operators";
+} from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
+import { TokenService } from './services/token.service';
+import { Router } from '@angular/router';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { switchMap, filter, take, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class RequestsInterceptor implements HttpInterceptor {
@@ -25,7 +24,7 @@ export class RequestsInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token = this.tokenService.getToken();
-    if (token) req = this.addToken(req, token);
+    if (token) { req = this.addToken(req, token); }
 
     return next.handle(req).pipe(
       catchError((error) => {
