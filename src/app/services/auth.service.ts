@@ -35,6 +35,10 @@ export class AuthService {
     });
   }
 
+  sendVerificationMail(request: { email: string }): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/verify`, request);
+  }
+
   logout() {
     return this.http.post(
       `${this.BASE_URL}/api/auth/logout`,

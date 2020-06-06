@@ -26,7 +26,7 @@ export class WelcomePageComponent implements OnInit {
 
   ngOnInit() {
     this.loginFormGroup = new FormGroup({
-      email: new FormControl("", Validators.required),
+      email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", Validators.required),
     });
     this._2faFormGroup = new FormGroup({
@@ -58,6 +58,12 @@ export class WelcomePageComponent implements OnInit {
   authenticate(token: string): void {
     this.tokenService.setToken(token);
     this.router.navigate(["home"]);
+  }
+
+  sendVerificationMail() {
+    this.authService
+      .sendVerificationMail(this.loginFormGroup.value)
+      .subscribe(() => alert("Email de confirmation a été envoyé"));
   }
 
   login() {

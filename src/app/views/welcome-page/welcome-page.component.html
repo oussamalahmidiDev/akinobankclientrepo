@@ -3780,6 +3780,14 @@
                 required
               />
             </mat-form-field>
+            <p
+              *ngIf="loginFormGroup.get('email').valid"
+              class="text-primary"
+              style="cursor: pointer;"
+              (click)="sendVerificationMail()"
+            >
+              Renvoyer l'email
+            </p>
             <mat-error *ngIf="error">
               {{ error }}
             </mat-error>
