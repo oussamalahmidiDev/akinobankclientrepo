@@ -26,11 +26,11 @@ export class CompteBlockFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
-      numeroCompte: ["", Validators.required],
-      codeSecret: ["", Validators.required],
+      numeroCompte: ['', Validators.required],
+      codeSecret: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
-      raison: ["", Validators.required],
+      raison: ['', Validators.required],
     });
 
     this.firstFormGroup.patchValue({ ...this.data });
