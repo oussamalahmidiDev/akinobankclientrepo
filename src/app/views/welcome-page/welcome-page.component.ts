@@ -12,6 +12,7 @@ import { AuthService } from "../../services/auth.service";
 })
 export class WelcomePageComponent implements OnInit {
   error: string = null;
+  loggingIn = false;
 
   _2faForm = false;
 
@@ -35,6 +36,9 @@ export class WelcomePageComponent implements OnInit {
         Validators.pattern(/[0-9]{6,6}/),
       ]),
     });
+    this.tokenService
+      .getXSRFToken()
+      .subscribe(() => console.log("XSRF loaded"));
   }
 
   switchForms() {
@@ -43,7 +47,11 @@ export class WelcomePageComponent implements OnInit {
   }
 
   sendVerifyCodeRequest() {
+    if (this._2faFormGroup.invalid || this.loggingIn) {
+      return;
+    }
     this.error = null;
+    this.loggingIn = true;
     this.authService
       .verifyAuthCode({
         ...this.loginFormGroup.value,
@@ -51,7 +59,10 @@ export class WelcomePageComponent implements OnInit {
       })
       .subscribe(
         (data) => this.authenticate(data.token),
-        (err) => (this.error = err.error.message)
+        (err) => {
+          this.error = err.error.message;
+          this.loggingIn = false;
+        }
       );
   }
 
@@ -67,15 +78,22 @@ export class WelcomePageComponent implements OnInit {
   }
 
   login() {
+    if (this.loginFormGroup.invalid || this.loggingIn) {
+      return;
+    }
     this.error = null;
+    this.loggingIn = true;
     this.authService.login(this.loginFormGroup.value).subscribe(
       (data) => {
+        this.loggingIn = false;
         console.log(data);
         if (data["2fa_enabled"]) {
           this._2faForm = true;
         } else this.authenticate(data.token);
       },
       (err) => {
+        console.log(err);
+        this.loggingIn = false;
         this.error = err.error.message;
       }
     );

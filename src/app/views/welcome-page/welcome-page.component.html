@@ -3760,7 +3760,11 @@
           <mat-card-subtitle>Veuillez entrer vos données</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <form class="sign-form" [formGroup]="loginFormGroup">
+          <form
+            class="sign-form"
+            [formGroup]="loginFormGroup"
+            (keyup.enter)="login()"
+          >
             <mat-form-field
               appearance="outline"
               style="width: -moz-available; width: -webkit-fill-available;"
@@ -3788,6 +3792,14 @@
             >
               Renvoyer l'email
             </p>
+            <div style="display: flex;" *ngIf="loggingIn">
+              <mat-spinner
+                class="mr-2"
+                strokeWidth="2"
+                [diameter]="20"
+              ></mat-spinner>
+              <span>Connexion en cours ...</span>
+            </div>
             <mat-error *ngIf="error">
               {{ error }}
             </mat-error>
@@ -3796,17 +3808,23 @@
 
         <mat-card-actions>
           <button
+            type="submit"
             style="
               background: #1379dc;
               width: -moz-available;
               width: -webkit-fill-available;
             "
-            *ngIf="loginFormGroup.valid"
+            [style]="
+              loginFormGroup.valid
+                ? 'background: #1379dc'
+                : 'background: #c5c5c5'
+            "
             mat-flat-button
+            [disabled]="loginFormGroup.invalid"
             color="primary"
             (click)="login()"
           >
-            Entrer
+            Se connecter
           </button>
         </mat-card-actions>
       </mat-card>
@@ -3821,7 +3839,11 @@
           >
         </mat-card-header>
         <mat-card-content>
-          <form class="sign-form" [formGroup]="_2faFormGroup">
+          <form
+            class="sign-form"
+            [formGroup]="_2faFormGroup"
+            (keyup.enter)="sendVerifyCodeRequest()"
+          >
             <mat-form-field
               appearance="outline"
               style="width: -moz-available; width: -webkit-fill-available;"
@@ -3829,6 +3851,14 @@
               <mat-label>Le code de verification</mat-label>
               <input autofocus matInput formControlName="code" required />
             </mat-form-field>
+            <div style="display: flex;" *ngIf="loggingIn">
+              <mat-spinner
+                class="mr-2"
+                strokeWidth="2"
+                [diameter]="20"
+              ></mat-spinner>
+              <span>Verification en cours ...</span>
+            </div>
             <mat-error *ngIf="error">
               {{ error }}
             </mat-error>
@@ -3842,12 +3872,17 @@
               width: -moz-available;
               width: -webkit-fill-available;
             "
-            *ngIf="_2faFormGroup.valid"
+            [style]="
+              _2faFormGroup.valid
+                ? 'background: #1379dc'
+                : 'background: #c5c5c5'
+            "
             mat-flat-button
             color="primary"
             (click)="sendVerifyCodeRequest()"
+            [disabled]="_2faFormGroup.invalid"
           >
-            Valider
+            Valider le code
           </button>
         </mat-card-actions>
       </mat-card>

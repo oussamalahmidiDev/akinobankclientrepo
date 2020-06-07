@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Select } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 import { Observable, timer, of, Subscription, interval } from "rxjs";
 import { User } from "../../models/user";
 import { ProfileState } from "../../states/profile.state";
 import { Router } from "@angular/router";
 import { TokenService } from "../../services/token.service";
-import { map, startWith, switchMap, flatMap, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { UserService } from "../../services/user.service";
 import { AuthService } from "../../services/auth.service";
+import { MainStore } from "../../store";
 
 @Component({
   selector: "app-home",
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     window.onblur = (e) => {
       // I disabled session auto logout in dev mode.
       if (!environment.production) return;
-      console.log("Tab/window changed", e);
+      // console.log("Tab/window changed", e);
       this.timer = timer(0, 1000);
       this.subscription = new Subscription();
       this.subscription.add(
@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
 
     window.onfocus = () => {
-      console.log("Tab/window focused");
+      // console.log("Tab/window focused");
       this.timer = undefined;
       if (this.subscription) this.subscription.unsubscribe();
     };
@@ -55,9 +55,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   logout(): void {
     this.authService.logout().subscribe(() => {
       this.tokenService.unsetToken();
+      // this.store.dispatch(new ResetState());
       this.router.navigate(["/"]);
+      this.store.reset(new MainStore()).subscribe(() => {
+        console.log("State cleared.");
+      });
     });
-    // this.userService.logout();
   }
 
   ngOnDestroy(): void {
@@ -70,6 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private tokenService: TokenService,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store
   ) {}
 }

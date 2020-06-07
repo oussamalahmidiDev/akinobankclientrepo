@@ -14,16 +14,22 @@ export class TokenService {
 
   constructor(private http: HttpClient) {}
 
+  getXSRFToken() {
+    return this.http.post(
+      `${environment.BASE_URL.substr(0, environment.BASE_URL.length - 7)}`,
+      {}
+    );
+  }
+
   refreshToken() {
-    console.log("TokenService.refreshToken");
+    // console.log("TokenService.refreshToken");
     return this.http
       .post(
         `${environment.BASE_URL.substr(
           0,
           environment.BASE_URL.length - 7
         )}/api/auth/refresh`,
-        {},
-        { withCredentials: true }
+        {}
       )
       .pipe(
         tap((response: any) => {
