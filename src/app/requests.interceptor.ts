@@ -87,9 +87,8 @@ export class RequestsInterceptor implements HttpInterceptor {
           console.log("Refreshing error...");
           if (error instanceof HttpErrorResponse && error.status === 403) {
             this.tokenService.unsetToken();
-            this.store
-              .reset(new MainStore())
-              .subscribe(() => console.log("State cleared."));
+            this.store.reset(new MainStore());
+
             console.log("Logging out...");
             this.router.navigate(["/"]);
           }

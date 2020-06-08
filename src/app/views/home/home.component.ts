@@ -57,9 +57,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.tokenService.unsetToken();
       // this.store.dispatch(new ResetState());
       this.router.navigate(["/"]);
-      this.store.reset(new MainStore()).subscribe(() => {
-        console.log("State cleared.");
-      });
+      this.store.reset(new MainStore());
     });
   }
 
