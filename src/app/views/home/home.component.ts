@@ -63,8 +63,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authService.logout().subscribe(() => {
       this.tokenService.unsetToken();
       // this.store.dispatch(new ResetState());
-      this.router.navigate(["/"]);
-      this.store.reset(new MainStore());
+      this.router.navigate(["/"]).then(() => {
+        this.store.reset(new MainStore());
+      });
     });
   }
 

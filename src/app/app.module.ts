@@ -56,6 +56,7 @@ import { ComptesState } from "./states/comptes.state";
 import { CompteSuspendFormComponent } from "./forms/compte-suspend-form/compte-suspend-form.component";
 import { NgModule } from "@angular/core";
 import { SessionsState } from "./states/sessions.state";
+import { ChangerCodeComponent } from './components/forms/changer-code/changer-code.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { SessionsState } from "./states/sessions.state";
     SafePipe,
     CompteBlockFormComponent,
     CompteSuspendFormComponent,
+    ChangerCodeComponent,
   ],
   imports: [
     BrowserModule,

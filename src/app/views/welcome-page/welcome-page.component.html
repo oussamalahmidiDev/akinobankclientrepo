@@ -117,10 +117,7 @@
           [formGroup]="_2faFormGroup"
           (keyup.enter)="sendVerifyCodeRequest()"
         >
-          <mat-form-field
-            appearance="outline"
-            style="width: -moz-available; width: -webkit-fill-available;"
-          >
+          <mat-form-field appearance="outline" class="verif_code">
             <mat-label>Le code de verification</mat-label>
             <input autofocus matInput formControlName="code" required />
           </mat-form-field>

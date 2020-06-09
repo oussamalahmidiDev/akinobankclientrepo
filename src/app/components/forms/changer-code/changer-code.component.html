@@ -1,0 +1,82 @@
+<div class="form">
+  <div class="mat-title">
+    Changer le code secret de compte de <br />nº {{ data.numeroCompte }}
+  </div>
+  <p class="mat-body">
+    Verifiez bien le code secret. Ce code est utilisé pour effectuer des
+    opérations comme les virements, les recharges télephoniques.
+  </p>
+  <mat-vertical-stepper linear>
+    <mat-step
+      [stepControl]="firstFormGroup"
+      editable="false"
+      *ngIf="!credentialsVerified"
+    >
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Verification du code</ng-template>
+        <mat-form-field appearance="outline" [style.fontSize.px]="14">
+          <mat-label>Entrer l'ancien code secret de ce compte</mat-label>
+          <input
+            matInput
+            formControlName="codeSecret"
+            placeholder="Votre code secret"
+            type="password"
+            required
+          />
+        </mat-form-field>
+        <div>
+          <button
+            mat-button
+            matStepperNext
+            [disabled]="firstFormGroup.invalid"
+            (click)="checkCredentials()"
+          >
+            Suivant
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" *ngIf="credentialsVerified">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Changement du code</ng-template>
+        <mat-form-field appearance="outline" [style.fontSize.px]="14">
+          <mat-label>Entrer le nouveau code</mat-label>
+          <input
+            matInput
+            formControlName="code"
+            placeholder="Votre nouveau code secret"
+            type="password"
+            required
+          />
+          <!-- <mat-error *ngIf="code.invalid">
+            Les mots de passes ne sont pas identiques
+          </mat-error> -->
+        </mat-form-field>
+        <mat-form-field appearance="outline" [style.fontSize.px]="14">
+          <mat-label>Confirmer le nouveau code</mat-label>
+          <input
+            matInput
+            formControlName="codeConf"
+            placeholder="Confirmation"
+            type="password"
+            required
+          />
+          <mat-error *ngIf="secondFormGroup.invalid">
+            Les mots de passes ne sont pas identiques
+          </mat-error>
+        </mat-form-field>
+
+        <div>
+          <button
+            mat-button
+            matStepperNext
+            [disabled]="firstFormGroup.invalid || secondFormGroup.invalid"
+            (click)="onSubmit()"
+          >
+            Valider
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>

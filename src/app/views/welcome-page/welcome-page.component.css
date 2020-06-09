@@ -70,10 +70,18 @@ button.mat-primary {
   width: -webkit-fill-available;
 }
 
+.verif_code {
+  min-width: 389px;
+}
+
 
 @media all and (max-width: 1235px) {
   .background {
     display: none;
+  }
+
+  .verif_code {
+    min-width: max-content;
   }
 
   nav.nav {

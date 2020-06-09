@@ -276,7 +276,7 @@
               <mat-icon>more_horiz</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button (click)="openChangerCodeForm(element)" mat-menu-item>
                 <mat-icon>edit</mat-icon>
                 <span>Changer le code</span>
               </button>
