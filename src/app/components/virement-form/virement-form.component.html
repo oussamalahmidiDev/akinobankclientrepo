@@ -11,7 +11,7 @@
     >
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Le compte d'expédition</ng-template>
-        <mat-form-field appearance="outline" [style.width.px]="327">
+        <mat-form-field [style.fontSize.px]="14" appearance="outline">
           <mat-label>Le nº du compte d'expédition</mat-label>
           <mat-select
             formControlName="numeroCompte"
@@ -26,7 +26,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline" [style.width.px]="327">
+        <mat-form-field [style.fontSize.px]="14" appearance="outline">
           <mat-label>Rentrer le code secret</mat-label>
           <input
             matInput
@@ -52,7 +52,7 @@
     <mat-step [stepControl]="secondFormGroup" *ngIf="credentialsVerified">
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>La données de virement</ng-template>
-        <mat-form-field appearance="outline" [style.width.px]="327">
+        <mat-form-field [style.fontSize.px]="14" appearance="outline">
           <mat-label>Le nº du compte de destination</mat-label>
           <input
             matInput
@@ -61,7 +61,7 @@
             required
           />
         </mat-form-field>
-        <mat-form-field appearance="outline" [style.width.px]="327">
+        <mat-form-field [style.fontSize.px]="14" appearance="outline">
           <mat-label>Entrer le montant</mat-label>
           <input
             matInput
@@ -72,7 +72,7 @@
             required
           />
         </mat-form-field>
-        <mat-form-field appearance="outline" [style.width.px]="327">
+        <mat-form-field [style.fontSize.px]="14" appearance="outline">
           <mat-label>Ajouter des notes</mat-label>
           <!-- <input matInput formControlName="secondCtrl" placeholder="Ex : 120.00" type="text"> -->
           <textarea
@@ -97,20 +97,4 @@
       </form>
     </mat-step>
   </mat-vertical-stepper>
-  <mat-card-actions
-    class="container pr-5 mb-0"
-    *ngIf="formIsValid && formIsApproved"
-  >
-    <button mat-button class="ml-3 mt-3" color="primary">
-      Valider le virement
-    </button>
-    <button
-      mat-button
-      class="ml-3 mt-3"
-      color="primary"
-      (click)="formIsValid = false"
-    >
-      Revoir les détails
-    </button>
-  </mat-card-actions>
 </div>

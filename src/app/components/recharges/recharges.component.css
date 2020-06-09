@@ -1,9 +1,36 @@
-.accounts {
-      width: 100%;
+.recharges {
+  width: 100%;
 }
+
 button.mat-fab.mat-accent {
-      position: fixed;
-      bottom: 50px;
-      /* margin-left: auto; */
-      right: 50px;
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+}
+
+.container {
+  padding: 0 3rem;
+  margin-top: 6rem;
+}
+
+.dashboard-card {
+  margin: 2rem 0;
+}
+
+.mat-card-content {
+  overflow-x: auto;
+}
+
+
+@media all and (max-width: 1235px) {
+  .container {
+    padding: 0 1.5rem;
+    margin-top: 6rem;
   }
+
+  button.mat-fab.mat-accent {
+    position: fixed;
+    bottom: 3rem;
+    right: 1.5rem;
+  }
+}

@@ -1,10 +1,10 @@
 <div class="form">
   <div class="mat-title">
-    Operation de blocage de compte <br />nº {{ data.numeroCompte }}
+    Changer le code secret de compte de <br />nº {{ data.numeroCompte }}
   </div>
   <p class="mat-body">
-    Formualaire de blocage du compte. Verifiez bien les informations avant de
-    valider !
+    Verifiez bien le code secret. Ce code est utilisé pour effectuer des
+    opérations comme les virements, les recharges télephoniques.
   </p>
   <mat-vertical-stepper linear>
     <mat-step
@@ -15,7 +15,7 @@
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Verification du code</ng-template>
         <mat-form-field appearance="outline" [style.fontSize.px]="14">
-          <mat-label>Rentrer le code secret de ce compte</mat-label>
+          <mat-label>Entrer l'ancien code secret de ce compte</mat-label>
           <input
             matInput
             formControlName="codeSecret"
@@ -38,18 +38,32 @@
     </mat-step>
     <mat-step [stepControl]="secondFormGroup" *ngIf="credentialsVerified">
       <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel
-          >Informations suplémentaires sur l'operation</ng-template
-        >
+        <ng-template matStepLabel>Changement du code</ng-template>
         <mat-form-field appearance="outline" [style.fontSize.px]="14">
-          <mat-label>Veuillez détailler la raison de blocage</mat-label>
-          <textarea
-            rows="4"
-            style="resize: none;"
-            formControlName="raison"
-            type="text"
+          <mat-label>Entrer le nouveau code</mat-label>
+          <input
             matInput
-          ></textarea>
+            formControlName="code"
+            placeholder="Votre nouveau code secret"
+            type="password"
+            required
+          />
+          <!-- <mat-error *ngIf="code.invalid">
+            Les mots de passes ne sont pas identiques
+          </mat-error> -->
+        </mat-form-field>
+        <mat-form-field appearance="outline" [style.fontSize.px]="14">
+          <mat-label>Confirmer le nouveau code</mat-label>
+          <input
+            matInput
+            formControlName="codeConf"
+            placeholder="Confirmation"
+            type="password"
+            required
+          />
+          <mat-error *ngIf="secondFormGroup.invalid">
+            Les mots de passes ne sont pas identiques
+          </mat-error>
         </mat-form-field>
 
         <div>

@@ -4,12 +4,15 @@ import {
   HttpHandler,
   HttpEvent,
   HttpErrorResponse,
-} from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { TokenService } from './services/token.service';
-import { Router } from '@angular/router';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
-import { switchMap, filter, take, catchError } from 'rxjs/operators';
+} from "@angular/common/http";
+import { Injectable, Injector } from "@angular/core";
+import { TokenService } from "./services/token.service";
+import { Router } from "@angular/router";
+import { Observable, BehaviorSubject, throwError } from "rxjs";
+import { switchMap, filter, take, catchError } from "rxjs/operators";
+import { CookieService } from "./services/cookie.service";
+import { Store } from "@ngxs/store";
+import { MainStore } from "./store";
 
 @Injectable()
 export class RequestsInterceptor implements HttpInterceptor {
@@ -18,13 +21,27 @@ export class RequestsInterceptor implements HttpInterceptor {
     null
   );
 
-  constructor(private tokenService: TokenService, private router: Router) {}
+  constructor(
+    private tokenService: TokenService,
+    private router: Router,
+    private store: Store
+  ) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token = this.tokenService.getToken();
-    if (token) { req = this.addToken(req, token); }
+    // if (token) {
+    token !== undefined && token !== null
+      ? (req = this.addToken(req, token))
+      : (req = this.addToken(req, ""));
+    // }
+    // console.log("Setting XSRF", this.cookieService.get("XSRF-TOKEN"));
+    // req.clone({
+    //   setHeaders: {
+    //     ,
+    //   },
+    // });
 
     return next.handle(req).pipe(
       catchError((error) => {
@@ -38,27 +55,40 @@ export class RequestsInterceptor implements HttpInterceptor {
   }
 
   private addToken(request: HttpRequest<any>, token: string) {
+    if (request.method === "GET")
+      return request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     });
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    if (!this.isRefreshing) {
+    console.log("Handling 401 error");
+    if (!this.isRefreshing || true) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
+      console.log("Refreshing token...");
 
       return this.tokenService.refreshToken().pipe(
         switchMap((response: any) => {
           this.isRefreshing = false;
+          console.log("Refreshing succeded...");
           this.refreshTokenSubject.next(response.token);
           return next.handle(this.addToken(request, response.token));
         }),
         catchError((error) => {
+          console.log("Refreshing error...");
           if (error instanceof HttpErrorResponse && error.status === 403) {
             this.tokenService.unsetToken();
+            this.store.reset(new MainStore());
+
             console.log("Logging out...");
             this.router.navigate(["/"]);
           }
@@ -66,10 +96,12 @@ export class RequestsInterceptor implements HttpInterceptor {
         })
       );
     } else {
+      console.log("Already refreshed...");
       return this.refreshTokenSubject.pipe(
         filter((token) => token != null),
         take(1),
         switchMap((jwt) => {
+          console.log("Using refreshed token...");
           return next.handle(this.addToken(request, jwt));
         })
       );

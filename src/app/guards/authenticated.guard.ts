@@ -24,7 +24,7 @@ export class AuthenticatedGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> | Promise<any> | boolean {
-    console.log("AuthenticatedGuard.canActivate", this.tokenService.getUser());
+    // console.log("AuthenticatedGuard.canActivate", this.tokenService.getUser());
     if (this.tokenService.isAuthenticated()) {
       return true;
     } else {

@@ -30,29 +30,21 @@ export class AuthService {
     password: string;
     code: number;
   }): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/api/auth/code`, request, {
-      withCredentials: true,
-    });
+    return this.http.post(`${this.BASE_URL}/api/auth/code`, request);
+  }
+
+  sendVerificationMail(request: { email: string }): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/verify`, request);
   }
 
   logout() {
-    return this.http.post(
-      `${this.BASE_URL}/api/auth/logout`,
-      {},
-      {
-        withCredentials: true,
-      }
-    );
+    return this.http.post(`${this.BASE_URL}/api/auth/logout`, {});
   }
 
   getSessions(): Observable<Session[]> {
     return this.http
       .get<Session[]>(`${this.BASE_URL}/api/auth/sessions`)
-      .pipe
-      // map((sessions) =>
-      //   sessions.filter((session) => session.id !== this.sessionId)
-      // )
-      ();
+      .pipe();
   }
 
   authorizeSession(id: string): Observable<Session> {

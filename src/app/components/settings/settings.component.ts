@@ -28,6 +28,7 @@ import { CompteBlockFormComponent } from "../../forms/compte-block-form/compte-b
 import { FetchComptes } from "../../actions/comptes.actions";
 import { ComptesState } from "../../states/comptes.state";
 import { CompteSuspendFormComponent } from "../../forms/compte-suspend-form/compte-suspend-form.component";
+import { ChangerCodeComponent } from "../forms/changer-code/changer-code.component";
 
 @Component({
   selector: "app-settings",
@@ -105,8 +106,10 @@ export class SettingsComponent implements OnInit {
     );
 
     this.currentUser.subscribe((user) => {
-      this.profileForm.patchValue(user);
-      this.dataSource = new MatTableDataSource<Compte>(user.comptes);
+      if (user) {
+        this.profileForm.patchValue(user);
+        this.dataSource = new MatTableDataSource<Compte>(user.comptes);
+      }
     });
   }
 
@@ -125,6 +128,19 @@ export class SettingsComponent implements OnInit {
       if (data)
         this.openSnackBar(
           "L'authentification à 2 facteurs a été activée pour votre compte !"
+        );
+    });
+  }
+
+  openChangerCodeForm(selectedCompte: Compte) {
+    const dialogRef = this.dialog.open(ChangerCodeComponent, {
+      width: "500px",
+      data: selectedCompte,
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data)
+        this.openSnackBar(
+          "Votre demande de bloquage a été envoyée aux agent de votre banque."
         );
     });
   }

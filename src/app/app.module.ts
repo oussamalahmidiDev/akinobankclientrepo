@@ -1,5 +1,9 @@
 import { LayoutModule } from "@angular/cdk/layout";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import {
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+  HttpClientXsrfModule,
+} from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
@@ -52,6 +56,7 @@ import { ComptesState } from "./states/comptes.state";
 import { CompteSuspendFormComponent } from "./forms/compte-suspend-form/compte-suspend-form.component";
 import { NgModule } from "@angular/core";
 import { SessionsState } from "./states/sessions.state";
+import { ChangerCodeComponent } from './components/forms/changer-code/changer-code.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +74,7 @@ import { SessionsState } from "./states/sessions.state";
     SafePipe,
     CompteBlockFormComponent,
     CompteSuspendFormComponent,
+    ChangerCodeComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,6 +101,11 @@ import { SessionsState } from "./states/sessions.state";
     MatSelectModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+
+    HttpClientXsrfModule.withOptions({
+      cookieName: "XSRF-TOKEN",
+      headerName: "X-XSRF-TOKEN",
+    }),
 
     FormsModule,
     ReactiveFormsModule,

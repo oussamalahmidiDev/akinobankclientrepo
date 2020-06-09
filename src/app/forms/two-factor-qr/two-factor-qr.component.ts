@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { UserService } from "../../services/user.service";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -14,6 +14,8 @@ import { Observable, interval } from "rxjs";
 })
 export class TwoFactorQRComponent implements OnInit {
   verificationCodeFormGroup: FormGroup;
+
+  width = window.innerWidth;
 
   qrCode: string;
   secretCode: string;
@@ -50,5 +52,10 @@ export class TwoFactorQRComponent implements OnInit {
         },
         (err) => alert(err.error.message)
       );
+  }
+
+  @HostListener("window:resize", ["$event"])
+  onResize(event) {
+    this.width = window.innerWidth;
   }
 }

@@ -7,7 +7,7 @@
   <mat-vertical-stepper linear>
     <mat-step>
       <ng-template matStepLabel>Scannez le code QR</ng-template>
-      <p *ngIf="qrCode">
+      <p *ngIf="qrCode" style="font-size: 10pt;">
         Scannez le code QR ou copier le code secret avec une application
         d'authentification tierce <br />(ex:
         <a
@@ -16,17 +16,21 @@
           >Google Authenticator</a
         >)
       </p>
-      <div class="row" *ngIf="!qrCode">
-        <mat-spinner class="mr-2" strokeWidth="3" [diameter]="25"></mat-spinner>
+      <div class="row" *ngIf="!qrCode || true">
+        <mat-spinner
+          style="margin-right: 0.5rem;"
+          strokeWidth="3"
+          [diameter]="width >= 1235 ? 25 : 20"
+        ></mat-spinner>
         <span>Géneration du code QR</span>
       </div>
       <img
         *ngIf="qrCode"
         mat-card-image
-        style="width: 200px; margin: 0 80px;"
+        style="width: 200px; margin: 0px auto; display: block;"
         [src]="qrCode | safe"
       />
-      <kbd style="font-size: 14pt;" *ngIf="qrCode">{{ secretCode }}</kbd>
+      <div class="code" *ngIf="qrCode">{{ secretCode }}</div>
       <div>
         <button *ngIf="qrCode" class="mt-3" mat-button matStepperNext>
           Continuer
@@ -36,7 +40,7 @@
     <mat-step [stepControl]="verificationCodeFormGroup" *ngIf="qrCode">
       <form [formGroup]="verificationCodeFormGroup">
         <ng-template matStepLabel>Validation du code</ng-template>
-        <mat-form-field appearance="outline" [style.width.px]="327">
+        <mat-form-field appearance="outline" [style.fontSize.px]="14">
           <mat-label>Entrer le code de six chiffre</mat-label>
           <input
             matInput

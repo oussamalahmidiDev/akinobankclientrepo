@@ -1,7 +1,3 @@
-<mat-spinner
-  style="position: absolute; top: 50%; left: 50%;"
-  *ngIf="!isLoaded"
-></mat-spinner>
 <div
   class="banner"
   *ngIf="(this.timer | async) >= 0 && this.timer !== undefined"
@@ -10,8 +6,18 @@
   {{ this.MAX_TIME - (this.timer | async) }} secondes.
 </div>
 <mat-sidenav-container class="sidenav-container" *ngIf="isLoaded">
-  <mat-sidenav mode="side" class="sidenav" opened>
+  <mat-sidenav
+    #sidenav
+    [mode]="width >= 1235 ? 'side' : 'over'"
+    class="sidenav"
+    [opened]="width >= 1235"
+  >
     <div class="top">
+      <img
+        src="../../../assets/images/logo.svg"
+        class="logo-svg"
+        alt="Akinobank Logo"
+      />
       <div
         class="avatar"
         [ngStyle]="{
@@ -30,22 +36,42 @@
     </div>
     <mat-divider></mat-divider>
     <mat-nav-list>
-      <a mat-list-item routerLink="dashboard" routerLinkActive="active">
+      <a
+        mat-list-item
+        routerLink="dashboard"
+        (click)="width < 1235 ? sidenav.toggle() : null"
+        routerLinkActive="active"
+      >
         <mat-icon matListIcon>dashboard</mat-icon>
         <h3 matLine>Tableau de bord</h3>
       </a>
-      <a mat-list-item routerLink="virements" routerLinkActive="active">
+      <a
+        mat-list-item
+        routerLink="virements"
+        (click)="width < 1235 ? sidenav.toggle() : null"
+        routerLinkActive="active"
+      >
         <mat-icon matListIcon>credit_card</mat-icon>
         <h3 matLine>Mes virements</h3>
       </a>
-      <a mat-list-item routerLink="recharges" routerLinkActive="active">
+      <a
+        mat-list-item
+        routerLink="recharges"
+        (click)="width < 1235 ? sidenav.toggle() : null"
+        routerLinkActive="active"
+      >
         <mat-icon matListIcon>add_ic_call</mat-icon>
         <h3 matLine>Mes recharges telephoniques</h3>
       </a>
     </mat-nav-list>
     <mat-divider></mat-divider>
     <mat-nav-list>
-      <a mat-list-item routerLink="settings" routerLinkActive="active">
+      <a
+        mat-list-item
+        routerLink="settings"
+        (click)="width < 1235 ? sidenav.toggle() : null"
+        routerLinkActive="active"
+      >
         <mat-icon matListIcon>settings</mat-icon>
         <h3 matLine>Parametres du compte</h3>
       </a>
@@ -57,10 +83,20 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="navbar fixed-top navb">
-      <button mat-icon-button class="mr-2">
-        <mat-icon>notifications</mat-icon>
+      <button
+        *ngIf="width < 1235"
+        (click)="sidenav.toggle()"
+        mat-icon-button
+        class="mr-2"
+      >
+        <mat-icon>menu</mat-icon>
       </button>
-      <span>Aide</span>
+      <p *ngIf="width < 1235">Akinobank</p>
+      <div class="left-items">
+        <button mat-icon-button>
+          <mat-icon>notifications</mat-icon>
+        </button>
+      </div>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

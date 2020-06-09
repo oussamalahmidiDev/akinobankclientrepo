@@ -1,118 +1,104 @@
-<div class="pl-5 pt-5 pr-5 mt-5 container">
+<div class="container">
   <h1 class="mat-subheading">Paramètres du compte</h1>
   <mat-divider></mat-divider>
-  <div class="container-fluid">
-    <mat-spinner *ngIf="!isLoaded"></mat-spinner>
-  </div>
-  <div class="container-fluid" *ngIf="isLoaded">
-    <div class="row" *ngIf="demande.id">
-      <mat-accordion class="w-100 mt-4">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Vous avez envoyé une demande de modification
-            </mat-panel-title>
-            <mat-panel-description>
-              En attente d'approbation
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div class="detail-item" *ngIf="demande.nom">
-            <div class="detail-name">Nom</div>
-            <div class="detail-content">{{ demande.nom }}</div>
-          </div>
-          <div class="detail-item" *ngIf="demande.prenom">
-            <div class="detail-name">Prenom</div>
-            <div class="detail-content">{{ demande.prenom }}</div>
-          </div>
-          <div class="detail-item" *ngIf="demande.email">
-            <div class="detail-name">Adresse éléctronique</div>
-            <div class="detail-content">{{ demande.email }}</div>
-          </div>
-          <mat-action-row>
-            <button mat-button color="warn" (click)="deleteDemande()">
-              Supprimer
-            </button>
-          </mat-action-row>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-    <div class="row">
-      <mat-card class="dashboard-card col-sm mr-5 mt-4">
-        <mat-card-header>
-          <mat-card-title>Mes infos personnelles</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="container">
-          <mat-vertical-stepper linear #stepper>
-            <mat-step>
-              <form [style.fontSize.px]="14" [formGroup]="profileForm">
-                <ng-template matStepLabel
-                  >Vos informations personnelles</ng-template
+  <div class="settings_container">
+    <mat-card class="dashboard-card profil_card">
+      <mat-card-header>
+        <mat-card-title>Mes infos personnelles</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-vertical-stepper linear #stepper>
+          <mat-step>
+            <form [style.fontSize.px]="14" [formGroup]="profileForm">
+              <ng-template matStepLabel
+                >Vos informations personnelles</ng-template
+              >
+              <mat-form-field appearance="outline">
+                <mat-label>Nom</mat-label>
+                <input
+                  matInput
+                  placeholder="Votre nom"
+                  formControlName="nom"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Prenom</mat-label>
+                <input
+                  matInput
+                  placeholder="Votre prénom"
+                  formControlName="prenom"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Adresse électronique</mat-label>
+                <input
+                  matInput
+                  placeholder="Email"
+                  formControlName="email"
+                  required
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Numero de téléphone</mat-label>
+                <input
+                  matInput
+                  placeholder="06 12 34 56 78"
+                  formControlName="numeroTelephone"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Adresse</mat-label>
+                <input
+                  matInput
+                  placeholder="Marrakech nº 123 40000"
+                  formControlName="adresse"
+                />
+              </mat-form-field>
+              <div>
+                <button
+                  mat-button
+                  mat-flat-button
+                  [disabled]="this.profileForm.invalid"
+                  *ngIf="this.profileForm.dirty"
+                  color="primary"
+                  (click)="onSubmitProfileForm()"
                 >
-                <mat-form-field appearance="outline" [style.width.px]="327">
-                  <mat-label>Nom</mat-label>
+                  Enregistrer
+                </button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step>
+            <form [style.fontSize.px]="14" [formGroup]="compteForm">
+              <ng-template matStepLabel>Paramètres de sécurité</ng-template>
+              <mat-form-field appearance="outline">
+                <mat-label>Ancien mot de passe</mat-label>
+                <input
+                  matInput
+                  formControlName="oldPassword"
+                  [type]="hide ? 'password' : 'text'"
+                  required
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide"
+                >
+                  <mat-icon>{{
+                    hide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+              </mat-form-field>
+              <div formGroupName="passwords">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nouveau mot de passe</mat-label>
                   <input
                     matInput
-                    placeholder="Votre nom"
-                    formControlName="nom"
-                    required
-                  />
-                </mat-form-field>
-                <mat-form-field appearance="outline" [style.width.px]="327">
-                  <mat-label>Prenom</mat-label>
-                  <input
-                    matInput
-                    placeholder="Votre prénom"
-                    formControlName="prenom"
-                    required
-                  />
-                </mat-form-field>
-                <mat-form-field appearance="outline" [style.width.px]="327">
-                  <mat-label>Adresse électronique</mat-label>
-                  <input
-                    matInput
-                    placeholder="Email"
-                    formControlName="email"
-                    required
-                  />
-                </mat-form-field>
-                <mat-form-field appearance="outline" [style.width.px]="327">
-                  <mat-label>Numero de téléphone</mat-label>
-                  <input
-                    matInput
-                    placeholder="06 12 34 56 78"
-                    formControlName="numeroTelephone"
-                  />
-                </mat-form-field>
-                <mat-form-field appearance="outline" [style.width.px]="327">
-                  <mat-label>Adresse</mat-label>
-                  <input
-                    matInput
-                    placeholder="Marrakech nº 123 40000"
-                    formControlName="adresse"
-                  />
-                </mat-form-field>
-                <div>
-                  <button
-                    mat-button
-                    mat-flat-button
-                    [disabled]="this.profileForm.invalid"
-                    *ngIf="this.profileForm.dirty"
-                    color="primary"
-                    (click)="onSubmitProfileForm()"
-                  >
-                    Enregistrer
-                  </button>
-                </div>
-              </form>
-            </mat-step>
-            <mat-step>
-              <form [style.fontSize.px]="14" [formGroup]="compteForm">
-                <ng-template matStepLabel>Paramètres de sécurité</ng-template>
-                <mat-form-field appearance="outline" [style.width.px]="327">
-                  <mat-label>Ancien mot de passe</mat-label>
-                  <input
-                    matInput
-                    formControlName="oldPassword"
+                    formControlName="newPassword"
                     [type]="hide ? 'password' : 'text'"
                     required
                   />
@@ -128,150 +114,128 @@
                     }}</mat-icon>
                   </button>
                 </mat-form-field>
-                <div formGroupName="passwords">
-                  <mat-form-field appearance="outline" [style.width.px]="327">
-                    <mat-label>Nouveau mot de passe</mat-label>
-                    <input
-                      matInput
-                      formControlName="newPassword"
-                      [type]="hide ? 'password' : 'text'"
-                      required
-                    />
-                    <button
-                      mat-icon-button
-                      matSuffix
-                      (click)="hide = !hide"
-                      [attr.aria-label]="'Hide password'"
-                      [attr.aria-pressed]="hide"
-                    >
-                      <mat-icon>{{
-                        hide ? "visibility_off" : "visibility"
-                      }}</mat-icon>
-                    </button>
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" [style.width.px]="327">
-                    <mat-label>Confirmation de mot de passe</mat-label>
-                    <input
-                      matInput
-                      formControlName="newPasswordConf"
-                      [type]="hide ? 'password' : 'text'"
-                      required
-                    />
-                    <button
-                      mat-icon-button
-                      matSuffix
-                      (click)="hide = !hide"
-                      [attr.aria-label]="'Hide password'"
-                      [attr.aria-pressed]="hide"
-                    >
-                      <mat-icon>{{
-                        hide ? "visibility_off" : "visibility"
-                      }}</mat-icon>
-                    </button>
-                    <mat-error *ngIf="compteForm.get('passwords').invalid">
-                      Les mots de passes ne sont pas identiques
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <mat-error class="mb-2" *ngFor="let error of compteFormErrors">
-                  {{ error }}
-                </mat-error>
-                <div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Confirmation de mot de passe</mat-label>
+                  <input
+                    matInput
+                    formControlName="newPasswordConf"
+                    [type]="hide ? 'password' : 'text'"
+                    required
+                  />
                   <button
-                    mat-button
-                    mat-flat-button
-                    color="accent"
-                    [disabled]="this.compteForm.invalid"
-                    *ngIf="this.compteForm.dirty"
-                    (click)="onSubmitCompteForm()"
+                    mat-icon-button
+                    matSuffix
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
                   >
-                    Enregistrer
+                    <mat-icon>{{
+                      hide ? "visibility_off" : "visibility"
+                    }}</mat-icon>
                   </button>
-                </div>
-              </form>
-              <div class="banner" *ngIf="!(currentUser | async)._2FaEnabled">
-                L'authentification à deux facteurs est desactivée.
-                <div
-                  class="text-primary"
-                  (click)="openQRCodeModal()"
-                  style="cursor: pointer;"
-                >
-                  Cliquer ici pour activer
-                </div>
+                  <mat-error *ngIf="compteForm.get('passwords').invalid">
+                    Les mots de passes ne sont pas identiques
+                  </mat-error>
+                </mat-form-field>
               </div>
-              <div class="banner" *ngIf="(currentUser | async)._2FaEnabled">
-                L'authentification à deux facteurs est activée.
-                <div
-                  class="text-primary"
-                  (click)="openQRCodeModal()"
-                  style="cursor: pointer;"
+              <mat-error class="mb-2" *ngFor="let error of compteFormErrors">
+                {{ error }}
+              </mat-error>
+              <div>
+                <button
+                  mat-button
+                  mat-flat-button
+                  color="accent"
+                  style="margin-top: 1rem;"
+                  [disabled]="this.compteForm.invalid"
+                  *ngIf="this.compteForm.dirty"
+                  (click)="onSubmitCompteForm()"
                 >
-                  Modifier l'appareil
-                </div>
+                  Enregistrer
+                </button>
               </div>
-            </mat-step>
-          </mat-vertical-stepper>
-        </mat-card-content>
-      </mat-card>
-      <div class="col-sm mt-4">
-        <mat-card-header>
-          <mat-card-title>Changer la photo du profil</mat-card-title>
-          <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
-        </mat-card-header>
-        <mat-card-content class="photo-settings">
-          <button class="avatar-container" *ngIf="!(currentUser | async).photo">
-            <mat-icon>add</mat-icon>
-          </button>
-          <div
-            class="avatar-container"
-            [ngStyle]="{
-              'background-image': (currentUser | async).photo | avatar | async
-            }"
-            *ngIf="(currentUser | async).photo"
-          ></div>
-          <div class="buttons-row">
-            <mat-progress-spinner
-              *ngIf="uploading"
-              mode="determinate"
-              strokeWidth="3"
-              [diameter]="25"
-              [value]="uploadProgress"
-            >
-            </mat-progress-spinner>
-            <div class="upload-btn-wrapper" *ngIf="!uploading">
-              <button class="mr-2" mat-stroked-button>
-                <mat-icon class="mr-2">backup</mat-icon>
-                Charger une photo
-              </button>
-              <input
-                type="file"
-                (change)="handlePhotoUpload($event)"
-                name="avatar"
-                id=""
-              />
-            </div>
-            <div class="upload-btn-wrapper" *ngIf="!uploading">
-              <button
-                mat-stroked-button
-                color="warn"
-                *ngIf="(currentUser | async).photo"
-                (click)="handlePhotoDelete()"
+            </form>
+            <div class="banner" *ngIf="!(currentUser | async)._2FaEnabled">
+              L'authentification à deux facteurs est desactivée.
+              <div
+                class="text-primary"
+                (click)="openQRCodeModal()"
+                style="cursor: pointer;"
               >
-                <mat-icon>delete</mat-icon>
-                Supprimer
-              </button>
+                Cliquer ici pour activer
+              </div>
             </div>
+            <div class="banner" *ngIf="(currentUser | async)._2FaEnabled">
+              L'authentification à deux facteurs est activée.
+              <div
+                class="text-primary"
+                (click)="openQRCodeModal()"
+                style="cursor: pointer;"
+              >
+                Modifier l'appareil
+              </div>
+            </div>
+          </mat-step>
+        </mat-vertical-stepper>
+      </mat-card-content>
+    </mat-card>
+    <div class="settings_avatar">
+      <mat-card-header>
+        <mat-card-title>Changer la photo du profil</mat-card-title>
+        <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
+      </mat-card-header>
+      <mat-card-content class="photo-settings">
+        <button class="avatar-container" *ngIf="!(currentUser | async).photo">
+          <mat-icon>add</mat-icon>
+        </button>
+        <div
+          class="avatar-container"
+          [ngStyle]="{
+            'background-image': (currentUser | async).photo | avatar | async
+          }"
+          *ngIf="(currentUser | async).photo"
+        ></div>
+        <div class="buttons-row">
+          <mat-progress-spinner
+            *ngIf="uploading"
+            mode="determinate"
+            strokeWidth="3"
+            [diameter]="25"
+            [value]="uploadProgress"
+          >
+          </mat-progress-spinner>
+          <div class="upload-btn-wrapper" *ngIf="!uploading">
+            <button class="mr-2" mat-stroked-button>
+              <mat-icon class="mr-2">backup</mat-icon>
+              Charger une photo
+            </button>
+            <input
+              type="file"
+              (change)="handlePhotoUpload($event)"
+              name="avatar"
+              id=""
+            />
           </div>
-        </mat-card-content>
-      </div>
+          <div class="upload-btn-wrapper" *ngIf="!uploading">
+            <button
+              mat-stroked-button
+              color="warn"
+              *ngIf="(currentUser | async).photo"
+              (click)="handlePhotoDelete()"
+            >
+              <mat-icon>delete</mat-icon>
+              Supprimer
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
     </div>
   </div>
-
-  <mat-card class="dashboard-card mt-4 mb-5" *ngIf="isLoaded">
+  <mat-card class="dashboard-card" *ngIf="isLoaded">
     <mat-card-header>
       <mat-card-title>Gérer mes comptes</mat-card-title>
     </mat-card-header>
-    <mat-card-content class="pr-5 container">
+    <mat-card-content>
       <table mat-table [dataSource]="dataSource" class="accounts">
         <!--- Note that these columns can be defined in any order.
       The actual rendered columns are set as a property on the row definition" -->
@@ -312,7 +276,7 @@
               <mat-icon>more_horiz</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button (click)="openChangerCodeForm(element)" mat-menu-item>
                 <mat-icon>edit</mat-icon>
                 <span>Changer le code</span>
               </button>
