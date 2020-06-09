@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
 import { Select, Store } from "@ngxs/store";
 import { Observable, timer, of, Subscription, interval } from "rxjs";
 import { User } from "../../models/user";
@@ -17,6 +17,8 @@ import { MainStore } from "../../store";
 })
 export class HomeComponent implements OnInit, OnDestroy {
   isLoaded = true;
+
+  width = window.innerWidth;
 
   @Select(ProfileState.selectProfile)
   currentUser: Observable<User>;
@@ -50,6 +52,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.timer = undefined;
       if (this.subscription) this.subscription.unsubscribe();
     };
+  }
+
+  @HostListener("window:resize", ["$event"])
+  onResize(event) {
+    this.width = window.innerWidth;
   }
 
   logout(): void {

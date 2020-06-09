@@ -1,0 +1,7 @@
+@media all and (max-width: 1235px) {
+  :host ::ng-deep .mat-vertical-content-container {
+    margin-left: 0 !important;
+    border: 0;
+    position: relative;
+  }
+}

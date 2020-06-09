@@ -1,0 +1,32 @@
+@media all and (max-width: 1235px) {
+  :host ::ng-deep .mat-vertical-content-container {
+    margin-left: 11px !important;
+    border: 0;
+    position: relative;
+  }
+
+  :host ::ng-deep .mat-vertical-stepper-header {
+    padding-left: 0;
+  }
+
+  :host ::ng-deep .mat-vertical-stepper-content {
+    overflow: scroll;
+    outline: 0;
+    max-height: 40vh;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.code {
+  background: #1a1a1a;
+  color: white;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  overflow: auto;
+}

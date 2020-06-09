@@ -2,12 +2,12 @@
   <h1 class="mat-subheading">Dashboard</h1>
   <mat-divider></mat-divider>
   <mat-spinner *ngIf="!isLoaded"></mat-spinner>
-  <mat-card class="dashboard-card mt-4" *ngIf="isLoaded">
+  <mat-card class="dashboard-card" *ngIf="isLoaded">
     <mat-card-header>
       <mat-card-title>Sessions ouvertes</mat-card-title>
       <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
     </mat-card-header>
-    <mat-card-content class="pr-5 container">
+    <mat-card-content>
       <table mat-table [dataSource]="sessionsDs" class="accounts">
         <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
@@ -89,12 +89,12 @@
       </table>
     </mat-card-content>
   </mat-card>
-  <mat-card class="dashboard-card mt-4" *ngIf="isLoaded">
+  <mat-card class="dashboard-card" *ngIf="isLoaded">
     <mat-card-header>
       <mat-card-title>Mes comptes</mat-card-title>
       <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
     </mat-card-header>
-    <mat-card-content class="pr-5 container">
+    <mat-card-content>
       <table mat-table [dataSource]="comptesDS" class="accounts">
         <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
@@ -146,14 +146,14 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="dashboard-card mt-4 mb-5" *ngIf="isLoaded">
+  <mat-card class="dashboard-card" *ngIf="isLoaded">
     <mat-card-header>
-      <mat-card-title>Mes virements</mat-card-title>
+      <mat-card-title style="margin: 0;">Mes virements</mat-card-title>
       <a class="ml-auto" routerLink="../virements">
         <button color="primary" mat-flat-button>Voir plus</button>
       </a>
     </mat-card-header>
-    <mat-card-content class="pr-5 container">
+    <mat-card-content>
       <table mat-table [dataSource]="virementsDs" class="accounts">
         <!--- Note that these columns can be defined in any order.
       The actual rendered columns are set as a property on the row definition" -->
