@@ -35,8 +35,8 @@ export class ChangerCodeComponent implements OnInit {
     });
     this.secondFormGroup = this._formBuilder.group(
       {
-        code: ["", [Validators.required, Validators.min(8)]],
-        codeConf: ["", [Validators.required]],
+        newCodeSecret: ["", [Validators.required, Validators.min(8)]],
+        newCodeSecretConf: ["", [Validators.required]],
       },
       { validators: this.passwordMatching }
     );
@@ -57,10 +57,13 @@ export class ChangerCodeComponent implements OnInit {
 
   onSubmit() {
     console.log(this.firstFormGroup.value, this.secondFormGroup.value);
+    this.comptesService.changeCodeSecret({ ...this.firstFormGroup.value, ...this.secondFormGroup.value })
+      .subscribe(() => this.dialogRef.close(true), error => alert(error.error.message));
+
   }
 
   passwordMatching(c: AbstractControl): { invalid: boolean } {
-    if (c.get("code").value !== c.get("codeConf").value) {
+    if (c.get("newCodeSecret").value !== c.get("newCodeSecretConf").value) {
       return { invalid: true };
     }
   }

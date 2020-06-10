@@ -30,4 +30,9 @@ export class ComptesService {
   compteBlock(compte: Compte): Observable<any> {
     return this.http.put(`${this.BASE_URL}/api/comptes/block`, compte);
   }
+
+  changeCodeSecret(request: { numeroCompte: string; codeSecret: string; newCodeSecret: string; newCodeSecretConf: string }): Observable<any> {
+    return this.http
+      .post(`${this.BASE_URL}/api/comptes/changer_code`, request);
+  }
 }
