@@ -8,6 +8,7 @@ import {
   UnsetPhoto,
   UpdateProfile,
   Set2FAOn,
+  GetActivities,
 } from "../actions/profile.actions";
 import { Injectable } from "@angular/core";
 
@@ -25,11 +26,23 @@ export class ProfileState {
     return state.profile;
   }
 
+  @Selector()
+  static selectActivities(state: MainStore) {
+    return state.activities;
+  }
+
   @Action(GetProfile)
   fetchProfile(ctx: StateContext<MainStore>) {
     return this.service
       .getProfile()
       .pipe(tap((res) => ctx.patchState({ profile: res })));
+  }
+
+  @Action(GetActivities)
+  fetchActivites(ctx: StateContext<MainStore>, { request }: GetActivities) {
+    return this.service
+      .fetchActivites(request)
+      .pipe(tap((activities) => ctx.patchState({ activities })));
   }
 
   @Action(UpdatePhoto)

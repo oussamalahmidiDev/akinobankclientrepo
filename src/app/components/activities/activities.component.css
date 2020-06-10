@@ -1,0 +1,30 @@
+.activities {
+  width: 100%;
+}
+
+.container {
+  padding: 0 3rem;
+  margin-top: 6rem;
+}
+
+.mat-column-evenement,
+.mat-column-category {
+  white-space: break-spaces;
+}
+
+.dashboard-card {
+  margin: 2rem 0;
+}
+
+.mat-card-content {
+  overflow-x: auto;
+}
+
+
+@media all and (max-width: 1235px) {
+  .container {
+    padding: 0 1.5rem;
+    margin-top: 6rem;
+  }
+
+}

@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Demande } from "../models/demande";
 import { environment } from "../../environments/environment";
+import { Activity } from "../models/activity";
 
 @Injectable({
   providedIn: "root",
@@ -27,6 +28,14 @@ export class UserService {
     return this.http.get<User>(`${this.BASE_URL}/api/profile`);
   }
 
+  fetchActivites(request: {
+    offset: number;
+    limit: number;
+  }): Observable<Activity[]> {
+    return this.http.get<Activity[]>(
+      `${this.BASE_URL}/api/activities?offset=${request.offset}&limit=${request.limit}`
+    );
+  }
   updateProfile(request: User): Observable<any> {
     return this.http
       .post(`${this.BASE_URL}/api/profile/changer`, request)
@@ -38,22 +47,29 @@ export class UserService {
     newPassword: string;
     confPassword: string;
   }): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/api/change_password`, request);
+    return this.http.post(
+      `${this.BASE_URL}/api/profile/change_password`,
+      request
+    );
   }
 
   uploadImage(image: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append("image", image);
-    return this.http.post(`${this.BASE_URL}/api/avatar/upload`, formData, {
-      responseType: "json",
-      reportProgress: true,
-      observe: "events",
-    });
+    return this.http.post(
+      `${this.BASE_URL}/api/profile/avatar/upload`,
+      formData,
+      {
+        responseType: "json",
+        reportProgress: true,
+        observe: "events",
+      }
+    );
   }
 
   getQRCode() {
     return this.http
-      .get(`${this.BASE_URL}/api/code/generate`, {
+      .get(`${this.BASE_URL}/api/profile/code/generate`, {
         observe: "response",
         responseType: "blob" as "json",
       })
@@ -69,13 +85,17 @@ export class UserService {
   }
 
   validateCode(request: { code: number }, secretKey: string): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/api/code/validate`, request, {
-      headers: { "X-QR-CODE": secretKey },
-    });
+    return this.http.post(
+      `${this.BASE_URL}/api/profile/code/validate`,
+      request,
+      {
+        headers: { "X-QR-CODE": secretKey },
+      }
+    );
   }
 
   deletePhoto(): Observable<any> {
-    return this.http.delete(`${this.BASE_URL}/api/avatar/delete`);
+    return this.http.delete(`${this.BASE_URL}/api/profile/avatar/delete`);
   }
 }
 

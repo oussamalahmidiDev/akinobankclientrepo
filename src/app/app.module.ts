@@ -56,7 +56,9 @@ import { ComptesState } from "./states/comptes.state";
 import { CompteSuspendFormComponent } from "./forms/compte-suspend-form/compte-suspend-form.component";
 import { NgModule } from "@angular/core";
 import { SessionsState } from "./states/sessions.state";
-import { ChangerCodeComponent } from './components/forms/changer-code/changer-code.component';
+import { ChangerCodeComponent } from "./components/forms/changer-code/changer-code.component";
+import { ActivitiesComponent } from "./components/activities/activities.component";
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -75,6 +77,7 @@ import { ChangerCodeComponent } from './components/forms/changer-code/changer-co
     CompteBlockFormComponent,
     CompteSuspendFormComponent,
     ChangerCodeComponent,
+    ActivitiesComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,6 +104,7 @@ import { ChangerCodeComponent } from './components/forms/changer-code/changer-co
     MatSelectModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
 
     HttpClientXsrfModule.withOptions({
       cookieName: "XSRF-TOKEN",

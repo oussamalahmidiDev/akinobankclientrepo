@@ -15,9 +15,9 @@ export class TokenService {
   constructor(private http: HttpClient) {}
 
   getXSRFToken() {
-    return this.http.post(
+    return this.http.get(
       `${environment.BASE_URL.substr(0, environment.BASE_URL.length - 7)}`,
-      {}
+      { withCredentials: true }
     );
   }
 

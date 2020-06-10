@@ -14,7 +14,9 @@ export class AvatarPipe implements PipeTransform {
 
   transform(photo: string): Observable<string> {
     return this.http
-      .get(`${this.BASE_URL}/api/avatar/${photo}`, { responseType: "blob" })
+      .get(`${this.BASE_URL}/api/profile/avatar/${photo}`, {
+        responseType: "blob",
+      })
       .pipe(
         map((res) => URL.createObjectURL(res)),
         map((url) => `url(${url})`)

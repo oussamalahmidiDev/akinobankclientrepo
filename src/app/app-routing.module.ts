@@ -10,6 +10,7 @@ import { WelcomePageComponent } from "./views/welcome-page/welcome-page.componen
 import { HomeComponent } from "./views/home/home.component";
 import { ProfileServiceResolver } from "./resolvers/profile.resolver";
 import { GuestGuard } from "./guards/guest.guard";
+import { ActivitiesComponent } from "./components/activities/activities.component";
 
 const routes: Routes = [
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
       {
         path: "settings",
         component: SettingsComponent,
+        canActivate: [AuthenticatedGuard],
+      },
+      {
+        path: "journal",
+        component: ActivitiesComponent,
         canActivate: [AuthenticatedGuard],
       },
       {

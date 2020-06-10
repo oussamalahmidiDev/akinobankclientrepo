@@ -68,6 +68,15 @@
     <mat-nav-list>
       <a
         mat-list-item
+        routerLink="journal"
+        (click)="width < 1235 ? sidenav.toggle() : null"
+        routerLinkActive="active"
+      >
+        <mat-icon matListIcon>history</mat-icon>
+        <h3 matLine>Journal d'activités</h3>
+      </a>
+      <a
+        mat-list-item
         routerLink="settings"
         (click)="width < 1235 ? sidenav.toggle() : null"
         routerLinkActive="active"
