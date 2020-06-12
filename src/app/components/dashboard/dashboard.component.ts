@@ -20,6 +20,7 @@ import {
   DeleteSession,
 } from "../../actions/sessions.actions";
 import { AuthService } from "../../services/auth.service";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-dashboard",
@@ -70,6 +71,9 @@ export class DashboardComponent implements OnInit {
   @Select(VirementsState.selectReceivedVirements)
   receivedVirements: Observable<Virement[]>;
 
+  @Select(VirementsState.selectAllVirements)
+  allVirements: Observable<Virement[]>;
+
   @Select(ProfileState.selectProfile)
   currentUser: Observable<User>;
 
@@ -80,13 +84,9 @@ export class DashboardComponent implements OnInit {
   sessions: Observable<Session[]>;
 
   ngOnInit() {
-    this.sentVirements.subscribe((data) => {
-      this.virementsDs = new MatTableDataSource<Virement>(data);
-      this.receivedVirements.subscribe((data) => [
-        ...this.virementsDs.data,
-        data,
-      ]);
-    });
+    this.allVirements.subscribe(
+      (data) => (this.virementsDs = new MatTableDataSource<Virement>(data))
+    );
     this.comptes.subscribe(
       (data) => (this.comptesDS = new MatTableDataSource<Compte>(data))
     );
@@ -106,5 +106,14 @@ export class DashboardComponent implements OnInit {
   block(session: Session) {
     if (confirm("Voulez-vous continuez ?"))
       this.store.dispatch(new DeleteSession(session.id));
+  }
+
+  isSent(virement: Virement): Observable<boolean> {
+    return this.sentVirements.pipe(
+      map(
+        (virements) =>
+          virements.find((element) => element === virement) !== undefined
+      )
+    );
   }
 }
