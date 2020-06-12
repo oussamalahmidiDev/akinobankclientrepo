@@ -59,6 +59,12 @@ import { SessionsState } from "./states/sessions.state";
 import { ChangerCodeComponent } from "./components/forms/changer-code/changer-code.component";
 import { ActivitiesComponent } from "./components/activities/activities.component";
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { VirementConfirmationComponent } from "./components/forms/virement-confirmation/virement-confirmation.component";
+import { NgxSplitInputModule } from "ngx-splitinput";
+import { CreditCardPipe } from "./Pipes/credit-card.pipe";
+import { CleanInputDirective } from "./directives/clean-input.directive";
+// import { TrimDirective } from './directives/trim.directive';
+import { InputTrimModule } from "ng2-trim-directive";
 
 @NgModule({
   declarations: [
@@ -78,6 +84,10 @@ import { MatPaginatorModule } from "@angular/material/paginator";
     CompteSuspendFormComponent,
     ChangerCodeComponent,
     ActivitiesComponent,
+    VirementConfirmationComponent,
+    CreditCardPipe,
+    CleanInputDirective,
+    // TrimDirective,
   ],
   imports: [
     BrowserModule,
@@ -105,6 +115,8 @@ import { MatPaginatorModule } from "@angular/material/paginator";
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    NgxSplitInputModule,
+    InputTrimModule,
 
     HttpClientXsrfModule.withOptions({
       cookieName: "XSRF-TOKEN",

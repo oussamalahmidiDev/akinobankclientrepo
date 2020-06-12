@@ -22,7 +22,7 @@
               *ngFor="let compte of (currentUser | async).comptes"
               [value]="compte.numeroCompte"
             >
-              {{ compte.numeroCompte }}
+              {{ compte.numeroCompte | credit }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -59,6 +59,7 @@
             formControlName="numeroCompteDest"
             placeholder="Ex : 678951948581479"
             required
+            clean
           />
         </mat-form-field>
         <mat-form-field [style.fontSize.px]="14" appearance="outline">

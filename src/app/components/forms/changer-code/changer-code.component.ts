@@ -20,6 +20,8 @@ export class ChangerCodeComponent implements OnInit {
   secondFormGroup: FormGroup;
   credentialsVerified = false;
 
+  hide = true;
+
   constructor(
     private comptesService: ComptesService,
     private _formBuilder: FormBuilder,
@@ -35,8 +37,16 @@ export class ChangerCodeComponent implements OnInit {
     });
     this.secondFormGroup = this._formBuilder.group(
       {
-        code: ["", [Validators.required, Validators.min(8)]],
-        codeConf: ["", [Validators.required]],
+        newCodeSecret: [
+          "",
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(8),
+            Validators.pattern("[0-9]*"),
+          ],
+        ],
+        newCodeSecretConf: ["", [Validators.required]],
       },
       { validators: this.passwordMatching }
     );
@@ -45,7 +55,7 @@ export class ChangerCodeComponent implements OnInit {
 
   checkCredentials() {
     this.comptesService
-      .checkCompteCredentials({ ...this.firstFormGroup.value })
+      .checkCompteCredentials({ ...this.firstFormGroup.value }, "change_code")
       .subscribe(
         () => {
           this.credentialsVerified = true;
@@ -57,10 +67,19 @@ export class ChangerCodeComponent implements OnInit {
 
   onSubmit() {
     console.log(this.firstFormGroup.value, this.secondFormGroup.value);
+    this.comptesService
+      .changeCodeSecret({
+        ...this.firstFormGroup.value,
+        ...this.secondFormGroup.value,
+      })
+      .subscribe(
+        () => this.dialogRef.close(true),
+        (error) => alert(error.error.message)
+      );
   }
 
   passwordMatching(c: AbstractControl): { invalid: boolean } {
-    if (c.get("code").value !== c.get("codeConf").value) {
+    if (c.get("newCodeSecret").value !== c.get("newCodeSecretConf").value) {
       return { invalid: true };
     }
   }

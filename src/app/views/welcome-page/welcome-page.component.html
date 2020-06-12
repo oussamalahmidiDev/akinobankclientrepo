@@ -42,7 +42,7 @@
             style="width: -moz-available; width: -webkit-fill-available;"
           >
             <mat-label>Votre email / Nº de compte</mat-label>
-            <input autofocus matInput formControlName="email" required />
+            <input autofocus matInput formControlName="email" trim required />
           </mat-form-field>
           <mat-form-field
             appearance="outline"
@@ -72,7 +72,8 @@
               strokeWidth="2"
               [diameter]="20"
             ></mat-spinner>
-            <span>Connexion en cours ...</span>
+            <span *ngIf="!success">Connexion en cours ...</span>
+            <span *ngIf="success">Redirection ...</span>
           </div>
           <mat-error *ngIf="error">
             {{ error }}
@@ -117,10 +118,57 @@
           [formGroup]="_2faFormGroup"
           (keyup.enter)="sendVerifyCodeRequest()"
         >
-          <mat-form-field appearance="outline" class="verif_code">
+          <ngx-split-input
+            class="code_container"
+            (completed)="handleCompleted($event)"
+          >
+            <input
+              class="code_input"
+              matInput
+              ngxSplitInput
+              type="text"
+              maxlength="1"
+            />
+            <input
+              class="code_input"
+              matInput
+              ngxSplitInput
+              type="text"
+              maxlength="1"
+            />
+            <input
+              class="code_input"
+              matInput
+              ngxSplitInput
+              type="text"
+              maxlength="1"
+            />
+            <input
+              class="code_input"
+              matInput
+              ngxSplitInput
+              type="text"
+              maxlength="1"
+            />
+            <input
+              class="code_input"
+              matInput
+              ngxSplitInput
+              type="text"
+              maxlength="1"
+            />
+            <input
+              class="code_input"
+              matInput
+              ngxSplitInput
+              type="text"
+              maxlength="1"
+            />
+          </ngx-split-input>
+          <!-- <mat-form-field appearance="outline" class="verif_code">
             <mat-label>Le code de verification</mat-label>
             <input autofocus matInput formControlName="code" required />
-          </mat-form-field>
+          </mat-form-field> -->
           <div
             style="display: flex; margin: 1rem 0; align-items: center;"
             *ngIf="loggingIn"
@@ -130,7 +178,8 @@
               strokeWidth="2"
               [diameter]="20"
             ></mat-spinner>
-            <span>Verification en cours ...</span>
+            <span *ngIf="!success">Verification en cours ...</span>
+            <span *ngIf="success">Redirection ...</span>
           </div>
           <mat-error *ngIf="error">
             {{ error }}

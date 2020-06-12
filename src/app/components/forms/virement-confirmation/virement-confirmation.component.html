@@ -1,0 +1,58 @@
+<div class="form">
+  <div class="mat-title">Confirmation du virement nº {{ data.id }}</div>
+  <p class="mat-body">
+    Pour votre sécurité, les virements effectués doivent être verifié par un
+    code envoyé à votre boite électronique avec les détails de l'opération.
+  </p>
+  <mat-vertical-stepper linear>
+    <mat-step
+      [stepControl]="formGroup"
+      editable="false"
+      *ngIf="!virementConfirmed"
+    >
+      <form [formGroup]="formGroup">
+        <ng-template matStepLabel>Verification du code</ng-template>
+        <mat-form-field appearance="outline" [style.fontSize.px]="14">
+          <mat-label>Entrer le code de verification du virement</mat-label>
+          <input
+            matInput
+            formControlName="codeVerification"
+            placeholder="Code de verification"
+            required
+          />
+        </mat-form-field>
+        <div>
+          <button
+            mat-button
+            matStepperNext
+            [disabled]="formGroup.invalid"
+            (click)="onSubmit()"
+          >
+            Suivant
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step *ngIf="virementConfirmed">
+      <ng-template matStepLabel>Le virement est verifié</ng-template>
+      <p class="mat-body">
+        Le virement a été verifié avec succés.
+        <br />
+        Vous avez envoyé un virement au compte nº
+        {{ data.destCompte.numeroCompte }} d'un montant de
+        {{ data.montant }} DH. <br />En attendant votre destinataire d'accuser
+        la réception de virement.
+      </p>
+      <div>
+        <button
+          mat-button
+          matStepperNext
+          [disabled]="formGroup.invalid"
+          (click)="close()"
+        >
+          Fermer
+        </button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>

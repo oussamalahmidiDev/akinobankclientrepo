@@ -4,6 +4,8 @@ import { UserService } from "../../services/user.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { TokenService } from "../../services/token.service";
 import { AuthService } from "../../services/auth.service";
+import { SplitInputService } from "ngx-splitinput";
+import { map, filter } from "rxjs/operators";
 
 @Component({
   selector: "app-welcome-page",
@@ -13,6 +15,7 @@ import { AuthService } from "../../services/auth.service";
 export class WelcomePageComponent implements OnInit {
   error: string = null;
   loggingIn = false;
+  success = false;
 
   _2faForm = false;
 
@@ -22,7 +25,8 @@ export class WelcomePageComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private splitInputService: SplitInputService
   ) {}
 
   ngOnInit() {
@@ -67,6 +71,7 @@ export class WelcomePageComponent implements OnInit {
   }
 
   authenticate(token: string): void {
+    this.success = true;
     this.tokenService.setToken(token);
     this.router.navigate(["home"]);
   }
@@ -75,6 +80,12 @@ export class WelcomePageComponent implements OnInit {
     this.authService
       .sendVerificationMail(this.loginFormGroup.value)
       .subscribe(() => alert("Email de confirmation a été envoyé"));
+  }
+
+  handleCompleted(code: any): void {
+    console.log(code);
+    this._2faFormGroup.patchValue({ code });
+    // this.splitInputService.clearSplitInput();
   }
 
   login() {

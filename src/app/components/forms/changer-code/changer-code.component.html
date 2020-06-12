@@ -20,9 +20,18 @@
             matInput
             formControlName="codeSecret"
             placeholder="Votre code secret"
-            type="password"
+            [type]="hide ? 'password' : 'text'"
             required
           />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
         </mat-form-field>
         <div>
           <button
@@ -43,11 +52,21 @@
           <mat-label>Entrer le nouveau code</mat-label>
           <input
             matInput
-            formControlName="code"
+            formControlName="newCodeSecret"
             placeholder="Votre nouveau code secret"
-            type="password"
+            [type]="hide ? 'password' : 'text'"
             required
           />
+          <mat-hint>Le code doit contenir exactement 8 chiffres</mat-hint>
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
           <!-- <mat-error *ngIf="code.invalid">
             Les mots de passes ne sont pas identiques
           </mat-error> -->
@@ -56,11 +75,20 @@
           <mat-label>Confirmer le nouveau code</mat-label>
           <input
             matInput
-            formControlName="codeConf"
+            formControlName="newCodeSecretConf"
             placeholder="Confirmation"
-            type="password"
+            [type]="hide ? 'password' : 'text'"
             required
           />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
           <mat-error *ngIf="secondFormGroup.invalid">
             Les mots de passes ne sont pas identiques
           </mat-error>

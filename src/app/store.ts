@@ -12,4 +12,9 @@ export class MainStore {
   comptes: Compte[];
   sessions: Session[];
   activities: Activity[];
+
+  sentVirements: Virement[];
+  receivedVirements: Virement[];
+
+  allVirements: any;
 }

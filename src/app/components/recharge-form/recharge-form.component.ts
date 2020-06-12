@@ -64,7 +64,7 @@ export class RechargeFormComponent implements OnInit {
 
   checkCredentials() {
     this.comptesService
-      .checkCompteCredentials({ ...this.firstFormGroup.value })
+      .checkCompteCredentials({ ...this.firstFormGroup.value }, "recharge")
       .subscribe(
         () => {
           this.credentialsVerified = true;

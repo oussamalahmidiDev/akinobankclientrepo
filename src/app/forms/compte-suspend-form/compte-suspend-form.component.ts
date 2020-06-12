@@ -4,6 +4,7 @@ import { ComptesService } from "../../services/comptes.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Store } from "@ngxs/store";
 import { Compte } from "../../models/compte";
+import { ChangeStatus } from "../../actions/comptes.actions";
 
 @Component({
   selector: "app-compte-suspend-form",
@@ -38,7 +39,7 @@ export class CompteSuspendFormComponent implements OnInit {
 
   checkCredentials() {
     this.comptesService
-      .checkCompteCredentials({ ...this.firstFormGroup.value })
+      .checkCompteCredentials({ ...this.firstFormGroup.value }, "change_status")
       .subscribe(
         () => {
           this.credentialsVerified = true;
@@ -49,7 +50,19 @@ export class CompteSuspendFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.comptesService.compteSuspend({ ...this.firstFormGroup.value, ...this.secondFormGroup.value })
-      .subscribe((data) => this.dialogRef.close(data), (error) => alert(error.error.message));
+    this.store
+      .dispatch(
+        new ChangeStatus(
+          {
+            ...this.firstFormGroup.value,
+            ...this.secondFormGroup.value,
+          },
+          "SUSPEND"
+        )
+      )
+      .subscribe(
+        () => this.dialogRef.close(true),
+        (error) => alert(error.error.message)
+      );
   }
 }

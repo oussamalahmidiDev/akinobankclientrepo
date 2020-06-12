@@ -11,12 +11,15 @@ export class ComptesService {
   BASE_URL = environment.BASE_URL;
   constructor(private http: HttpClient) {}
 
-  checkCompteCredentials(payload: {
-    numeroCompte: string;
-    codeSecret: string;
-  }) {
+  checkCompteCredentials(
+    payload: {
+      numeroCompte: string;
+      codeSecret: string;
+    },
+    operation: string
+  ) {
     return this.http.post(
-      `${this.BASE_URL}/api/comptes/verify_number`,
+      `${this.BASE_URL}/api/comptes/verify_number?operation=${operation}`,
       payload
     );
   }
@@ -29,5 +32,14 @@ export class ComptesService {
   }
   compteBlock(compte: Compte): Observable<any> {
     return this.http.put(`${this.BASE_URL}/api/comptes/block`, compte);
+  }
+
+  changeCodeSecret(request: {
+    numeroCompte: string;
+    codeSecret: string;
+    newCodeSecret: string;
+    newCodeSecretConf: string;
+  }): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/api/comptes/changer_code`, request);
   }
 }

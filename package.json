@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "lite": "ng serve --source-map=false --aot --live-reload=false",
+    "lite": "ng serve --source-map=false --aot --live-reload=false ",
     "build": "ng build",
     "prod": "ng build --configuration heroku",
     "test": "ng test",
@@ -30,6 +30,8 @@
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "jwt-decode": "^2.2.0",
+    "ng2-trim-directive": "^2.3.4",
+    "ngx-splitinput": "^0.7.3",
     "rxjs": "~6.5.5",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

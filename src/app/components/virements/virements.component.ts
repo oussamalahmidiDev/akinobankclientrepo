@@ -8,7 +8,12 @@ import { Virement } from "../../models/virement";
 import { Select, Store } from "@ngxs/store";
 import { VirementsState } from "../../states/virements.state";
 import { Observable } from "rxjs";
-import { GetVirements } from "../../actions/virements.action";
+import {
+  GetVirements,
+  ConfirmVirementReceipt,
+} from "../../actions/virements.action";
+import { VirementConfirmationComponent } from "../forms/virement-confirmation/virement-confirmation.component";
+import { tap, map } from "rxjs/operators";
 
 export interface PeriodicElement {
   name: string;
@@ -30,12 +35,16 @@ export class VirementsComponent implements OnInit {
     private dialog: MatDialog,
     private virementsService: VirementsService,
     private store: Store
-  ) {
-    //this.virementsDS = new MatTableDataSource<Virement>();
-  }
+  ) {}
 
-  @Select(VirementsState.selectVirements)
-  virements: Observable<Virement[]>;
+  @Select(VirementsState.selectSentVirements)
+  sentVirements: Observable<Virement[]>;
+
+  @Select(VirementsState.selectReceivedVirements)
+  receivedVirements: Observable<Virement[]>;
+
+  @Select(VirementsState.selectAllVirements)
+  allVirements: Observable<Virement[]>;
 
   virementColumns: string[] = [
     "id",
@@ -46,19 +55,14 @@ export class VirementsComponent implements OnInit {
     "statut",
   ];
   virementsDS: MatTableDataSource<Virement>;
-  // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
     this.getVirements(); // == observable //
-    // this.virementsDS.data = this.virements;
   }
   getVirements() {
-    this.virements.subscribe(
+    this.allVirements.subscribe(
       (data) => (this.virementsDS = new MatTableDataSource<Virement>(data))
     );
     this.store.dispatch(new GetVirements());
-    // this.virementsService.getAllVirements().subscribe((virements) => {
-    //   this.virementsDS.data = this.virements = virements;
-    // });
   }
   openSnackBar(message: string) {
     this._snackBar.open(message, "OK", {
@@ -68,11 +72,34 @@ export class VirementsComponent implements OnInit {
   openVirementForm(): void {
     const dialogRef = this.dialog.open(VirementFormComponent, {
       width: "500px",
-      data: this.virements,
+      // data: this.virements,
       // virement: this.newVirement
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) this.openSnackBar("Le virement a été ajouté avec succés !");
+    });
+  }
+
+  isSent(virement: Virement): Observable<boolean> {
+    return this.sentVirements.pipe(
+      map(
+        (virements) =>
+          virements.find((element) => element === virement) !== undefined
+      )
+    );
+  }
+
+  confirmReceipt(id: number) {
+    this.store.dispatch(new ConfirmVirementReceipt(id)).subscribe(
+      () => this.openSnackBar("L'accusé de réception a été envoyé"),
+      (error) => alert(error.error.message)
+    );
+  }
+
+  openVirementConfirmationForm(virement: Virement) {
+    const dialogRef = this.dialog.open(VirementConfirmationComponent, {
+      width: "500px",
+      data: virement,
     });
   }
 }

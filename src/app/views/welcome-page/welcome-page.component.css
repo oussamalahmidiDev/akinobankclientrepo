@@ -29,12 +29,29 @@ h1.landing-header {
 }
 
 .container {
-  position: absolute;
-  top: 10rem;
-  padding: 3rem;
+  position: relative;
+  top: 0rem;
   display: flex;
   align-items: center;
-  height: 100vh;
+  justify-content: center;
+  margin: 0 auto;
+  width: 90vw;
+}
+
+.code_container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+}
+
+.code_input {
+  width: 30px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  margin-right: 10px;
+  font-size: 30px;
+  text-align: center;
 }
 
 .ill {
@@ -74,6 +91,10 @@ button.mat-primary {
   min-width: 389px;
 }
 
+.form_container {
+  width: 30rem;
+}
+
 
 @media all and (max-width: 1235px) {
   .background {
@@ -95,6 +116,7 @@ button.mat-primary {
 
   .form_container {
     margin-bottom: 3rem;
+    width: unset;
   }
 
   .landing-text[_ngcontent-itv-c208] {
@@ -109,10 +131,12 @@ button.mat-primary {
 
   .container {
     display: block;
-    position: absolute;
-    top: 7rem;
+    position: relative;
+    top: 8rem;
     padding: 1.5rem;
     margin-bottom: 3rem;
+    width: 90vw;
+    margin: 0 auto;
   }
 
   h1.landing-header {

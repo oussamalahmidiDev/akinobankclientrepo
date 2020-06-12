@@ -5,6 +5,7 @@ import { Compte } from "../../models/compte";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { VirementFormComponent } from "../../components/virement-form/virement-form.component";
 import { Store } from "@ngxs/store";
+import { ChangeStatus } from "../../actions/comptes.actions";
 
 @Component({
   selector: "app-compte-block-form",
@@ -26,11 +27,11 @@ export class CompteBlockFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
-      numeroCompte: ['', Validators.required],
-      codeSecret: ['', Validators.required],
+      numeroCompte: ["", Validators.required],
+      codeSecret: ["", Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
-      raison: ['', Validators.required],
+      raison: ["", Validators.required],
     });
 
     this.firstFormGroup.patchValue({ ...this.data });
@@ -39,7 +40,7 @@ export class CompteBlockFormComponent implements OnInit {
 
   checkCredentials() {
     this.comptesService
-      .checkCompteCredentials({ ...this.firstFormGroup.value })
+      .checkCompteCredentials({ ...this.firstFormGroup.value }, "change_status")
       .subscribe(
         () => {
           this.credentialsVerified = true;
@@ -50,7 +51,21 @@ export class CompteBlockFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.comptesService.compteBlock({ ...this.firstFormGroup.value, ...this.secondFormGroup.value })
-      .subscribe((data) => this.dialogRef.close(data), (error) => alert(error.error.message));
+    // this.comptesService.compteBlock({ ...this.firstFormGroup.value, ...this.secondFormGroup.value })
+    //   .subscribe((data) => this.dialogRef.close(data), (error) => alert(error.error.message));
+    this.store
+      .dispatch(
+        new ChangeStatus(
+          {
+            ...this.firstFormGroup.value,
+            ...this.secondFormGroup.value,
+          },
+          "BLOCK"
+        )
+      )
+      .subscribe(
+        () => this.dialogRef.close(true),
+        (error) => alert(error.error.message)
+      );
   }
 }

@@ -51,6 +51,15 @@ export class SettingsComponent implements OnInit {
   uploadProgress = 0;
   uploading = false;
 
+  displayedColumns: string[] = [
+    "numeroCompte",
+    "intitule",
+    "solde",
+    "dateOperation",
+    "status",
+    "actions",
+  ];
+
   constructor(
     private userService: UserService,
     private snackBar: MatSnackBar,
@@ -237,11 +246,4 @@ export class SettingsComponent implements OnInit {
   handlePhotoDelete() {
     this.store.dispatch(new UnsetPhoto());
   }
-  displayedColumns: string[] = [
-    "numeroCompte",
-    "intitule",
-    "solde",
-    "dateOperation",
-    "actions",
-  ];
 }

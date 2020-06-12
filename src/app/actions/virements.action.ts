@@ -9,3 +9,15 @@ export class CreateVirement {
 
   constructor(public payload: any) {}
 }
+
+export class ConfirmVirement {
+  static readonly type = "[Virements] Confirm";
+
+  constructor(public id: number, public payload: any) {}
+}
+
+export class ConfirmVirementReceipt {
+  static readonly type = "[Virements] Confirm RECEIPT";
+
+  constructor(public id: number) {}
+}

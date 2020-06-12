@@ -54,7 +54,7 @@ export class VirementFormComponent implements OnInit {
 
   checkCredentials(stepper: MatStepper) {
     this.comptesService
-      .checkCompteCredentials({ ...this.firstFormGroup.value })
+      .checkCompteCredentials({ ...this.firstFormGroup.value }, "virement")
       .subscribe(
         () => {
           this.credentialsVerified = true;

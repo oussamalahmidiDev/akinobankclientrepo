@@ -64,8 +64,11 @@ export class DashboardComponent implements OnInit {
     "actions",
   ];
 
-  @Select(VirementsState.selectVirements)
-  mesVirements: Observable<Virement[]>;
+  @Select(VirementsState.selectSentVirements)
+  sentVirements: Observable<Virement[]>;
+
+  @Select(VirementsState.selectReceivedVirements)
+  receivedVirements: Observable<Virement[]>;
 
   @Select(ProfileState.selectProfile)
   currentUser: Observable<User>;
@@ -77,9 +80,13 @@ export class DashboardComponent implements OnInit {
   sessions: Observable<Session[]>;
 
   ngOnInit() {
-    this.mesVirements.subscribe(
-      (data) => (this.virementsDs = new MatTableDataSource<Virement>(data))
-    );
+    this.sentVirements.subscribe((data) => {
+      this.virementsDs = new MatTableDataSource<Virement>(data);
+      this.receivedVirements.subscribe((data) => [
+        ...this.virementsDs.data,
+        data,
+      ]);
+    });
     this.comptes.subscribe(
       (data) => (this.comptesDS = new MatTableDataSource<Compte>(data))
     );
