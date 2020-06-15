@@ -6,6 +6,7 @@ import { TokenService } from "../../services/token.service";
 import { AuthService } from "../../services/auth.service";
 import { SplitInputService } from "ngx-splitinput";
 import { map, filter } from "rxjs/operators";
+import { CookieService } from "../../services/cookie.service";
 
 @Component({
   selector: "app-welcome-page",
@@ -26,7 +27,8 @@ export class WelcomePageComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private tokenService: TokenService,
-    private splitInputService: SplitInputService
+    private splitInputService: SplitInputService,
+    private cookieService: CookieService // private sessionService: SessionS
   ) {}
 
   ngOnInit() {
@@ -62,7 +64,13 @@ export class WelcomePageComponent implements OnInit {
         ...this._2faFormGroup.value,
       })
       .subscribe(
-        (data) => this.authenticate(data.token),
+        (data) => {
+          this.authenticate(data.token);
+          if (confirm("Voulez-vous autoriser ce navigateur ?"))
+            this.authService
+              .authorizeSession(this.cookieService.get("session_id"))
+              .subscribe(() => console.log("OK"));
+        },
         (err) => {
           this.error = err.error.message;
           this.loggingIn = false;

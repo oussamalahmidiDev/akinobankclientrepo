@@ -59,9 +59,15 @@ export class VirementsComponent implements OnInit {
     this.getVirements(); // == observable //
   }
   getVirements() {
-    this.allVirements.subscribe(
-      (data) => (this.virementsDS = new MatTableDataSource<Virement>(data))
-    );
+    this.allVirements.subscribe((data) => {
+      this.virementsDS = new MatTableDataSource<Virement>(data);
+      if (data)
+        data.forEach((virement) => {
+          if (virement.statut === "CONFIRMED" && !this.isSent(virement)) {
+            this.confirmReceipt(virement.id);
+          }
+        });
+    });
     this.store.dispatch(new GetVirements());
   }
   openSnackBar(message: string) {

@@ -105,6 +105,11 @@ export class DashboardComponent implements OnInit {
 
   block(session: Session) {
     if (confirm("Voulez-vous continuez ?"))
+      this.store.dispatch(new BlockSession(session.id));
+  }
+
+  delete(session: Session) {
+    if (confirm("Voulez-vous continuez ?"))
       this.store.dispatch(new DeleteSession(session.id));
   }
 

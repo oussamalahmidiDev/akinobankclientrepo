@@ -24,3 +24,7 @@ td {
   width: -moz-available;
   width: -webkit-fill-available;
 }
+
+.notification {
+  width: 500px;
+}

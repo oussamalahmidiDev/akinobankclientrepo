@@ -4,6 +4,7 @@ import { Recharge } from "./models/recharge";
 import { Compte } from "./models/compte";
 import { Session } from "./models/session";
 import { Activity } from "./models/activity";
+import { Notification } from "./models/notification";
 
 export class MainStore {
   profile: User;
@@ -12,6 +13,7 @@ export class MainStore {
   comptes: Compte[];
   sessions: Session[];
   activities: Activity[];
+  notifications: Notification[];
 
   sentVirements: Virement[];
   receivedVirements: Virement[];

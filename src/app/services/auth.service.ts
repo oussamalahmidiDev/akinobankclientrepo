@@ -30,7 +30,9 @@ export class AuthService {
     password: string;
     code: number;
   }): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/api/auth/code`, request);
+    return this.http.post(`${this.BASE_URL}/api/auth/code`, request, {
+      withCredentials: true,
+    });
   }
 
   sendVerificationMail(request: { email: string }): Observable<any> {

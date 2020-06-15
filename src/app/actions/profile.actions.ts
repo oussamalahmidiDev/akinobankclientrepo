@@ -1,4 +1,5 @@
 import { User } from "../models/user";
+import { Activity } from "../models/activity";
 
 export class GetProfile {
   static readonly type = "[Profile] Get";
@@ -8,6 +9,12 @@ export class GetActivities {
   static readonly type = "[Activites] GET";
 
   constructor(public request: { offset: number; limit: number }) {}
+}
+
+export class AddActivitiy {
+  static readonly type = "[Activites] Add";
+
+  constructor(public payload: Activity) {}
 }
 
 export class UpdatePhoto {

@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="data">
+    <div class="content">{{ data.contenu }}</div>
+    <div class="timestamp">{{ data.dateDeNotification | date: "short" }}</div>
+  </div>
+  <div class="dismiss">
+    <button mat-icon-button (click)="snackBarRef.dismiss()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

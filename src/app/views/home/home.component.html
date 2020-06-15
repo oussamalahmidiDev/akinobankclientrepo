@@ -102,8 +102,13 @@
       </button>
       <p *ngIf="width < 1235">Akinobank</p>
       <div class="left-items">
-        <button mat-icon-button>
-          <mat-icon>notifications</mat-icon>
+        <button (click)="openNotifications()" mat-icon-button>
+          <mat-icon
+            [matBadge]="notificationsCount"
+            [matBadgeHidden]="notificationsCount == 0"
+            matBadgeColor="warn"
+            >notifications</mat-icon
+          >
         </button>
       </div>
     </mat-toolbar>

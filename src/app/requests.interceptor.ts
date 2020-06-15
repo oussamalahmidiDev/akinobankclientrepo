@@ -13,6 +13,7 @@ import { switchMap, filter, take, catchError } from "rxjs/operators";
 import { CookieService } from "./services/cookie.service";
 import { Store } from "@ngxs/store";
 import { MainStore } from "./store";
+import { WebsocketService } from "./services/websocket.service";
 
 @Injectable()
 export class RequestsInterceptor implements HttpInterceptor {
@@ -24,7 +25,8 @@ export class RequestsInterceptor implements HttpInterceptor {
   constructor(
     private tokenService: TokenService,
     private router: Router,
-    private store: Store
+    private store: Store,
+    private websocketService: WebsocketService
   ) {}
   intercept(
     req: HttpRequest<any>,
@@ -75,12 +77,13 @@ export class RequestsInterceptor implements HttpInterceptor {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
       console.log("Refreshing token...");
-
+      // this.websocketService.disconnect();
       return this.tokenService.refreshToken().pipe(
         switchMap((response: any) => {
           this.isRefreshing = false;
           console.log("Refreshing succeded...");
           this.refreshTokenSubject.next(response.token);
+          // this.websocketService.connect();
           return next.handle(this.addToken(request, response.token));
         }),
         catchError((error) => {
@@ -88,7 +91,6 @@ export class RequestsInterceptor implements HttpInterceptor {
           if (error instanceof HttpErrorResponse && error.status === 403) {
             this.tokenService.unsetToken();
             this.store.reset(new MainStore());
-
             console.log("Logging out...");
             this.router.navigate(["/"]);
           }

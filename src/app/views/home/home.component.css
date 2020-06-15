@@ -19,6 +19,7 @@
 
 .left-items {
   margin-left: auto;
+  right: 10px;
 }
 
 .logout {
@@ -69,6 +70,14 @@
   align-self: flex-start;
   margin-left: 2rem;
 }
+
+#mat-dialog-3 {
+  padding-top: 5px;
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+
 
 
 a.mat-list-item.active {

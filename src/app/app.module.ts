@@ -20,6 +20,7 @@ import { MatGridListModule } from "@angular/material/grid-list";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
+import { MatBadgeModule } from "@angular/material/badge";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from "@angular/material/select";
@@ -65,6 +66,17 @@ import { CreditCardPipe } from "./Pipes/credit-card.pipe";
 import { CleanInputDirective } from "./directives/clean-input.directive";
 // import { TrimDirective } from './directives/trim.directive';
 import { InputTrimModule } from "ng2-trim-directive";
+import { NotificationComponent } from "./components/notification/notification.component";
+import { WebsocketService } from "./services/websocket.service";
+import {
+  InjectableRxStompConfig,
+  RxStompService,
+  rxStompServiceFactory,
+  StompConfig,
+  StompRService,
+} from "@stomp/ng2-stompjs";
+import { NotificationDrawerComponent } from "./components/notification-drawer/notification-drawer.component";
+import { NotificationsState } from "./states/notifications.state";
 
 @NgModule({
   declarations: [
@@ -87,6 +99,8 @@ import { InputTrimModule } from "ng2-trim-directive";
     VirementConfirmationComponent,
     CreditCardPipe,
     CleanInputDirective,
+    NotificationComponent,
+    NotificationDrawerComponent,
     // TrimDirective,
   ],
   imports: [
@@ -117,7 +131,7 @@ import { InputTrimModule } from "ng2-trim-directive";
     MatPaginatorModule,
     NgxSplitInputModule,
     InputTrimModule,
-
+    MatBadgeModule,
     HttpClientXsrfModule.withOptions({
       cookieName: "XSRF-TOKEN",
       headerName: "X-XSRF-TOKEN",
@@ -135,6 +149,7 @@ import { InputTrimModule } from "ng2-trim-directive";
         RechargesState,
         ComptesState,
         SessionsState,
+        NotificationsState,
       ],
       {
         developmentMode: true,
@@ -142,6 +157,17 @@ import { InputTrimModule } from "ng2-trim-directive";
     ),
   ],
   providers: [
+    StompRService,
+    // {
+    //   provide: InjectableRxStompConfig,
+    //   useValue: StompConfig,
+    // },
+    // {
+    //   provide: RxStompService,
+    //   useFactory: rxStompServiceFactory,
+    //   deps: [InjectableRxStompConfig],
+    // },
+    WebsocketService,
     {
       provide: MatDialogRef,
       useValue: {},

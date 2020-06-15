@@ -74,12 +74,20 @@
               </button>
               <button
                 (click)="block(element)"
+                *ngIf="element.authorized"
+                mat-menu-item
+              >
+                <mat-icon>warning</mat-icon>
+                <span>Bloquer</span>
+              </button>
+              <button
+                (click)="delete(element)"
                 *ngIf="element.id !== authService.sessionId"
                 class="text-danger"
                 mat-menu-item
               >
                 <mat-icon color="warn">block</mat-icon>
-                <span>Bloquer et fermer</span>
+                <span>Fermer</span>
               </button>
             </mat-menu>
           </td>

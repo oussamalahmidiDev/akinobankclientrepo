@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { UserService } from "./services/user.service";
 import { Router } from "@angular/router";
+import { TokenService } from "./services/token.service";
 
 @Component({
   selector: "app-root",

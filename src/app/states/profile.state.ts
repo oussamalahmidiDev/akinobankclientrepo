@@ -9,8 +9,10 @@ import {
   UpdateProfile,
   Set2FAOn,
   GetActivities,
+  AddActivitiy,
 } from "../actions/profile.actions";
 import { Injectable } from "@angular/core";
+import { patch, insertItem } from "@ngxs/store/operators";
 
 @Injectable()
 @State({
@@ -43,6 +45,11 @@ export class ProfileState {
     return this.service
       .fetchActivites(request)
       .pipe(tap((activities) => ctx.patchState({ activities })));
+  }
+
+  @Action(AddActivitiy)
+  addActivity(ctx: StateContext<MainStore>, { payload }: AddActivitiy) {
+    return ctx.setState(patch({ activities: insertItem(payload) }));
   }
 
   @Action(UpdatePhoto)
