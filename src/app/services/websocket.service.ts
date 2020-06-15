@@ -6,6 +6,7 @@ import { TokenService } from "./token.service";
 import { CookieService } from "./cookie.service";
 import { of } from "rxjs";
 import { StompConfig, StompRService, StompState } from "@stomp/ng2-stompjs";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -38,7 +39,13 @@ export class WebsocketService {
       heartbeat_in: 30000,
       heartbeat_out: 30000,
       reconnect_delay: 5000,
-      url: () => new SockJS("http://localhost:8080/ws"),
+      url: () =>
+        new SockJS(
+          `${environment.BASE_URL.substr(
+            0,
+            environment.BASE_URL.length - 7
+          )}/ws`
+        ),
       debug: true,
     };
     this.stompService.config = this.config;
