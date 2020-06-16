@@ -62,7 +62,7 @@ import { ActivitiesComponent } from "./components/activities/activities.componen
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { VirementConfirmationComponent } from "./components/forms/virement-confirmation/virement-confirmation.component";
 import { NgxSplitInputModule } from "ngx-splitinput";
-import { CreditCardPipe } from "./Pipes/credit-card.pipe";
+import { CreditCardPipe } from "./pipes/credit-card.pipe";
 import { CleanInputDirective } from "./directives/clean-input.directive";
 // import { TrimDirective } from './directives/trim.directive';
 import { InputTrimModule } from "ng2-trim-directive";

@@ -12,7 +12,9 @@ export class TokenService {
   token: string;
   decodedToken: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log("Config :", environment);
+  }
 
   getXSRFToken() {
     return this.http.get(

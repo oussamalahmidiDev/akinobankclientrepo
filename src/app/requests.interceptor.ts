@@ -24,6 +24,7 @@ export class RequestsInterceptor implements HttpInterceptor {
 
   constructor(
     private tokenService: TokenService,
+    private cookieService: CookieService,
     private router: Router,
     private store: Store,
     private websocketService: WebsocketService
@@ -63,9 +64,11 @@ export class RequestsInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`,
         },
       });
+    console.log("Setting XSRF token", this.cookieService.get("XSRF-TOKEN"));
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
+        "X-XSRF-TOKEN": this.cookieService.get("XSRF-TOKEN"),
       },
       withCredentials: true,
     });

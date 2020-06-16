@@ -102,6 +102,7 @@ export class WelcomePageComponent implements OnInit {
     }
     this.error = null;
     this.loggingIn = true;
+    console.log("Submitting login form");
     this.authService.login(this.loginFormGroup.value).subscribe(
       (data) => {
         this.loggingIn = false;

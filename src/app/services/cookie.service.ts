@@ -1,23 +1,22 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class CookieService {
-
   private cookieStore = {};
 
-  constructor() {
-  }
+  constructor() {}
 
   public parseCookies(cookies = document.cookie) {
+    console.log("PARSING COOKIES");
     this.cookieStore = {};
     if (!!cookies === false) {
       return;
     }
-    const cookiesArr = cookies.split(';');
+    const cookiesArr = cookies.split(";");
     for (const cookie of cookiesArr) {
-      const cookieArr = cookie.split('=');
+      const cookieArr = cookie.split("=");
       this.cookieStore[cookieArr[0].trim()] = cookieArr[1];
     }
   }
@@ -32,7 +31,6 @@ export class CookieService {
   }
 
   set(key: string, value: string) {
-    document.cookie = key + '=' + (value || '') + ';SameSite=Lax;  path=/';
+    document.cookie = key + "=" + (value || "") + ";SameSite=Lax;  path=/";
   }
-
 }
