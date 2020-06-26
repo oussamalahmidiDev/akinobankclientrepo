@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
   name: "avatar",
 })
 export class AvatarPipe implements PipeTransform {
-  BASE_URL = environment.BASE_URL;
+  BASE_URL = environment.BASE_URL + "/client";
 
   constructor(private http: HttpClient) {}
 

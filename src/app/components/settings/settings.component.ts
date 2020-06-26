@@ -29,6 +29,7 @@ import { FetchComptes } from "../../actions/comptes.actions";
 import { ComptesState } from "../../states/comptes.state";
 import { CompteSuspendFormComponent } from "../../forms/compte-suspend-form/compte-suspend-form.component";
 import { ChangerCodeComponent } from "../forms/changer-code/changer-code.component";
+import { CompteActivateFormComponent } from "../forms/compte-activate-form/compte-activate-form.component";
 
 @Component({
   selector: "app-settings",
@@ -176,6 +177,21 @@ export class SettingsComponent implements OnInit {
       if (data)
         this.openSnackBar(
           "Votre demande de suspension a été envoyée aux agent de votre banque."
+        );
+    });
+  }
+
+  activateCompte(compte: Compte) {
+    const dialogRef = this.dialog.open(CompteActivateFormComponent, {
+      width: "500px",
+      data: compte,
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data)
+        this.openSnackBar(
+          compte.oldStatut === "ACTIVE"
+            ? "Le compte a été réactivé"
+            : "Votre demande d'activation a été envoyée aux agent de votre banque."
         );
     });
   }

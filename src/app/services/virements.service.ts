@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class VirementsService {
-  private BASE_URL = environment.BASE_URL + "/api/virements";
+  private BASE_URL = environment.BASE_URL + "/client/api/virements";
 
   constructor(private http: HttpClient) {}
 

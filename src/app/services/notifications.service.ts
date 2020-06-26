@@ -12,7 +12,7 @@ import { Notification } from "../models/notification";
   providedIn: "root",
 })
 export class NotificationsService {
-  BASE_URL = environment.BASE_URL;
+  BASE_URL = environment.BASE_URL + "/client";
 
   constructor(private http: HttpClient) {}
 

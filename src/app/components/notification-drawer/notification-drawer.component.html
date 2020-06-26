@@ -16,7 +16,7 @@
     >
       <div class="content">{{ notification.contenu }}</div>
       <div class="timestamp">
-        {{ notification.dateDeNotification | date: "short" }}
+        {{ notification.dateDeNotification | moment }}
       </div>
     </div>
   </div>

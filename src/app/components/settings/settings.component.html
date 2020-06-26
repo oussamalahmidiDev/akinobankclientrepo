@@ -265,7 +265,9 @@
           <th mat-header-cell *matHeaderCellDef>Date de dernière opération</th>
           <td mat-cell *matCellDef="let element">
             {{
-              element.dateOperation ? element.dateOperation : "Aucune operation"
+              !element.dernierOperation
+                ? "Aucune operation"
+                : (element.dernierOperation | date: "medium")
             }}
           </td>
         </ng-container>
@@ -278,19 +280,12 @@
             <div *ngSwitchCase="'SUSPENDED'">Suspendu</div>
             <div *ngSwitchCase="'PENDING_SUSPENDED'">
               <div>En attente de suspension</div>
-              <div style="margin-top: 3px; color: #007bff; cursor: pointer;">
-                Annuler
-              </div>
             </div>
             <div *ngSwitchCase="'PENDING_BLOCKED'">
               <div>En attente de blocage</div>
-              <div style="margin-top: 3px; color: #007bff; cursor: pointer;">
-                Annuler
-              </div>
             </div>
             <div *ngSwitchCase="'PENDING_ACTIVE'">
               <div>En attente d'activation</div>
-              <div>Annuler</div>
             </div>
           </td>
         </ng-container>
@@ -308,10 +303,22 @@
                 <span>Changer le code</span>
               </button>
               <button
+                (click)="activateCompte(element)"
+                *ngIf="
+                  element.statut !== 'ACTIVE' &&
+                  element.statut !== 'PENDING_ACTIVE'
+                "
+                mat-menu-item
+              >
+                <mat-icon>done</mat-icon>
+                <span>Activer</span>
+              </button>
+              <button
                 (click)="openCompteSuspendForm(element)"
                 *ngIf="
                   element.statut === 'ACTIVE' ||
-                  element.statut === 'PENDING_BLOCKED'
+                  element.statut === 'PENDING_BLOCKED' ||
+                  element.statut === 'PENDING_ACTIVE'
                 "
                 mat-menu-item
               >
@@ -323,7 +330,8 @@
                 class="text-danger"
                 *ngIf="
                   element.statut === 'ACTIVE' ||
-                  element.statut === 'PENDING_SUSPENDED'
+                  element.statut === 'PENDING_SUSPENDED' ||
+                  element.statut === 'PENDING_ACTIVE'
                 "
                 mat-menu-item
               >

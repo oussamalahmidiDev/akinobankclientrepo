@@ -26,7 +26,7 @@
     </p>
   </div>
   <div class="form_container">
-    <mat-card *ngIf="!_2faForm">
+    <mat-card *ngIf="!_2faForm && !accountRecoveryForm">
       <mat-card-header>
         <mat-card-title>Se connecter</mat-card-title>
         <mat-card-subtitle>Veuillez entrer vos données</mat-card-subtitle>
@@ -59,9 +59,9 @@
           <p
             *ngIf="loginFormGroup.get('email').valid"
             style="cursor: pointer; color: rgb(19, 121, 220); margin: 0;"
-            (click)="sendVerificationMail()"
+            (click)="openRecoveryForm()"
           >
-            Renvoyer l'email
+            Problème d'authentification ?
           </p>
           <div
             style="display: flex; margin: 1rem 0; align-items: center;"
@@ -99,6 +99,95 @@
           (click)="login()"
         >
           Se connecter
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="accountRecoveryForm">
+      <button mat-icon-button (click)="switchForms()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <mat-card-header>
+        <mat-card-title>
+          <h3 style="font-weight: bold; margin-bottom: 15px; margin-top: 15px;">
+            Problème d'authentification
+          </h3>
+        </mat-card-title>
+        <mat-card-subtitle
+          >Veuillez entrer votre email et indiquez l'action
+          souhaité</mat-card-subtitle
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <form
+          (keyup.enter)="sendRecoveryRequest()"
+          [formGroup]="accountRecoveryFormGroup"
+          class="sign-form"
+        >
+          <mat-form-field
+            appearance="outline"
+            style="width: -moz-available; width: -webkit-fill-available;"
+          >
+            <mat-label>Adresse éléctronique</mat-label>
+            <input
+              formControlName="email"
+              type="email"
+              autofocus
+              matInput
+              required
+            />
+          </mat-form-field>
+          <mat-form-field
+            appearance="outline"
+            style="width: -moz-available; width: -webkit-fill-available;"
+          >
+            <mat-label>Sélectionnez l'opération</mat-label>
+            <mat-select formControlName="operation">
+              <mat-option value="SETUP_PASSWORD"
+                >Renvoyer l'email de confirmation</mat-option
+              >
+              <mat-option value="RECOVER_PASSWORD"
+                >Mot de passe oublié</mat-option
+              >
+              <mat-option value="2FA_CONFIG"
+                >Configurer l'authentification à deux facteurs</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <mat-error *ngIf="error">
+            {{ error }}
+          </mat-error>
+        </form>
+
+        <div style="display: flex;" *ngIf="loggingIn">
+          <mat-spinner
+            class="mr-2"
+            strokeWidth="2"
+            [diameter]="20"
+          ></mat-spinner>
+          <span>Envoie d'email en cours ...</span>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions *ngIf="!loggingIn">
+        <button
+          type="submit"
+          (click)="sendRecoveryRequest()"
+          style="
+            background: #1379dc;
+            width: -moz-available;
+            width: -webkit-fill-available;
+          "
+          [style]="
+            accountRecoveryFormGroup.valid
+              ? 'background: #1379dc'
+              : 'background: #c5c5c5'
+          "
+          mat-flat-button
+          [disabled]="accountRecoveryFormGroup.invalid"
+          *ngIf="!loggingIn"
+          color="primary"
+        >
+          Envoyer l'email
         </button>
       </mat-card-actions>
     </mat-card>

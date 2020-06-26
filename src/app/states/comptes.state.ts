@@ -60,6 +60,21 @@ export class ComptesState {
             )
           )
         );
+
+      case "ACTIVATE":
+        console.log("ACTIVATING COMPTE");
+        return this.service.compteActivate(payload).pipe(
+          tap((res) =>
+            ctx.setState(
+              patch({
+                comptes: updateItem(
+                  (compte) => compte.numeroCompte === payload.numeroCompte,
+                  res
+                ),
+              })
+            )
+          )
+        );
     }
   }
 }

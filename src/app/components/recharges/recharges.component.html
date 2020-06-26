@@ -41,7 +41,7 @@
         <ng-container matColumnDef="dateOper">
           <th mat-header-cell *matHeaderCellDef>Date de l'operation</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.dateDeRecharge | date: "dd/MM/yyyy" }}
+            {{ element.dateDeRecharge | date: "medium" }}
           </td>
         </ng-container>
 

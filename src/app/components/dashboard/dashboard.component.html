@@ -48,7 +48,7 @@
         <ng-container matColumnDef="state">
           <th mat-header-cell *matHeaderCellDef>Système d'exploitation</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.authorized ? "Autorisé" : "En attente d'autorisation" }}
+            {{ element.authorized ? "Autorisé" : "N'est pas autorisé" }}
           </td>
         </ng-container>
         <ng-container matColumnDef="ip">
@@ -78,7 +78,7 @@
                 mat-menu-item
               >
                 <mat-icon>warning</mat-icon>
-                <span>Bloquer</span>
+                <span>Réactiver l'authentification à 2FA</span>
               </button>
               <button
                 (click)="delete(element)"
@@ -87,7 +87,7 @@
                 mat-menu-item
               >
                 <mat-icon color="warn">block</mat-icon>
-                <span>Fermer</span>
+                <span>Fermer et supprimer</span>
               </button>
             </mat-menu>
           </td>
@@ -134,7 +134,9 @@
           <th mat-header-cell *matHeaderCellDef>Date de dernière opération</th>
           <td mat-cell *matCellDef="let element">
             {{
-              element.dateOperation ? element.dateOperation : "Aucune operation"
+              !element.dernierOperation
+                ? "Aucune operation"
+                : (element.dernierOperation | date: "medium")
             }}
           </td>
         </ng-container>
@@ -210,7 +212,7 @@
         <ng-container matColumnDef="dateOper">
           <th mat-header-cell *matHeaderCellDef>Date de l'operation</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.dateDeVirement | date: "dd/MM/yyyy" }}
+            {{ element.dateDeVirement | date: "medium" }}
           </td>
         </ng-container>
         <ng-container matColumnDef="statut">

@@ -55,7 +55,7 @@ import { SafePipe } from "./pipes/safe.pipe";
 import { CompteBlockFormComponent } from "./forms/compte-block-form/compte-block-form.component";
 import { ComptesState } from "./states/comptes.state";
 import { CompteSuspendFormComponent } from "./forms/compte-suspend-form/compte-suspend-form.component";
-import { NgModule } from "@angular/core";
+import { NgModule, LOCALE_ID } from "@angular/core";
 import { SessionsState } from "./states/sessions.state";
 import { ChangerCodeComponent } from "./components/forms/changer-code/changer-code.component";
 import { ActivitiesComponent } from "./components/activities/activities.component";
@@ -77,6 +77,12 @@ import {
 } from "@stomp/ng2-stompjs";
 import { NotificationDrawerComponent } from "./components/notification-drawer/notification-drawer.component";
 import { NotificationsState } from "./states/notifications.state";
+import { registerLocaleData } from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
+import { MomentPipe } from "./pipes/moment.pipe";
+import { CompteActivateFormComponent } from './components/forms/compte-activate-form/compte-activate-form.component';
+
+registerLocaleData(localeFr, "fr");
 
 @NgModule({
   declarations: [
@@ -92,6 +98,8 @@ import { NotificationsState } from "./states/notifications.state";
     AvatarPipe,
     TwoFactorQRComponent,
     SafePipe,
+    MomentPipe,
+
     CompteBlockFormComponent,
     CompteSuspendFormComponent,
     ChangerCodeComponent,
@@ -101,6 +109,7 @@ import { NotificationsState } from "./states/notifications.state";
     CleanInputDirective,
     NotificationComponent,
     NotificationDrawerComponent,
+    CompteActivateFormComponent,
     // TrimDirective,
   ],
   imports: [
@@ -140,7 +149,6 @@ import { NotificationsState } from "./states/notifications.state";
     FormsModule,
     ReactiveFormsModule,
     MatExpansionModule,
-
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsModule.forRoot(
       [
@@ -168,6 +176,8 @@ import { NotificationsState } from "./states/notifications.state";
     //   deps: [InjectableRxStompConfig],
     // },
     WebsocketService,
+    MomentPipe,
+
     {
       provide: MatDialogRef,
       useValue: {},
@@ -181,6 +191,7 @@ import { NotificationsState } from "./states/notifications.state";
       useClass: RequestsInterceptor,
       multi: true,
     },
+    { provide: LOCALE_ID, useValue: "fr" },
   ],
   bootstrap: [AppComponent],
 })

@@ -39,13 +39,7 @@ export class WebsocketService {
       heartbeat_in: 30000,
       heartbeat_out: 30000,
       reconnect_delay: 5000,
-      url: () =>
-        new SockJS(
-          `${environment.BASE_URL.substr(
-            0,
-            environment.BASE_URL.length - 7
-          )}/ws`
-        ),
+      url: () => new SockJS(`${environment.BASE_URL}/ws`),
       debug: true,
     };
     this.stompService.config = this.config;

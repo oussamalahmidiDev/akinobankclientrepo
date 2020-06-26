@@ -12,6 +12,10 @@ nav.nav {
   position: absolute;
 }
 
+.logo-svg {
+  width: 230px;
+}
+
 
 h1.landing-header {
   font-weight: 900;

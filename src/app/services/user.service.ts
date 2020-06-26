@@ -14,7 +14,7 @@ import { Activity } from "../models/activity";
 export class UserService {
   currentUser: User;
   isLoggedIn: BehaviorSubject<boolean>;
-  private BASE_URL = environment.BASE_URL;
+  private BASE_URL = environment.BASE_URL + "/client";
 
   constructor(private router: Router, private http: HttpClient) {
     // this.setCurrentUser();

@@ -9,7 +9,8 @@ import { Session } from "../models/session";
   providedIn: "root",
 })
 export class AuthService {
-  BASE_URL = environment.BASE_URL.substr(0, environment.BASE_URL.length - 7);
+  // BASE_URL = environment.BASE_URL;
+  BASE_URL = environment.BASE_URL;
 
   private cookieStore = {};
   sessionId: string;
@@ -20,8 +21,20 @@ export class AuthService {
   }
 
   login(request: { email: string; password: string }): Observable<any> {
+    console.log("Loggin in");
     return this.http
       .post(`${this.BASE_URL}/api/auth`, request, { withCredentials: true })
+      .pipe(map((res) => res));
+  }
+
+  sendRecoveryRequest(request: {
+    email: string;
+    operation: string;
+  }): Observable<any> {
+    return this.http
+      .post(`${this.BASE_URL}/recover_account`, request, {
+        withCredentials: true,
+      })
       .pipe(map((res) => res));
   }
 

@@ -3,7 +3,8 @@ export interface Compte {
   intitule: string;
   solde: number;
   dateOperation: string;
-  derniereOperation: Date;
+  dernierOperation: Date;
   statut: string;
+  oldStatut: string;
   dateCreation: Date;
 }

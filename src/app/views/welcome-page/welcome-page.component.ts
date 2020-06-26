@@ -19,9 +19,11 @@ export class WelcomePageComponent implements OnInit {
   success = false;
 
   _2faForm = false;
+  accountRecoveryForm = false;
 
   loginFormGroup: FormGroup;
   _2faFormGroup: FormGroup;
+  accountRecoveryFormGroup: FormGroup;
 
   constructor(
     private router: Router,
@@ -42,6 +44,10 @@ export class WelcomePageComponent implements OnInit {
         Validators.pattern(/[0-9]{6,6}/),
       ]),
     });
+    this.accountRecoveryFormGroup = new FormGroup({
+      email: new FormControl("", [Validators.required, Validators.email]),
+      operation: new FormControl("", [Validators.required]),
+    });
     this.tokenService
       .getXSRFToken()
       .subscribe(() => console.log("XSRF loaded"));
@@ -49,7 +55,12 @@ export class WelcomePageComponent implements OnInit {
 
   switchForms() {
     this.error = null;
-    this._2faForm = false;
+    this.accountRecoveryForm = this._2faForm = false;
+  }
+
+  openRecoveryForm() {
+    this.accountRecoveryForm = true;
+    this.accountRecoveryFormGroup.patchValue({ ...this.loginFormGroup.value });
   }
 
   sendVerifyCodeRequest() {
@@ -117,5 +128,23 @@ export class WelcomePageComponent implements OnInit {
         this.error = err.error.message;
       }
     );
+  }
+
+  sendRecoveryRequest() {
+    this.error = null;
+    this.loggingIn = true;
+    this.authService
+      .sendRecoveryRequest(this.accountRecoveryFormGroup.value)
+      .subscribe(
+        (data) => {
+          this.loggingIn = false;
+          this.switchForms();
+          alert(data.message);
+        },
+        (error) => {
+          this.loggingIn = false;
+          alert(error.error.message || "Erreur d'envoie");
+        }
+      );
   }
 }

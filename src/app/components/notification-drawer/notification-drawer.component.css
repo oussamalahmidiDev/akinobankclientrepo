@@ -40,4 +40,5 @@ h4 {
 .timestamp {
   font-weight: normal;
   font-size: 10pt;
+  text-align: end
 }

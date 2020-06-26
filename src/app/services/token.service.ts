@@ -17,27 +17,16 @@ export class TokenService {
   }
 
   getXSRFToken() {
-    return this.http.get(
-      `${environment.BASE_URL.substr(0, environment.BASE_URL.length - 7)}`,
-      { withCredentials: true }
-    );
+    return this.http.get(`${environment.BASE_URL}`, { withCredentials: true });
   }
 
   refreshToken() {
     // console.log("TokenService.refreshToken");
-    return this.http
-      .post(
-        `${environment.BASE_URL.substr(
-          0,
-          environment.BASE_URL.length - 7
-        )}/api/auth/refresh`,
-        {}
-      )
-      .pipe(
-        tap((response: any) => {
-          this.setToken(response.token);
-        })
-      );
+    return this.http.post(`${environment.BASE_URL}/api/auth/refresh`, {}).pipe(
+      tap((response: any) => {
+        this.setToken(response.token);
+      })
+    );
   }
 
   isAuthenticated(): boolean {

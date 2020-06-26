@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class ComptesService {
-  BASE_URL = environment.BASE_URL;
+  BASE_URL = environment.BASE_URL + "/client";
   constructor(private http: HttpClient) {}
 
   checkCompteCredentials(
@@ -26,6 +26,9 @@ export class ComptesService {
 
   fetchComptes(): Observable<Compte[]> {
     return this.http.get<Compte[]>(`${this.BASE_URL}/api/comptes`);
+  }
+  compteActivate(compte: Compte): Observable<any> {
+    return this.http.put(`${this.BASE_URL}/api/comptes/active`, compte);
   }
   compteSuspend(compte: Compte): Observable<any> {
     return this.http.put(`${this.BASE_URL}/api/comptes/suspend`, compte);
