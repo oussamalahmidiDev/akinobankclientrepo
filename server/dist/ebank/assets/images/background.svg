@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="542px" height="177px" viewBox="0 0 542 177" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <radialGradient cx="-8.0745554%" cy="7.79280644%" fx="-8.0745554%" fy="7.79280644%" r="375.062077%" gradientTransform="translate(-0.080746,0.077928),scale(0.270417,1.000000),translate(0.080746,-0.077928)" id="radialGradient-1">
+            <stop stop-color="#6BCACD" offset="0%"></stop>
+            <stop stop-color="#37BDC6" offset="20%"></stop>
+            <stop stop-color="#223A75" offset="80%"></stop>
+            <stop stop-color="#211C58" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="56.2561978%" cy="77.9977553%" fx="56.2561978%" fy="77.9977553%" r="288.977803%" gradientTransform="translate(0.562562,0.779978),scale(0.355359,1.000000),translate(-0.562562,-0.779978)" id="radialGradient-2">
+            <stop stop-color="#2E2D7A" offset="0%"></stop>
+            <stop stop-color="#211C58" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-1951.000000, -902.000000)">
+            <g id="Group-2" transform="translate(1951.000000, 902.000000)">
+                <path d="M407.550138,146 C365.558455,131.28526 316.308626,114.818833 227.064374,107.570179 C62.6797811,94.2193268 9.4692862,31.4400139 -5.68434189e-14,0 L539.906263,0 L539.906263,0.0225902741 L44.0289495,0.0225902741 C53.6659562,32.0179484 90.6983434,93.103932 232.86535,106.107459 C320.378542,114.112887 367.934239,130.81463 407.550138,146 Z" id="Path" fill="url(#radialGradient-1)"></path>
+                <path d="M542,177 C481.512868,176.078277 448.813171,161.87301 407.456632,146.013537 C367.847768,130.824409 320.300516,114.118533 232.802866,106.111123 C90.661106,93.1043782 53.6352953,32.0032766 44,0 L542,0 L542,177 Z M63.4839994,6 L62,6.25094804 C76.6892873,38.8968349 121.993559,94.7573022 260.37458,102.081966 C354.364797,107.05753 403.430584,123.523872 446.721845,138.050556 C474.142771,147.252613 497.82371,155.19993 528.695511,159 L529,158.075455 C498.355797,154.302743 474.770202,146.387503 447.46,137.223182 C404.036486,122.651214 354.818455,106.134871 260.506833,101.142326 C123.051581,93.8676631 78.0641012,38.4100335 63.4839994,6 Z" id="Shape" fill="url(#radialGradient-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>
