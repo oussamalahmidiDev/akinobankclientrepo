@@ -80,7 +80,7 @@ import { NotificationsState } from "./states/notifications.state";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 import { MomentPipe } from "./pipes/moment.pipe";
-import { CompteActivateFormComponent } from './components/forms/compte-activate-form/compte-activate-form.component';
+import { CompteActivateFormComponent } from "./components/forms/compte-activate-form/compte-activate-form.component";
 
 registerLocaleData(localeFr, "fr");
 
@@ -141,10 +141,10 @@ registerLocaleData(localeFr, "fr");
     NgxSplitInputModule,
     InputTrimModule,
     MatBadgeModule,
-    HttpClientXsrfModule.withOptions({
-      cookieName: "XSRF-TOKEN",
-      headerName: "X-XSRF-TOKEN",
-    }),
+    // HttpClientXsrfModule.withOptions({
+    //   cookieName: "XSRF-TOKEN",
+    //   headerName: "X-XSRF-TOKEN",
+    // }),
 
     FormsModule,
     ReactiveFormsModule,

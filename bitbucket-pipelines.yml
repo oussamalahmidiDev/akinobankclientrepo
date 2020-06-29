@@ -3,15 +3,15 @@ image: node:10
 pipelines:
   custom:
     heroku:
-      - step:
-          name: "Build akinobank"
-          caches:
-            - node
-          script:
-            - npm install --quiet
-            - npm run prod
-          artifacts:
-            - dist/**
+      # - step:
+      #     name: "Build akinobank"
+      #     caches:
+      #       - node
+      #     script:
+      #       - npm install --quiet
+      #       - npm run prod
+      #     artifacts:
+      #       - dist/**
       - step:
           name: "Create zip"
           script:
